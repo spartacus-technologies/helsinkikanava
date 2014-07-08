@@ -8,6 +8,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import android.util.Log;
+
 import com.json.parsers.JSONParser;
 import com.json.parsers.JsonParserFactory;
 
@@ -44,9 +46,14 @@ public class WrapperJSON {
 	}
 	
 	public static String getJSON(String url, int timeout) {
+		
+		Log.i("getJSON", "test1");
+		
 	    try {
 	        URL u = new URL(url);
+	        Log.i("getJSON", "test2");
 	        HttpURLConnection c = (HttpURLConnection) u.openConnection();
+	        Log.i("getJSON", "test3");
 	        c.setRequestMethod("GET");
 	        c.setRequestProperty("Content-length", "0");
 	        c.setUseCaches(false);
@@ -54,6 +61,7 @@ public class WrapperJSON {
 	        c.setConnectTimeout(timeout);
 	        c.setReadTimeout(timeout);
 	        c.connect();
+	        Log.i("getJSON", "TTTTTTTTTTOOOOOOOOOOOODDDDDDDDDDDDDOOOOOOOOOOOOOOO");
 	        int status = c.getResponseCode();
 
 	        switch (status) {
@@ -66,13 +74,17 @@ public class WrapperJSON {
 	                    sb.append(line+"\n");
 	                }
 	                br.close();
+	                Log.i("getJSON", br.toString());
 	                return sb.toString();
 	        }
 
 	    } catch (MalformedURLException ex) {
-	        //Logger.getLogger(DebugServer.class.getName()).log(Level.SEVERE, null, ex);
+	    	
+	    	Log.w("getJSON:MalformedURLException", ex.toString());
+	    	
 	    } catch (IOException ex) {
-	        //Logger.getLogger(DebugServer.class.getName()).log(Level.SEVERE, null, ex);
+	    	
+	    	Log.w("getJSON:IOException", ex.toString());
 	    }
 	    return null;
 	}

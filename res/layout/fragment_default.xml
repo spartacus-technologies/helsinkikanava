@@ -9,10 +9,59 @@
     tools:context="com.example.helsinkikanava.FragmentDefault" >
 
     <TextView
+        android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:text="Default Fragment for debugging." />
+
+    <Button
+        android:id="@+id/button1"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="42dp"
+        android:text="Check updates" />
+
+    <TextView
+        android:id="@+id/textView_current_version_static"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/button1"
+        android:layout_marginTop="31dp"
+        android:text="Current version:  " />
+
+    <TextView
+        android:id="@+id/textView_current_version_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textView_current_version_static"
+        android:layout_alignBottom="@+id/textView_current_version_static"
+        android:layout_alignLeft="@+id/button1"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="14dp"
+        android:text="--" />
+
+    <TextView
+        android:id="@+id/textView_server_version_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textView_server_version_static"
+        android:layout_alignLeft="@+id/textView_current_version_value"
+        android:layout_alignRight="@+id/textView_current_version_value"
+        android:text="--" />
+
+    <TextView
+        android:id="@+id/textView_server_version_static"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView_current_version_static"
+        android:layout_below="@+id/textView_current_version_static"
+        android:layout_marginTop="15dp"
+        android:text="Server version:" />
 
 </RelativeLayout>

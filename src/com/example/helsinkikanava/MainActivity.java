@@ -17,12 +17,12 @@ public class MainActivity extends ActionBarActivity {
         //Show default fragment (for debugging)
         if (savedInstanceState == null) {
         	
-        	 getFragmentManager().beginTransaction().add(R.id.container, new FragmentDefault()).commit();
+        	 getFragmentManager().beginTransaction().add(R.id.container, new FragmentDefault(this)).commit();
         }
         
     }
-
-
+ 
+ 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
