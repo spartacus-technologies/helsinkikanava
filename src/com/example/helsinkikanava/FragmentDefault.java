@@ -28,7 +28,7 @@ import android.widget.TextView;
 //Example class for demostrating Fragment. -Eetu
 public class FragmentDefault extends Fragment implements OnClickListener, OnTouchListener {
 
-	Context parent_ = null;
+	//Context parent_ = null;
 	View rootView = null;					//Owns all fragment Views
 	Scroller scroller = new Scroller();  	//For scrolling year view
 	int scroll_speed = 7;
@@ -48,41 +48,62 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
         //rootView.findViewById(R.id.fragment_meetings_button_left)
    
         generateYearNavigation();
+        generateDummyContent();
+        
         return rootView;
     }
+    
+    public FragmentDefault() {
 
+    }
+    
+    /*
     public FragmentDefault(Context parent) {
     	
     	parent_ = parent;
     }
-
+    */
+    
+    private void generateDummyContent(){
+    	
+    	for(int i = 0; i < 4; ++i){
+    		
+    		LinearLayout meeting_layout = new LinearLayout(getActivity());
+    		meeting_layout.setOrientation(LinearLayout.HORIZONTAL);
+    		
+    		//http://sampleprogramz.com/android/imagebutton.php
+    		ImageButton img_btn = new ImageButton(getActivity());
+    		
+            img_btn.setImageResource(R.drawable.test_meeting);
+    		
+    		meeting_layout.addView(img_btn, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
+    		
+    		LinearLayout my_root = (LinearLayout) rootView.findViewById(R.id.fragment_meetings_content);
+    		my_root.addView(meeting_layout, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
+    	}
+    	
+    }
+    
+    
     private void generateYearNavigation(){
-    	
-    	Log.i("asdas", "adfsd");
-    	
-    	
+    		
     	int year_index = 2014;		//TODO
     	int min_year = 2008;		//TODO
 
     	while(year_index >= min_year){
     	
-	    	Button test = new Button(getActivity());
-	    	test.setBackgroundColor(Color.BLACK);
-	    	test.setText(Integer.toString(year_index));
-	    	test.setTextColor(Color.WHITE);
-	    	
-	    	ImageButton imgbutton = new ImageButton (getActivity()); 
+	    	Button year_button = new Button(getActivity());
+	    	year_button.setBackgroundColor(Color.BLACK);
+	    	year_button.setText(Integer.toString(year_index));
+	    	year_button.setTextColor(Color.WHITE);
+	        year_button.setId(min_year);
 	        
 	        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 	        		
 	        params.addRule(RelativeLayout.CENTER_IN_PARENT);
 	        
-	        imgbutton.setLayoutParams(params);
-	        imgbutton.setImageResource(R.drawable.btn_uusimmat);
-	        imgbutton.setPadding(0, 0, 0, 0);
-	        
 	        LinearLayout my_root = (LinearLayout) rootView.findViewById(R.id.fragment_meetings_years);
-	    	my_root.addView(test, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
+	    	my_root.addView(year_button, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
 	    	
 	    	--year_index;
     	}
@@ -95,7 +116,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 		
 		case R.id.button1: 
 
-			((TextView)getView().findViewById(R.id.textView_current_version_value)).setText(AutoUpdater.getCurrentVersion(parent_));
+			((TextView)getView().findViewById(R.id.textView_current_version_value)).setText(AutoUpdater.getCurrentVersion(getActivity()));
 			((TextView)getView().findViewById(R.id.textView_server_version_value)).setText(AutoUpdater.getNewVersion());
 
 			break;

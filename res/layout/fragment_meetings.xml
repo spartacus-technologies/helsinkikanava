@@ -22,22 +22,26 @@
         android:paddingRight="0dp"
         android:paddingTop="0dp" >
 
-        <LinearLayout
-            android:id="@+id/fragment_meetings_content"
+        <ScrollView
+            android:id="@+id/scrollView1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.99"
-            android:gravity="top"
-            android:orientation="vertical" >
+            android:layout_weight="0.99" >
 
-            <Button
-                android:id="@+id/button1"
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Button" />
+            <LinearLayout
+                android:id="@+id/fragment_meetings_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.99"
+                android:gravity="top"
+                android:orientation="vertical"
+                android:paddingBottom="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="10dp" >
+            </LinearLayout>
 
-        </LinearLayout>
+        </ScrollView>
 
         <LinearLayout
             android:id="@+id/fragment_meetings_years_main"

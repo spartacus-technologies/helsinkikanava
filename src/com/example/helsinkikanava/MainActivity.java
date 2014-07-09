@@ -17,7 +17,7 @@ public class MainActivity extends ActionBarActivity {
         //Show default fragment (for debugging)
         if (savedInstanceState == null) {
         	
-        	 getFragmentManager().beginTransaction().add(R.id.container, new FragmentDefault(this)).commit();
+        	 getFragmentManager().beginTransaction().add(R.id.container, new FragmentDefault()).commit();
         }
         
     }
