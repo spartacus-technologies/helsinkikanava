@@ -1,5 +1,7 @@
 package com.example.helsinkikanava;
 
+import java.util.Calendar;
+
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.app.Fragment;
@@ -20,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -66,21 +69,52 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     
     private void generateDummyContent(){
     	
-    	for(int i = 0; i < 4; ++i){
+    	LinearLayout my_root = (LinearLayout) rootView.findViewById(R.id.fragment_meetings_content);
+    	
+    	for(int i = 0; i < 6; ++i){
     		
     		LinearLayout meeting_layout = new LinearLayout(getActivity());
     		meeting_layout.setOrientation(LinearLayout.HORIZONTAL);
     		
-    		//http://sampleprogramz.com/android/imagebutton.php
-    		ImageButton img_btn = new ImageButton(getActivity());
+    		LinearLayout text_layout = new LinearLayout(getActivity());
+    		text_layout.setOrientation(LinearLayout.VERTICAL);
     		
+    		//source. http://sampleprogramz.com/android/imagebutton.php
+    		
+    		ImageButton img_btn = new ImageButton(getActivity());
             img_btn.setImageResource(R.drawable.test_meeting);
+    		img_btn.setPadding(0, 0, 0, 0);
+    		
+    		TextView tv_info = new TextView(getActivity());
+    		tv_info.setText("This is sample text about some meeting.");
+    		tv_info.setPadding(10, 0, 0, 0);
+    		tv_info.setTextColor(Color.BLUE);
+    		
+    		TextView tv_date = new TextView(getActivity());
+    		tv_date.setText( 
+    						Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + "." +
+							Calendar.getInstance().get(Calendar.MONTH) + "." +
+							Calendar.getInstance().get(Calendar.YEAR)
+    					);
+    		
+    		tv_date.setPadding(10, 0, 0, 0);
+    		
+    		
+    		text_layout.addView(tv_info, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+    		text_layout.addView(tv_date, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
     		
     		meeting_layout.addView(img_btn, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
+    		meeting_layout.addView(text_layout, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
     		
-    		LinearLayout my_root = (LinearLayout) rootView.findViewById(R.id.fragment_meetings_content);
+    		ImageView separator = new ImageView(getActivity());
+    		separator.setImageResource(R.drawable.separator_horizontal);
+    		separator.setPadding(0, 7, 0, 7);
+    		
+    		//Add views to list:
     		my_root.addView(meeting_layout, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
+    		my_root.addView(separator, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
     	}
+    	
     	
     }
     
