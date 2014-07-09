@@ -30,45 +30,62 @@
             android:gravity="top"
             android:orientation="vertical" >
 
+            <Button
+                android:id="@+id/button1"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Button" />
+
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/fragment_meetings_years"
+            android:id="@+id/fragment_meetings_years_main"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:gravity="bottom"
+            android:gravity="bottom|center_horizontal"
             android:orientation="horizontal" >
 
+            <Button
+                android:id="@+id/fragment_meetings_button_left"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@android:color/black"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:src="@drawable/abc_ic_ab_back_holo_light"
+                android:text="&lt;"
+                android:textColor="@android:color/white" />
+			
             <HorizontalScrollView
-                android:id="@+id/horizontalScrollView1"
+                android:id="@+id/horizontalScrollView_years"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="0.99" >
+                android:layout_weight="0.99"
+                android:fadingEdge="horizontal" >
 
                 <LinearLayout
+                    android:id="@+id/fragment_meetings_years"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:gravity="center_horizontal"
                     android:orientation="horizontal" >
 
-                    <ImageButton
-                        android:id="@+id/imageButton1"
-                        android:layout_width="35dp"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/abc_ic_ab_back_holo_light" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent" >
-                    </LinearLayout>
-
-                    <ImageButton
-                        android:id="@+id/imageButton2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/abc_ic_go" />
-
                 </LinearLayout>
+
+
             </HorizontalScrollView>
+			
+            <Button
+                android:id="@+id/fragment_meetings_button_right"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@android:color/black"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:src="@drawable/abc_ic_ab_back_holo_light"
+                android:text=">"
+                android:textColor="@android:color/white" />
 
         </LinearLayout>
 
