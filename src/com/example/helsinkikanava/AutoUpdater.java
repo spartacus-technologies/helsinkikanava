@@ -101,8 +101,9 @@ public class AutoUpdater {
 	
 	static String getNewVersion(){
 		
+		WrapperJSON wrapperJson = new WrapperJSON();
 		
-		String json = WrapperJSON.getJSON(updateServer, 3000);
+		String json = wrapperJson.RefreshJson();
 		
 		if(json == null || json == ""){
 			
