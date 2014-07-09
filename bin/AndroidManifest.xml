@@ -6,11 +6,11 @@
 
     <uses-permission android:name="android.permission.INTERNET" >
     </uses-permission>
-    
+
     <uses-sdk
         android:minSdkVersion="11"
         android:targetSdkVersion="21" />
-	
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -28,6 +28,10 @@
         <activity
             android:name=".FragmentDefault"
             android:label="@string/title_activity_fragment_default" >
+        </activity>
+        <activity
+            android:name=".FragmentMeetings"
+            android:label="@string/title_activity_fragment_meetings" >
         </activity>
     </application>
 
