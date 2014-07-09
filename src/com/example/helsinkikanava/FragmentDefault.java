@@ -35,9 +35,9 @@ public class FragmentDefault extends Fragment implements OnClickListener {
 	public void onClick(View v) {
 
 		switch (v.getId()) {
-		
-		case R.id.button1:
-			
+		 
+		case R.id.button1: 
+
 			((TextView)getView().findViewById(R.id.textView_current_version_value)).setText(AutoUpdater.getCurrentVersion(parent_));
 			((TextView)getView().findViewById(R.id.textView_server_version_value)).setText(AutoUpdater.getNewVersion());
 
