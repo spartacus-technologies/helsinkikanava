@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.text.Layout;
@@ -52,7 +53,9 @@ public class FragmentDefault extends Fragment implements OnClickListener {
     	int max_year = 2014;
 
     	Button test = new Button(getActivity());
-    	test.setText("asdasd");
+    	test.setBackgroundColor(Color.BLACK);
+    	test.setText("Uusimmat");
+    	test.setTextColor(Color.WHITE);
     	
     	ImageButton imgbutton = new ImageButton (getActivity()); 
         
@@ -62,11 +65,11 @@ public class FragmentDefault extends Fragment implements OnClickListener {
         params.addRule(RelativeLayout.CENTER_IN_PARENT);
         
         imgbutton.setLayoutParams(params);
-        imgbutton.setImageResource(R.drawable.ic_launcher);
-        
-        LinearLayout my_root = (LinearLayout) rootView.findViewById(R.id.fragment_meetings_content);
-    	my_root.addView(imgbutton, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+        imgbutton.setImageResource(R.drawable.btn_uusimmat);
+        imgbutton.setPadding(0, 0, 0, 0);
+        LinearLayout my_root = (LinearLayout) rootView.findViewById(R.id.fragment_meetings_years);
     	my_root.addView(test, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+    	//my_root.addView(test, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
     }
     
 	@Override
