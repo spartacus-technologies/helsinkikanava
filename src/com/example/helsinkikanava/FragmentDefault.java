@@ -1,5 +1,6 @@
 package com.example.helsinkikanava;
 
+import java.sql.Date;
 import java.util.Calendar;
 
 import android.app.ActionBar.LayoutParams;
@@ -8,11 +9,16 @@ import android.app.Fragment;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.LinearGradient;
+import android.graphics.Shader;
+import android.graphics.Shader.TileMode;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Layout;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -35,6 +41,8 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 	View rootView = null;					//Owns all fragment Views
 	Scroller scroller = new Scroller();  	//For scrolling year view
 	int scroll_speed = 7;
+	int debug = 2014;
+	
 	
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -73,6 +81,32 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     	
     	for(int i = 0; i < 6; ++i){
     		
+    		//Add year_title:
+    		if(true){
+    			
+    			LinearLayout year_title = new LinearLayout(getActivity());
+    			year_title.setOrientation(LinearLayout.VERTICAL);
+    			
+    			TextView tv_year_label = new TextView(getActivity());
+    			tv_year_label.setText(debug + "");
+    			tv_year_label.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+    			
+    			View underline = new View(getActivity());
+    			underline.setBackgroundColor(Color.BLACK);
+    			underline.setPadding(0, 0, 0, 5);
+    			
+    			/*
+    			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+    			params.setMargins(0, 0, 0, 10);
+    			underline.setLayoutParams(params);
+    			*/
+    			year_title.addView(tv_year_label, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+    			year_title.addView(underline, new LayoutParams(LayoutParams.MATCH_PARENT, 5));
+    			year_title.setId(debug*10); //TODO
+    			
+    			my_root.addView(year_title, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
+    		}
+    		
     		LinearLayout meeting_layout = new LinearLayout(getActivity());
     		meeting_layout.setOrientation(LinearLayout.HORIZONTAL);
     		
@@ -85,12 +119,23 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
             img_btn.setImageResource(R.drawable.test_meeting);
     		img_btn.setPadding(0, 0, 0, 0);
     		
+    		/**
+    		View overlay = new ImageView(getActivity());
+    		overlay.setImageResource(R.drawable.play);
+    		img_btn.getOverlay().add(overlay);
+    		*/
     		TextView tv_info = new TextView(getActivity());
     		tv_info.setText("This is sample text about some meeting.");
     		tv_info.setPadding(10, 0, 0, 0);
     		tv_info.setTextColor(Color.BLUE);
     		
     		TextView tv_date = new TextView(getActivity());
+    		
+    		//Generate date:
+    		//@SuppressWarnings("deprecation")
+			//Date date = new Date(Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+    		//date.
+    		
     		tv_date.setText( 
     						Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + "." +
 							Calendar.getInstance().get(Calendar.MONTH) + "." +
@@ -113,6 +158,8 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     		//Add views to list:
     		my_root.addView(meeting_layout, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
     		my_root.addView(separator, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
+    		
+    		--debug;
     	}
     	
     	
@@ -130,7 +177,8 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 	    	year_button.setBackgroundColor(Color.BLACK);
 	    	year_button.setText(Integer.toString(year_index));
 	    	year_button.setTextColor(Color.WHITE);
-	        year_button.setId(min_year);
+	        year_button.setId(year_index);
+	        year_button.setOnClickListener(this);
 	        
 	        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 	        		
@@ -146,6 +194,9 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 	@Override
 	public void onClick(View v) {
 
+		Log.i("FragmentDefault", "Cliked.id: " + v.getId());
+		
+		//Static buttons:
 		switch (v.getId()) {
 		
 		case R.id.button1: 
@@ -164,9 +215,33 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 		case R.id.fragment_meetings_button_right: 
 			
 			break;
+
+		//Dynamic buttons:
 		default:
-			break;
+			
+			//Year navigation labels:
+			if(v.getId() > 1900 && v.getId() < 2100){
+				
+				Log.i("FragmentDefault", "Bringing " + v.getId() +" to front");
+				
+				try {
+					
+					((ScrollView)rootView.findViewById(R.id.fragment_meetings_scrollView_content)).smoothScrollTo(0, rootView.findViewById(v.getId()*10).getTop());
+					
+				//Overkill:
+				} catch (NullPointerException e) {
+
+					
+				}
+				
+			}
+			else{
+				
+				Log.i("FragmentDefault", "Warning: unknown button.");
+			}
 		}
+		
+		
 		
 	}
 
