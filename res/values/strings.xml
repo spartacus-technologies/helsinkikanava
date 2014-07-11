@@ -7,5 +7,6 @@
     <string name="title_activity_fragment_default">FragmentDefault</string>
     <string name="title_activity_fragment_meetings">FragmentMeetings</string>
     <string name="title_activity_popup_check_updates">PopupCheckUpdates</string>
+    <string name="title_activity_activity_popup_settings">ActivityPopupSettings</string>
 
 </resources>

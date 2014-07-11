@@ -57,6 +57,8 @@ public class MainActivity extends ActionBarActivity{
 			
 		case R.id.action_settings:
 			
+			new ActivityPopupSettings().showDialog(this);
+			//PopupCheckUpdates.showDialog(this);
 			Log.i("MainActivity", "action_settings");
 			break;
 		default:
