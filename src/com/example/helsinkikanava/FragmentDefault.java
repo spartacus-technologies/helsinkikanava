@@ -95,6 +95,10 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     			underline.setBackgroundColor(Color.BLACK);
     			underline.setPadding(0, 0, 0, 5);
     			
+    			View spacer =  new View(getActivity());
+    			spacer.setBackgroundColor(Color.TRANSPARENT);
+    			spacer.setPadding(0, 0, 0, 5);
+    			
     			/*
     			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
     			params.setMargins(0, 0, 0, 10);
@@ -102,6 +106,8 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     			*/
     			year_title.addView(tv_year_label, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
     			year_title.addView(underline, new LayoutParams(LayoutParams.MATCH_PARENT, 5));
+    			year_title.addView(spacer, new LayoutParams(LayoutParams.MATCH_PARENT, 5));
+    			
     			year_title.setId(debug*10); //TODO
     			
     			my_root.addView(year_title, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));

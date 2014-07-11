@@ -9,4 +9,10 @@
         android:title="@string/action_settings"
         app:showAsAction="never"/>
 
+        <item
+        android:id="@+id/check_updates_menu_button"
+        android:orderInCategory="100"
+        android:title="Check for Updates"
+        app:showAsAction="never"/>
+    
 </menu>
