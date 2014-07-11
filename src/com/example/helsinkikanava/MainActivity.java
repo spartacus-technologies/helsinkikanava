@@ -1,12 +1,17 @@
 package com.example.helsinkikanava;
 
 import android.support.v7.app.ActionBarActivity;
+import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
+import android.widget.PopupWindow;
 import android.widget.Toast;
 
 
@@ -43,12 +48,10 @@ public class MainActivity extends ActionBarActivity{
 		
 		case R.id.check_updates_menu_button:
 			
-			Log.i("MainActivity", "check_updates");
-			AutoUpdater.checkForNewVersion(this);
-			Toast toast1 = Toast.makeText(this, "Current build date: " + AutoUpdater.getCurrentVersion(this), Toast.LENGTH_LONG);
-			Toast toast2 = Toast.makeText(this, "Server version build date: " + AutoUpdater.getNewVersion(), Toast.LENGTH_LONG);
-			toast1.show();
-			toast2.show();
+			//Log.i("MainActivity", "check_updates");
+					
+			new PopupCheckUpdates().showDialog(this);
+			//PopupCheckUpdates.showDialog(this);
 			
 			break;
 			
