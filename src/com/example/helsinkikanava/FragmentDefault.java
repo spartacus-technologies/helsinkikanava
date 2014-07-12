@@ -104,6 +104,8 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     			params.setMargins(0, 0, 0, 10);
     			underline.setLayoutParams(params);
     			*/
+    			
+    			
     			year_title.addView(tv_year_label, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
     			year_title.addView(underline, new LayoutParams(LayoutParams.MATCH_PARENT, 5));
     			year_title.addView(spacer, new LayoutParams(LayoutParams.MATCH_PARENT, 5));
@@ -123,8 +125,9 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     		
     		ImageButton img_btn = new ImageButton(getActivity());
             img_btn.setImageResource(R.drawable.test_meeting);
-    		img_btn.setPadding(0, 0, 0, 0);
-    		
+    		img_btn.setPadding(0, 0, 0, 0);	
+    		//img_btn.setId(id); //TODO
+			
     		/**
     		View overlay = new ImageView(getActivity());
     		overlay.setImageResource(R.drawable.play);
@@ -155,6 +158,15 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     		text_layout.addView(tv_date, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
     		
     		meeting_layout.addView(img_btn, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
+    		
+    		//TODO
+    		View overlay = new View(getActivity());
+			overlay.setBackgroundColor(Color.RED);
+			overlay.setLayoutParams(new LayoutParams(img_btn.getLayoutParams()));
+    		
+    		
+    		
+    		//meeting_layout.addView(overlay);
     		meeting_layout.addView(text_layout, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
     		
     		ImageView separator = new ImageView(getActivity());

@@ -14,10 +14,18 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.util.Log;
 
 
-public class AutoUpdater {
+public class AutoUpdater implements iJSONListener{
 
 	
 	final static String updateServer = "http://94.237.68.33:2323/get_version_info";
+	
+	iJSONListener caller = null;
+	
+	public void registerListener(iJSONListener li){
+		
+		caller = li;
+	}
+	
 	
 	//Performs check for new app version: true==new version
 	public static boolean checkForNewVersion(Context caller){
@@ -121,6 +129,14 @@ public class AutoUpdater {
 		//Log.i("testdsa", jsonData.get("version").toString());
 		
 		return jsonData.get("build_date").toString();
+	}
+
+
+
+	@Override
+	public void newDataAvailable() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

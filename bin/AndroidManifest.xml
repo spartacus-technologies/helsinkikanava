@@ -37,6 +37,10 @@
             android:name=".PopupCheckUpdates"
             android:label="@string/title_activity_popup_check_updates" >
         </activity>
+        <activity
+            android:name=".ActivityPopupSettings"
+            android:label="@string/title_activity_activity_popup_settings" >
+        </activity>
     </application>
 
 </manifest>
