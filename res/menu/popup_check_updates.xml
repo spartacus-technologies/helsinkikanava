@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.helsinkikanava.MainActivity" >
+    tools:context="com.example.helsinkikanava.PopupCheckUpdates" >
 
     <item
         android:id="@+id/action_settings"
@@ -9,10 +9,4 @@
         android:title="@string/action_settings"
         app:showAsAction="never"/>
 
-        <item
-        android:id="@+id/check_updates_menu_button"
-        android:orderInCategory="100"
-        android:title="Check for Updates"
-        app:showAsAction="never"/>
-    
 </menu>

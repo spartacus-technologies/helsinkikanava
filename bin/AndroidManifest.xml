@@ -33,6 +33,10 @@
             android:name=".FragmentMeetings"
             android:label="@string/title_activity_fragment_meetings" >
         </activity>
+        <activity
+            android:name=".PopupCheckUpdates"
+            android:label="@string/title_activity_popup_check_updates" >
+        </activity>
     </application>
 
 </manifest>
