@@ -43,7 +43,7 @@
                     android:paddingRight="5dp"
                     android:src="@drawable/abc_ic_ab_back_holo_light"
                     android:text="&lt;"
-                    android:textColor="@android:color/white" />
+                    android:textColor="@android:color/white" android:onClick="onClick"/>
 
             <HorizontalScrollView
                     android:id="@+id/horizontalScrollView_main_activity_tabs"
@@ -72,8 +72,25 @@
                                 android:text="Kaupungin valtuusto"
                                 android:id="@+id/main_activity_tab_button_councilmeetings" android:singleLine="true"
                                 android:textColor="#ffffffff" android:background="@android:color/black"
+                                android:enabled="true" android:onClick="onClick" android:paddingLeft="5dp"
+                                android:paddingRight="5dp"/>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                            android:id="@+id/main_activity_tab_layout_news"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingRight="5dp" android:paddingLeft="5dp">
+
+                        <Button
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Uutta Helsinkiä"
+                                android:id="@+id/main_activity_tab_button_news" android:singleLine="true"
+                                android:textColor="#ffffffff" android:background="@android:color/black"
                                 android:enabled="true" android:onClick="onClick"/>
                     </RelativeLayout>
+
                 </LinearLayout>
 
 
@@ -88,7 +105,7 @@
                     android:paddingRight="5dp"
                     android:src="@drawable/abc_ic_ab_back_holo_light"
                     android:text=">"
-                    android:textColor="@android:color/white" />
+                    android:textColor="@android:color/white" android:onClick="onClick"/>
 
         </LinearLayout>
     </LinearLayout>

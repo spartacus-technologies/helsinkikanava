@@ -1,28 +1,31 @@
 package com.example.helsinkikanava;
 
 import android.app.FragmentTransaction;
+import android.graphics.Color;
+import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
+import android.view.*;
 import android.view.View.OnClickListener;
-import android.view.Window;
+import android.widget.Button;
+import android.widget.HorizontalScrollView;
 import android.widget.PopupWindow;
 import android.widget.Toast;
+import android.view.View.OnTouchListener;
 
 import java.util.ArrayList;
 
 
-public class MainActivity extends ActionBarActivity implements JsonListener
+public class MainActivity extends ActionBarActivity implements JsonListener, OnTouchListener
 {
 
     private WrapperJSON wrapperJSON = new WrapperJSON();
-    private ArrayList<Session> councilmeetings = new ArrayList<Session>();
+    private ArrayList<Session> council_meetings = new ArrayList<Session>();
+    private Scroller tab_bar_scroller;
+    int scroll_speed = 7;
 
     public MainActivity()
     {
@@ -34,12 +37,18 @@ public class MainActivity extends ActionBarActivity implements JsonListener
     {
         super.onCreate(savedInstanceState);
 
-
-
         //Remove title bar
         this.requestWindowFeature(this.getWindow().FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
-        
+
+        ((Button)this.findViewById(R.id.main_activity_tabs_button_left)).setOnTouchListener(this);
+        ((Button)this.findViewById(R.id.main_activity_tabs_button_right)).setOnTouchListener(this);
+
+        ((Button)findViewById(R.id.main_activity_tab_button_news)).setTextColor(Color.GRAY);
+        ((Button)findViewById(R.id.main_activity_tab_button_councilmeetings)).setTextColor(Color.WHITE);
+
+        tab_bar_scroller = new Scroller(this.findViewById(R.id.horizontalScrollView_main_activity_tabs));
+
         //Show default fragment (for debugging)
         if (savedInstanceState == null)
         {
@@ -85,8 +94,9 @@ public class MainActivity extends ActionBarActivity implements JsonListener
         return super.onOptionsItemSelected(item);
     }
 
-//    @Override
-    public void onClick(View v) {
+
+    public void onClick(View v)
+    {
 
         Log.i("MainActivity", "Clicked.id: " + v.getId());
 
@@ -110,6 +120,24 @@ public class MainActivity extends ActionBarActivity implements JsonListener
                 transaction.replace(R.id.container, new FragmentDefault());
                 transaction.addToBackStack(null);
                 transaction.commit();
+
+                ((Button)findViewById(R.id.main_activity_tab_button_news)).setTextColor(Color.GRAY);
+                ((Button)findViewById(R.id.main_activity_tab_button_councilmeetings)).setTextColor(Color.WHITE);
+
+                break;
+
+            //Council meetings tab
+            case R.id.main_activity_tab_button_news:
+                Log.i("MainActivity", "CouncilMeetings tab" );
+                FragmentTransaction transaction1 = getFragmentManager().beginTransaction();
+
+//                transaction.replace(R.id.container, new FragmentMeetings(this));
+                transaction1.replace(R.id.container, new FragmentDefault());
+                transaction1.addToBackStack(null);
+                transaction1.commit();
+
+                ((Button)findViewById(R.id.main_activity_tab_button_news)).setTextColor(Color.WHITE);
+                ((Button)findViewById(R.id.main_activity_tab_button_councilmeetings)).setTextColor(Color.GRAY);
 
                 break;
             //Scroll left:
@@ -139,5 +167,106 @@ public class MainActivity extends ActionBarActivity implements JsonListener
     public void NewDataAvailable()
     {
 //        wrapperJSON.GetSessions();
+    }
+
+    // Scroll tab bar
+    @Override
+    public boolean onTouch(View v, MotionEvent event)
+    {
+        Log.i("MainActivity.onTouch", "alkaa");
+        switch (v.getId())
+        {
+            case R.id.main_activity_tabs_button_left:
+
+                tab_bar_scroller.setDirection(-scroll_speed);
+                if(event.getAction() == android.view.MotionEvent.ACTION_DOWN){
+
+
+                    tab_bar_scroller.start();
+                }
+                else if(event.getAction() == android.view.MotionEvent.ACTION_UP){
+
+                    tab_bar_scroller.stop();
+                }
+
+                break;
+
+            case R.id.main_activity_tabs_button_right:
+
+                tab_bar_scroller.setDirection(scroll_speed);
+                if(event.getAction() == android.view.MotionEvent.ACTION_DOWN){
+
+
+                    tab_bar_scroller.start();
+                }
+                else if(event.getAction() == android.view.MotionEvent.ACTION_UP){
+
+                    tab_bar_scroller.stop();
+                }
+
+                break;
+
+
+            default:
+                break;
+        }
+
+        Log.i("MainActivity", event.toString());
+        v.performClick();
+        return false;
+    }
+
+    class Scroller
+    {		//For scrolling tab bar
+
+        final Handler mHandler = new Handler();
+        private int mInterval = 10;
+
+        boolean run = false;
+        int direction_ = 0;
+
+        View view_;
+
+        public Scroller (View view)
+        {
+            view_ = view;
+        }
+        public void start()
+        {
+            run  = true;
+            runner.run();
+        }
+        public void stop()
+        {
+            run = false;
+        }
+
+        public void setDirection(int direction)
+        {
+            direction_ = direction;
+        }
+
+        public
+
+        Runnable runner = new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                Log.i("TabBarScroller", "running...");
+
+                mHandler.postDelayed(this, mInterval);
+
+                view_.scrollBy(direction_, 0);
+
+                if(!run)
+                {
+                    Log.w("TabBarScroller", "quitting...");
+                    mHandler.removeCallbacks(this);
+                    //finish();
+                }
+            }
+        };
+
     }
 }
