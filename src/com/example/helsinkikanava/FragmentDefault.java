@@ -65,7 +65,7 @@ public class FragmentDefault extends Fragment implements OnClickListener {
         params.addRule(RelativeLayout.CENTER_IN_PARENT);
         
         imgbutton.setLayoutParams(params);
-        imgbutton.setImageResource(R.drawable.btn_uusimmat);
+        //imgbutton.setImageResource(R.drawable.btn_uusimmat);
         imgbutton.setPadding(0, 0, 0, 0);
         LinearLayout my_root = (LinearLayout) rootView.findViewById(R.id.fragment_meetings_years);
     	my_root.addView(test, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));

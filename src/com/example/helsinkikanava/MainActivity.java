@@ -12,6 +12,9 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //Remove title bar
+        this.requestWindowFeature(this.getWindow().FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
         
         //Show default fragment (for debugging)

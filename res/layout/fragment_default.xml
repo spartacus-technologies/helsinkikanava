@@ -12,9 +12,8 @@
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="Default Fragment for debugging." />
+        android:text="Default Fragment for debugging." android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/textView_server_version_static"/>
 
     <Button
         android:id="@+id/button1"
