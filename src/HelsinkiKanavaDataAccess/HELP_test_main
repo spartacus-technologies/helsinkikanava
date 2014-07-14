@@ -1,0 +1,32 @@
+import HelsinkiKanavaDataAccess.HelsinkiKanavaDataAccess;
+import HelsinkiKanavaDataAccess.IHelsinkiKanavaDataAccess;
+import HelsinkiKanavaDataAccess.Metadata;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * Created by erno on 13/07/14.
+ */
+public class TestMain
+{
+    public static void main(String[] args)
+    {
+        IHelsinkiKanavaDataAccess helsinkiKanavaDataAccess = new HelsinkiKanavaDataAccess();
+
+        //Get all sessions to map.
+        Map<String, String> sessions = helsinkiKanavaDataAccess.GetSessions();
+
+        List<Metadata> metadatas = new ArrayList<Metadata>();
+
+        //Get all sessions' metadata for demo purpose only
+        //Proper use is to get only metadatas' which are needed because this uses ~6mb of data traffic
+        for (Map.Entry<String, String> entry : sessions.entrySet())
+        {
+            Metadata metadata = helsinkiKanavaDataAccess.GetMetadata(entry.getKey());
+
+            if (metadata!=null) metadatas.add(metadata);
+        }
+    }
+}

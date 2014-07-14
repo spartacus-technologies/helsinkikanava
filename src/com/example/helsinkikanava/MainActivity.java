@@ -3,6 +3,7 @@ package com.example.helsinkikanava;
 import android.app.FragmentTransaction;
 import android.graphics.Color;
 import android.os.Handler;
+import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
 import android.app.Dialog;
 import android.content.Intent;
@@ -18,7 +19,6 @@ import android.view.View.OnTouchListener;
 
 import java.util.ArrayList;
 
-
 public class MainActivity extends ActionBarActivity implements JsonListener, OnTouchListener
 {
 
@@ -29,6 +29,9 @@ public class MainActivity extends ActionBarActivity implements JsonListener, OnT
 
     public MainActivity()
     {
+        //FIXME Sallii dataliikenteen käytön pääsäikeessä DataAccess "kirjaston" debuggausta varten :D (voi tulla pääohjelma hiukan jäätäväksi ilman säikeistystä :)
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 //        wrapperJSON.RegisterListener(this);
         refreshData();
     }
@@ -54,7 +57,6 @@ public class MainActivity extends ActionBarActivity implements JsonListener, OnT
         {
         	 getFragmentManager().beginTransaction().add(R.id.container, new FragmentDefault()).commit();
         }
-
     }
  
     @Override
