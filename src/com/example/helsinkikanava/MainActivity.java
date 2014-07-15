@@ -30,8 +30,8 @@ public class MainActivity extends ActionBarActivity implements JsonListener, OnT
     public MainActivity()
     {
         //FIXME Sallii dataliikenteen käytön pääsäikeessä DataAccess "kirjaston" debuggausta varten :D (voi tulla pääohjelma hiukan jäätäväksi ilman säikeistystä :)
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
+//        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+//        StrictMode.setThreadPolicy(policy);
 //        wrapperJSON.RegisterListener(this);
         refreshData();
     }

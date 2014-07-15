@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+               xmlns:tools="http://schemas.android.com/tools"
+               android:orientation="vertical"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               tools:context="com.example.helsinkikanava.ActivityVideo"
+               tools:ignore="MergeRootFrame" android:background="#ffffffff">
+
+    <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="130dp">
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="80dp" android:weightSum="1">
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/imageView_topBanner_video" android:layout_gravity="left|top" android:src="@drawable/ylabanneri"
+                    android:scaleType="fitCenter" android:layout_weight="1" android:focusableInTouchMode="true"
+                    android:focusable="false"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:id="@+id/video_activity_tabs"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="bottom|center_horizontal"
+                android:orientation="horizontal" >
+
+            <Button
+                    android:id="@+id/video_activity_tabs_button_left"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/black"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:src="@drawable/abc_ic_ab_back_holo_light"
+                    android:text="&lt;"
+                    android:textColor="@android:color/white" android:onClick="onClick"/>
+
+            <HorizontalScrollView
+                    android:id="@+id/horizontalScrollView_video_activity_tabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.99"
+                    android:background="@android:color/black"
+                    android:fadingEdge="horizontal" android:textAlignment="center">
+
+                <LinearLayout
+                        android:id="@+id/video_activity_tabs_names"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal" >
+
+                    <RelativeLayout
+                            android:id="@+id/video_activity_tab_layout_councilmeetings"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            >
+
+                        <Button
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Video"
+                                android:id="@+id/video_activity_tab_button_video" android:singleLine="true"
+                                android:textColor="#ffffffff" android:background="@android:color/black"
+                                android:enabled="true" android:onClick="onClick" android:paddingLeft="5dp"
+                                android:paddingRight="5dp"/>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                            android:id="@+id/video_activity_tab_layout_participants"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingRight="5dp" android:paddingLeft="5dp">
+
+                        <Button
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Osallistujat"
+                                android:id="@+id/video_activity_tab_button_participants" android:singleLine="true"
+                                android:textColor="#ffffffff" android:background="@android:color/black"
+                                android:enabled="true" android:onClick="onClick"/>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                            android:id="@+id/video_activity_tab_layout_resolutions"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingRight="5dp" android:paddingLeft="5dp">
+
+                        <Button
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Päätökset"
+                                android:id="@+id/video_activity_tab_button_resolutions" android:singleLine="true"
+                                android:textColor="#ffffffff" android:background="@android:color/black"
+                                android:enabled="true" android:onClick="onClick"/>
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+
+            </HorizontalScrollView>
+
+            <Button
+                    android:id="@+id/video_activity_tabs_button_right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/black"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:src="@drawable/abc_ic_ab_back_holo_light"
+                    android:text=">"
+                    android:textColor="@android:color/white" android:onClick="onClick"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <FrameLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            tools:context="com.example.helsinkikanava.ActivityVideo"
+            tools:ignore="MergeRootFrame" >
+
+    </FrameLayout>
+
+
+</LinearLayout>
+
+
