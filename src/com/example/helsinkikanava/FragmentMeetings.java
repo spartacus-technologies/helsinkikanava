@@ -30,6 +30,7 @@ public class FragmentMeetings extends Fragment implements OnClickListener {
     public FragmentMeetings(Context parent) {
     	
     	parent_ = parent;
+    	
     }
 
 	@Override
