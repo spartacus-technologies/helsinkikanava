@@ -78,6 +78,23 @@ public class HelsinkiKanavaDataAccess implements IHelsinkiKanavaDataAccess
     }
 
     @Override
+    public ArrayList<Metadata> GetMetadatasInArray(List<String> paUrls)
+    {
+        ArrayList<Metadata> metadatas = new ArrayList<Metadata>();
+
+        for (String url : paUrls)
+        {
+            Metadata metadata = GetMetadata(url);
+
+            if (metadata == null) continue;
+
+            metadatas.add(metadata);
+        }
+
+        return metadatas;
+    }
+
+    @Override
     public Map<String, String> GetSessions()
     {
         Map<String, String> sessions = new HashMap<String, String>();
@@ -89,6 +106,28 @@ public class HelsinkiKanavaDataAccess implements IHelsinkiKanavaDataAccess
             for (Session session : index.sessions)
             {
                 sessions.put(session.url, session.title);
+            }
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+        return sessions;
+    }
+
+    @Override
+    public ArrayList<String> GetSessionsInArray()
+    {
+        ArrayList<String> sessions = new ArrayList<String>();
+
+        try
+        {
+            Index index = mapper.readValue(new URL(mySESSIONS_URL), Index.class);
+
+            for (Session session : index.sessions)
+            {
+                sessions.add(session.url);
             }
         }
         catch (IOException e)
