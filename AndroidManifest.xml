@@ -41,6 +41,26 @@
             android:name=".ActivityPopupSettings"
             android:label="@string/title_activity_activity_popup_settings" >
         </activity>
+        <activity
+            android:name=".FragmentVideo"
+            android:label="@string/title_activity_fragment_video" >
+        </activity>
+        <activity
+            android:name=".FragmentParticipants"
+            android:label="@string/title_activity_fragment_participants" >
+        </activity>
+        <activity
+            android:name=".FragmentResolutions"
+            android:label="@string/title_activity_fragment_resolutions" >
+        </activity>
+        <activity
+            android:name=".FragmentVotingResults"
+            android:label="@string/title_activity_fragment_voting_results" >
+        </activity>
+        <activity
+            android:name=".PopupVotingResults"
+            android:label="@string/title_activity_popup_voting_results" >
+        </activity>
     </application>
 
 </manifest>
