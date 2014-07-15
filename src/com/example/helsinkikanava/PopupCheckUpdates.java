@@ -28,10 +28,10 @@ public class PopupCheckUpdates extends Activity {
 		
 	    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 	    
-	    ViewGroup layout = (ViewGroup)caller.findViewById(R.layout.activity_popup_check_updates);
+	    ViewGroup layout = (ViewGroup)caller.findViewById(R.layout.popup_check_updates);
 	    //layout.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 	    
-	    popUpLayout = LayoutInflater.from(caller).inflate(R.layout.activity_popup_check_updates, layout);
+	    popUpLayout = LayoutInflater.from(caller).inflate(R.layout.popup_check_updates, layout);
 	    dialog.setContentView(popUpLayout);
 	    dialog.getWindow().setLayout(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 	    ((TextView)popUpLayout.findViewById(R.id.popup_Textview_trole)).setVisibility(View.INVISIBLE);
