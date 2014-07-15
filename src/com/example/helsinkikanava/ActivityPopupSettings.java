@@ -28,10 +28,10 @@ public class ActivityPopupSettings extends Activity {
 		
 	    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 	    
-	    ViewGroup layout = (ViewGroup)caller.findViewById(R.layout.activity_activity_popup_settings);
+	    ViewGroup layout = (ViewGroup)caller.findViewById(R.layout.popup_settings);
 	    //layout.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 	    
-	    popUpLayout = LayoutInflater.from(caller).inflate(R.layout.activity_activity_popup_settings, layout);
+	    popUpLayout = LayoutInflater.from(caller).inflate(R.layout.popup_settings, layout);
 	    dialog.setContentView(popUpLayout);
 	    dialog.getWindow().setLayout(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 	    
