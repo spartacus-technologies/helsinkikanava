@@ -2,7 +2,7 @@ package HelsinkiKanavaDataAccess;
 
 import java.util.List;
 
-public class Metadata
+public class Metadata implements Comparable<Metadata>
 {
     public String version;
     public String id;
@@ -17,4 +17,10 @@ public class Metadata
     public List<Attendance> attendance;
     public List<Issues> issues;
     public String url;
+
+    @Override
+    public int compareTo(Metadata another)
+    {
+        return started.compareTo(another.started);
+    }
 }
