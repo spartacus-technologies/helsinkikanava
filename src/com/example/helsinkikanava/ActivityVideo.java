@@ -1,6 +1,7 @@
 package com.example.helsinkikanava;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ public class ActivityVideo extends Activity implements View.OnTouchListener
 {
     private Scroller tab_bar_scroller;
     int scroll_speed = 7;
+
 
     public ActivityVideo()
     {
@@ -95,15 +97,6 @@ public class ActivityVideo extends Activity implements View.OnTouchListener
                 ((Button)findViewById(R.id.video_activity_tab_button_video)).setTextColor(Color.GRAY);
 
                 break;
-            //Scroll left:
-            case R.id.main_activity_tabs_button_left:
-
-                break;
-
-            //Scroll right:
-            case R.id.main_activity_tabs_button_right:
-
-                break;
 
             default:
                 break;
@@ -119,7 +112,7 @@ public class ActivityVideo extends Activity implements View.OnTouchListener
         Log.i("VideoActivity.onTouch", "alkaa");
         switch (v.getId())
         {
-            case R.id.main_activity_tabs_button_left:
+            case R.id.video_activity_tabs_button_left:
 
                 tab_bar_scroller.setDirection(-scroll_speed);
                 if(event.getAction() == android.view.MotionEvent.ACTION_DOWN){
@@ -134,7 +127,7 @@ public class ActivityVideo extends Activity implements View.OnTouchListener
 
                 break;
 
-            case R.id.main_activity_tabs_button_right:
+            case R.id.video_activity_tabs_button_right:
 
                 tab_bar_scroller.setDirection(scroll_speed);
                 if(event.getAction() == android.view.MotionEvent.ACTION_DOWN){

@@ -8,5 +8,10 @@
     <string name="title_activity_fragment_meetings">FragmentMeetings</string>
     <string name="title_activity_popup_check_updates">PopupCheckUpdates</string>
     <string name="title_activity_activity_popup_settings">ActivityPopupSettings</string>
+    <string name="title_activity_fragment_video">FragmentVideo</string>
+    <string name="title_activity_fragment_participants">FragmentParticipants</string>
+    <string name="title_activity_fragment_resolutions">FragmentResolutions</string>
+    <string name="title_activity_fragment_voting_results">FragmentVotingResults</string>
+    <string name="title_activity_popup_voting_results">PopupVotingResults</string>
 
 </resources>
