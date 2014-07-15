@@ -1,22 +1,12 @@
 package com.example.helsinkikanava;
 
-import java.sql.Date;
 import java.util.Calendar;
 
 import android.app.ActionBar.LayoutParams;
-import android.app.Activity;
 import android.app.Fragment;
-import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.LinearGradient;
-import android.graphics.Shader;
-import android.graphics.Shader.TileMode;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Layout;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
