@@ -16,14 +16,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
                     android:id="@+id/imageView_topBanner" android:layout_gravity="left|top" android:src="@drawable/ylabanneri"
-                    android:scaleType="fitCenter" android:layout_weight="0.65" android:focusableInTouchMode="true"
+                    android:scaleType="fitCenter" android:layout_weight="1" android:focusableInTouchMode="true"
                     android:focusable="false"/>
-            <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:id="@+id/imageButton_refresh" android:src="@drawable/btn_refresh" android:background="#ffffffff"
-                    android:layout_weight="0.35" android:focusable="false" android:scaleType="center"
-                    android:clickable="true" android:onClick="onClick"/>
+            <!--<ImageButton-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="fill_parent"-->
+                    <!--android:id="@+id/imageButton_refresh" android:src="@drawable/btn_refresh" android:background="#ffffffff"-->
+                    <!--android:layout_weight="0.35" android:focusable="false" android:scaleType="center"-->
+                    <!--android:clickable="true" android:onClick="onClick"/>-->
 
         </LinearLayout>
 
@@ -85,7 +85,7 @@
                         <Button
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Uutta Helsinkiä"
+                                android:text="DEBUG"
                                 android:id="@+id/main_activity_tab_button_news" android:singleLine="true"
                                 android:textColor="#ffffffff" android:background="@android:color/black"
                                 android:enabled="true" android:onClick="onClick"/>

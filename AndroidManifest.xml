@@ -41,6 +41,7 @@
             android:name=".ActivityPopupSettings"
             android:label="@string/title_activity_activity_popup_settings" >
         </activity>
+        <activity android:name=".ActivityVideo"/>
         <activity
             android:name=".FragmentVideo"
             android:label="@string/title_activity_fragment_video" >

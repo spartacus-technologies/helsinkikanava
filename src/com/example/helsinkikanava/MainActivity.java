@@ -30,8 +30,8 @@ public class MainActivity extends ActionBarActivity implements JsonListener, OnT
     public MainActivity()
     {
         //FIXME Sallii dataliikenteen käytön pääsäikeessä DataAccess "kirjaston" debuggausta varten :D (voi tulla pääohjelma hiukan jäätäväksi ilman säikeistystä :)
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
+//        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+//        StrictMode.setThreadPolicy(policy);
 //        wrapperJSON.RegisterListener(this);
         refreshData();
     }
@@ -55,7 +55,7 @@ public class MainActivity extends ActionBarActivity implements JsonListener, OnT
         //Show default fragment (for debugging)
         if (savedInstanceState == null)
         {
-        	 getFragmentManager().beginTransaction().add(R.id.container, new FragmentDefault()).commit();
+        	 getFragmentManager().beginTransaction().add(R.id.container, new FragmentDefault(this)).commit();
         }
     }
  
@@ -106,12 +106,12 @@ public class MainActivity extends ActionBarActivity implements JsonListener, OnT
         switch (v.getId())
         {
             //Refresh data
-            case R.id.imageButton_refresh:
-
-                Log.i("MainActivity", "REFRESH" );
-                refreshData();
-
-                break;
+//            case R.id.imageButton_refresh:
+//
+//                Log.i("MainActivity", "REFRESH" );
+//                refreshData();
+//
+//                break;
 
             //Council meetings tab
             case R.id.main_activity_tab_button_councilmeetings:
@@ -119,7 +119,7 @@ public class MainActivity extends ActionBarActivity implements JsonListener, OnT
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
 //                transaction.replace(R.id.container, new FragmentMeetings(this));
-                transaction.replace(R.id.container, new FragmentDefault());
+                transaction.replace(R.id.container, new FragmentDefault(this));
                 transaction.addToBackStack(null);
                 transaction.commit();
 
@@ -130,16 +130,21 @@ public class MainActivity extends ActionBarActivity implements JsonListener, OnT
 
             //Council meetings tab
             case R.id.main_activity_tab_button_news:
-                Log.i("MainActivity", "CouncilMeetings tab" );
-                FragmentTransaction transaction1 = getFragmentManager().beginTransaction();
+                Log.i("MainActivity", "News tab" );
 
-//                transaction.replace(R.id.container, new FragmentMeetings(this));
-                transaction1.replace(R.id.container, new FragmentDefault());
-                transaction1.addToBackStack(null);
-                transaction1.commit();
+//                FragmentTransaction transaction1 = getFragmentManager().beginTransaction();
+//
+////                transaction.replace(R.id.container, new FragmentMeetings(this));
+//                transaction1.replace(R.id.container, new FragmentDefault());
+//                transaction1.addToBackStack(null);
+//                transaction1.commit();
 
                 ((Button)findViewById(R.id.main_activity_tab_button_news)).setTextColor(Color.WHITE);
                 ((Button)findViewById(R.id.main_activity_tab_button_councilmeetings)).setTextColor(Color.GRAY);
+
+                Intent intent = new Intent(this, ActivityVideo.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(intent);
 
                 break;
             //Scroll left:
