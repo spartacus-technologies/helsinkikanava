@@ -4,6 +4,8 @@ import java.util.Calendar;
 
 import android.app.ActionBar.LayoutParams;
 import android.app.Fragment;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,6 +17,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.webkit.WebView.FindListener;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
@@ -32,7 +35,8 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 	Scroller scroller = new Scroller();  	//For scrolling year view
 	int scroll_speed = 7;
 	int debug = 2014;
-	
+	int active_year = 2014; //TODO
+	private Context parent_;
 	
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,16 +58,18 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
         return rootView;
     }
     
+    /*
     public FragmentDefault() {
 
     }
+    */
     
-    /*
     public FragmentDefault(Context parent) {
     	
-    	parent_ = parent;
+    	//WrapperJSON.
+    	//parent_ = parent;
     }
-    */
+    
     
     private void generateDummyContent(){
     	
@@ -100,7 +106,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     			year_title.addView(underline, new LayoutParams(LayoutParams.MATCH_PARENT, 5));
     			year_title.addView(spacer, new LayoutParams(LayoutParams.MATCH_PARENT, 5));
     			
-    			year_title.setId(debug*10); //TODO
+    			//year_title.setId(debug*10); //TODO
     			
     			my_root.addView(year_title, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
     		}
@@ -116,8 +122,8 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     		ImageButton img_btn = new ImageButton(getActivity());
             img_btn.setImageResource(R.drawable.test_meeting);
     		img_btn.setPadding(0, 0, 0, 0);	
-    		//img_btn.setId(id); //TODO
-			
+    		img_btn.setId(debug*10); //TODO
+			img_btn.setOnClickListener(this);
     		/**
     		View overlay = new ImageView(getActivity());
     		overlay.setImageResource(R.drawable.play);
@@ -184,9 +190,17 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 	    	Button year_button = new Button(getActivity());
 	    	year_button.setBackgroundColor(Color.BLACK);
 	    	year_button.setText(Integer.toString(year_index));
+	    	
 	    	year_button.setTextColor(Color.WHITE);
 	        year_button.setId(year_index);
 	        year_button.setOnClickListener(this);
+	        
+	        //Unselected years with gray:
+	        if(year_button.getId() != active_year){
+	        	
+	        	year_button.setTextColor(Color.GRAY);
+	        }
+	        
 	        
 	        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 	        		
@@ -232,6 +246,11 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 				
 				Log.i("FragmentDefault", "Bringing " + v.getId() +" to front");
 				
+				//Change color:
+				((TextView)rootView.findViewById(active_year)).setTextColor(Color.GRAY);
+				((TextView)rootView.findViewById(v.getId())).setTextColor(Color.WHITE);
+				active_year = v.getId();
+				
 				try {
 					
 					((ScrollView)rootView.findViewById(R.id.fragment_meetings_scrollView_content)).smoothScrollTo(0, rootView.findViewById(v.getId()*10).getTop());
@@ -242,6 +261,13 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 					
 				}
 				
+			}
+			//Meetings:
+			else if(v.getId() > 19000 && v.getId() < 21000){
+				
+				Intent intent = new Intent(parent_, ActivityVideo.class);
+//              intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+              startActivity(intent);
 			}
 			else{
 				

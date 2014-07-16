@@ -10,8 +10,6 @@ import com.json.parsers.JsonParserFactory;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.util.Log;
 
 
 public class AutoUpdater implements iJSONListener{
