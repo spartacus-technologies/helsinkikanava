@@ -1,7 +1,11 @@
 package com.example.helsinkikanava;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -9,119 +13,221 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import HelsinkiKanavaDataAccess.HelsinkiKanavaDataAccess;
+import HelsinkiKanavaDataAccess.Metadata;
 import android.util.Log;
 
-import com.json.parsers.JSONParser;
-import com.json.parsers.JsonParserFactory;
 
 //Wrapper class for getting JSON values conveniently
 public class WrapperJSON {
 	
-	final static String URL_helsinki_kanava = "http://www.helsinkikanava.fi/@@opendata-index-v2.0";
-	final static int timeout = 2000; //ms?
+	// Listeners to inform when the data has been updated.
+	private ArrayList<IJsonListener> dataListeners;
 	
-	public ArrayList<Session> sessions = null;
+	// Separate thread class for server communication.
+	private Model myModel;
 	
-	/**
-	 * Runs the refresh thread once to refresh the session data
-	 */
-	public String RefreshJson()
+	// Class variable that does the actual communication with the server.
+    private HelsinkiKanavaDataAccess myHelsinkiKanavaDataAccess;
+    
+    // Map to hold the all the sessions.
+    private Map<String, String> mySessions;
+    
+    // Holds the available years
+    private ArrayList<String> yearsAvailable;
+    
+    // Hashmap for the metadata information.
+    private HashMap<String, ArrayList<Metadata>> metadatas;
+	
+    /*******************************************************
+     * Getters for data and years
+     ******************************************************/
+    public ArrayList<Metadata> GetYearData(String year)
+    {
+    	return metadatas.get(year);
+    }
+    
+    public ArrayList<String> GetYears()
+    {
+    	return  yearsAvailable;
+    }
+    
+    /*******************************************************
+     * Refreshes the available years.
+     ******************************************************/
+	public boolean RefreshYears()
 	{
-		RefreshJsonData refresher = new RefreshJsonData();
-		refresher.start();
-		
-		return "";
+		if (dataListeners == null)
+		{
+			return false;
+		}
+		else
+		{
+			if (yearsAvailable == null)
+			{
+				myModel = new Model(null);
+				myModel.start();
+			}
+			else // Data already available, just notify listeners
+			{
+				for (IJsonListener listener : dataListeners)
+				{
+					listener.YearsAvailable();
+				}
+			}
+			
+			return true;	
+		}
 	}
 	
-	//Retrieves version info just for example. No real use.
-	static public String getVersion(){
-		
-		//TODO exception handling
-		/*
-		//@SuppressWarnings("unchecked")
-		//List<String> value=jsonData.get("sessions");
-		//Map test = (Map) jsonData.get("sessions");
-		@SuppressWarnings("rawtypes")
-		Map test = (Map) jsonData.get("root");
-		
-		@SuppressWarnings("rawtypes")
-		List test2 = (List) jsonData.get("sessions");
-		Log.i("VALUE", ((Map)test2.get(0)).get("url").toString().replace("\\", ""));
-		*/
-		//return ((Map)test2.get(0)).get("version").toString().replace("\\", "");
-		return "";
-
+	/*******************************************************
+     * Refreshes the data of certain years.
+     ******************************************************/
+	public boolean RefreshData(String year)
+	{
+		if (dataListeners == null)
+		{
+			return false;
+		}
+		else
+		{
+			if (!metadatas.containsKey(year))
+	    	{
+				myModel = new Model(year);
+				myModel.start();
+	    	}
+			else // Data already available, just notify listeners
+			{
+				for (IJsonListener listener : dataListeners)
+				{
+					listener.DataAvailable(year);
+				}
+			}
+						
+			return true;
+		}
 	}
 	
-		
-	/**
-	 * 
-	 * Private class for implementing JSON query in a 
-	 * separate thread.
-	 * 
-	 * @author Marko
-	 *
-	 */
-	private class RefreshJsonData extends Thread
+	/*******************************************************
+     * Registers a listener
+     ******************************************************/
+	public void RegisterListener(IJsonListener listener)
 	{
-		@Override
-		public void run() {
-			
-			JsonParserFactory factory=JsonParserFactory.getInstance();
-			JSONParser parser=factory.newJsonParser();
-			@SuppressWarnings("rawtypes")
-			Map jsonData = parser.parseJson(getJSON(URL_helsinki_kanava, timeout));
-			
-			String version = ((String)jsonData.get("version"));
-			
-			Log.i("getJSON", version);
-		}
+		dataListeners.add(listener);
+	}
+	
+	/*******************************************************
+     * Unregisters a listener
+     ******************************************************/
+	public void UnregisterListener(IJsonListener listener)
+	{
+		dataListeners.remove(listener);
+	}
+	
+	
+	/*******************************************************
+	 * This class is used as a thread that communicates with the
+	 * server. 
+	 ******************************************************/
+	private class Model extends Thread
+	{
+		private String yearOrNot;
 		
-		private String getJSON(String url, int timeout) {
-			
-			Log.i("getJSON", "test1");
-			
-		    try {
-		        URL u = new URL(url);
-		        Log.i("getJSON", "test2");
-		        HttpURLConnection connection = (HttpURLConnection) u.openConnection();
-		        Log.i("getJSON", "test3");
-		        connection.setRequestMethod("GET");
-		        connection.setRequestProperty("Content-length", "0");
-		        connection.setUseCaches(false);
-		        connection.setAllowUserInteraction(false);
-		        connection.setConnectTimeout(timeout);
-		        connection.setReadTimeout(timeout);
-		        connection.connect();
-		        Log.i("getJSON", "TTTTTTTTTTOOOOOOOOOOOODDDDDDDDDDDDDOOOOOOOOOOOOOOO");
-		        int status = connection.getResponseCode();
+		/*******************************************************
+	     * Constructor
+	     ******************************************************/
+	    public Model(String year)
+	    {
+	        myHelsinkiKanavaDataAccess = new HelsinkiKanavaDataAccess();
+	        metadatas = new HashMap<String, ArrayList<Metadata>>();
+	        yearOrNot = year;
+	    }
 
-		        switch (status) {
-		            case 200:
-		            	
-		                BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-		                StringBuilder sb = new StringBuilder();
-		                String line;
-		                while ((line = br.readLine()) != null) {
-		                    sb.append(line+"\n");
-		                }
-		                br.close();
-		                Log.i("getJSON", br.toString());
-		                return sb.toString();
-		                
-		            default:
-		            	break;
-		        }
+	    /*******************************************************
+	     * This method is run every time when some information is needed.
+	     * Calls
+	     ******************************************************/
+	    @Override
+	    public void run()
+	    {
+	    	if (mySessions == null)
+	    	{
+	    		mySessions = myHelsinkiKanavaDataAccess.GetSessions();
+	    	}
+	    	
+	    	// If year is given in the constructor, years data is asked
+	    	if (yearOrNot != null && yearOrNot != "")
+	    	{
+	    		GetData();
+	    	}
+	    	else // If years is empty or null, list of the years are wanted
+	    	{
+	    		GetAvailableYears();
+	    	}
+	    }
+	    
+	    /*******************************************************
+	     * Method for retrieving specific year's session data.
+	     ******************************************************/
+	    private void GetData()
+	    {
+	    	// Checks first which sessions belong to the given year
+	        ArrayList<String> sessions = new ArrayList<String>();
+	
+	        for (Map.Entry<String, String> entry : mySessions.entrySet())
+	        {
+	            if(IsYear(yearOrNot, entry.getKey()))
+	            {
+	                sessions.add(entry.getKey());
+	            }
+	        }
+	
+	        ArrayList<Metadata> metadata = myHelsinkiKanavaDataAccess.GetMetadatasInArray(sessions);
+	        Collections.sort(metadata);
+	
+	        // Add to memory
+	        metadatas.put(yearOrNot, metadata);
+	    }
 
-		    } catch (MalformedURLException ex) {
-		    	
-		    	Log.w("getJSON:MalformedURLException", ex.toString());
-		    	
-		    } catch (IOException ex) {
-		    	
-		    	Log.w("getJSON:IOException", ex.toString());
-		    }
-		    return null;
-		}
+	    /*******************************************************
+	     * Returns the distinct years that are available.
+	     * Special search method parses the different years from the URL.
+	     ******************************************************/
+	    private void GetAvailableYears()
+	    {
+	        ArrayList<String> years = new ArrayList<String>();
+
+	        for (Map.Entry<String, String> entry : mySessions.entrySet())
+	        {
+	            String year = WhatYear(entry.getKey());
+	            if(year == null || years.contains(year)) continue;
+
+	            years.add(year);
+	        }
+	        yearsAvailable = years;
+	    }
+
+	    /*******************************************************
+	     * Checks if a year of an URL matches to the given year
+	     ******************************************************/
+	    private boolean IsYear(String year, String url)
+	    {
+	        return WhatYear(url) == year;
+	    }
+
+	    /*******************************************************
+	     * Checks from the year from the URL string
+	     ******************************************************/
+	    private String WhatYear(String url)
+	    {
+	        Pattern pattern = Pattern.compile("\\d+\\-\\d+\\.(\\d\\d\\d\\d)");
+	        Matcher matcher = pattern.matcher(url);
+
+	        if (matcher.find())
+	        {
+	            return matcher.group(1);
+	        }
+	        return null;
+	    }
 	}
 }

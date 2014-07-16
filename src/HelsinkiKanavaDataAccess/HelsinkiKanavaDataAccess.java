@@ -10,19 +10,28 @@ import java.util.*;
 
 /**
  * Created by erno on 11/07/14.
+ * 
  */
-public class HelsinkiKanavaDataAccess implements IHelsinkiKanavaDataAccess
+public class HelsinkiKanavaDataAccess
 {
+	// The URL from which to retrieve the sessions and data.
     private final String mySESSIONS_URL = "http://www.helsinkikanava.fi/@@opendata-index-v2.0";
+    
+    // Mapper to map the JSON objects
     private ObjectMapper mapper;
 
+    /*******************************************************
+     * Constructor.
+     ******************************************************/
     public HelsinkiKanavaDataAccess()
     {
         mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
-    @Override
+    /*******************************************************
+     * Gets a single metadata patch from the server.
+     ******************************************************/
     public Metadata GetMetadata(String paUrl)
     {
         try
@@ -38,6 +47,9 @@ public class HelsinkiKanavaDataAccess implements IHelsinkiKanavaDataAccess
         }
     }
 
+    /*******************************************************
+     * Checks if there is any data available.
+     ******************************************************/
     private static boolean IsDataAvailable(String paUrl)
     {
         try
@@ -60,7 +72,9 @@ public class HelsinkiKanavaDataAccess implements IHelsinkiKanavaDataAccess
         return false;
     }
 
-    @Override
+    /*******************************************************
+     * Returns all the metadata of a session in a map
+     ******************************************************/
     public Map<String, Metadata> GetMetadatas(List<String> paUrls)
     {
         Map<String, Metadata> metadatas = new HashMap<String, Metadata>();
@@ -77,7 +91,9 @@ public class HelsinkiKanavaDataAccess implements IHelsinkiKanavaDataAccess
         return metadatas;
     }
 
-    @Override
+    /*******************************************************
+     * Returns all the metadata in an array.
+     ******************************************************/
     public ArrayList<Metadata> GetMetadatasInArray(List<String> paUrls)
     {
         ArrayList<Metadata> metadatas = new ArrayList<Metadata>();
@@ -94,7 +110,9 @@ public class HelsinkiKanavaDataAccess implements IHelsinkiKanavaDataAccess
         return metadatas;
     }
 
-    @Override
+    /*******************************************************
+     * Gets all the sessions in a map.
+     ******************************************************/
     public Map<String, String> GetSessions()
     {
         Map<String, String> sessions = new HashMap<String, String>();
@@ -116,7 +134,9 @@ public class HelsinkiKanavaDataAccess implements IHelsinkiKanavaDataAccess
         return sessions;
     }
 
-    @Override
+    /*******************************************************
+     * Gets all the sessions in an array.
+     ******************************************************/
     public ArrayList<String> GetSessionsInArray()
     {
         ArrayList<String> sessions = new ArrayList<String>();
@@ -139,6 +159,9 @@ public class HelsinkiKanavaDataAccess implements IHelsinkiKanavaDataAccess
     }
 }
 
+/*******************************************************
+ * Class containers for all the different information from the server.
+ ******************************************************/
 class Index
 {
     public String version;
@@ -218,8 +241,8 @@ class Votes
 
 class Result
 {
-    public String absent;
-    public String against;
-    public String empty;
-    //public String for; //FIXME
+    public String absent; // Poissa
+    public String against; // Ei
+    public String empty; // Tyhjä
+    public String behalf; // Jaa
 }
