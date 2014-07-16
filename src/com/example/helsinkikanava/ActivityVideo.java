@@ -25,7 +25,6 @@ public class ActivityVideo extends Activity implements OnTouchListener
 
     public ActivityVideo()
     {
-        Log.i("ActivityVideo", "Rakentaja");
     }
 
     @Override
@@ -35,8 +34,6 @@ public class ActivityVideo extends Activity implements OnTouchListener
         //Remove title bar
         this.requestWindowFeature(this.getWindow().FEATURE_NO_TITLE);
         setContentView(R.layout.activity_video);
-
-        Log.i("ActivityVideo", "OnCreate");
 
         ((Button)this.findViewById(R.id.video_activity_tabs_button_left)).setOnTouchListener(this);
         ((Button)this.findViewById(R.id.video_activity_tabs_button_right)).setOnTouchListener(this);
@@ -102,6 +99,11 @@ public class ActivityVideo extends Activity implements OnTouchListener
                 ((Button)findViewById(R.id.video_activity_tab_button_participants)).setTextColor(Color.GRAY);
                 ((Button)findViewById(R.id.video_activity_tab_button_video)).setTextColor(Color.GRAY);
 
+                break;
+
+            case R.id.imageButton_video_activity_back:
+
+                this.finish();
                 break;
 
             default:

@@ -106,12 +106,12 @@ public class MainActivity extends ActionBarActivity implements JsonListener, OnT
         switch (v.getId())
         {
             //Refresh data
-            case R.id.imageButton_refresh:
-
-                Log.i("MainActivity", "REFRESH" );
-                refreshData();
-
-                break;
+//            case R.id.imageButton_refresh:
+//
+//                Log.i("MainActivity", "REFRESH" );
+//                refreshData();
+//
+//                break;
 
             //Council meetings tab
             case R.id.main_activity_tab_button_councilmeetings:
@@ -143,7 +143,7 @@ public class MainActivity extends ActionBarActivity implements JsonListener, OnT
                 ((Button)findViewById(R.id.main_activity_tab_button_councilmeetings)).setTextColor(Color.GRAY);
 
                 Intent intent = new Intent(this, ActivityVideo.class);
-//                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent);
 
                 break;

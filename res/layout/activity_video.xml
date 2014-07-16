@@ -10,18 +10,46 @@
 
     <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="130dp">
 
-        <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="fill_parent"
-                android:layout_height="80dp" android:weightSum="1">
+        <!--<LinearLayout-->
+                <!--android:orientation="horizontal"-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="80dp" android:weightSum="1">-->
+            <!--<ImageButton-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:id="@+id/imageButton_video_activity_back"-->
+                    <!--android:src="@drawable/abc_ic_ab_back_holo_light" android:scaleType="fitCenter"-->
+                    <!--android:background="#ffffffff" android:paddingTop="32dp" android:paddingRight="10dp"-->
+                    <!--android:paddingBottom="32dp" android:clickable="true" android:onClick="onClick"/>-->
+            <!--<ImageView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="fill_parent"-->
+                    <!--android:id="@+id/imageView_topBanner_video" android:layout_gravity="left|top" android:src="@drawable/ylabanneri"-->
+                    <!--android:scaleType="fitCenter" android:layout_weight="1" android:focusableInTouchMode="true"-->
+                    <!--android:focusable="false"/>-->
+
+        <!--</LinearLayout>-->
+
+        <RelativeLayout android:layout_width="fill_parent" android:layout_height="80dp">
+
+
             <ImageView
-                    android:layout_width="wrap_content"
+                    android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:id="@+id/imageView_topBanner_video" android:layout_gravity="left|top" android:src="@drawable/ylabanneri"
+                    android:id="@+id/imageView_topBanner_video" android:layout_gravity="center_horizontal" android:src="@drawable/ylabanneri"
                     android:scaleType="fitCenter" android:layout_weight="1" android:focusableInTouchMode="true"
                     android:focusable="false"/>
 
-        </LinearLayout>
+            <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageButton_video_activity_back"
+                    android:src="@drawable/abc_ic_ab_back_holo_light" android:scaleType="fitCenter"
+                    android:background="#00ffffff" android:paddingTop="32dp" android:paddingRight="10dp"
+                    android:paddingBottom="32dp" android:clickable="true" android:onClick="onClick"
+                    android:paddingLeft="10dp"/>
+
+        </RelativeLayout>
 
         <LinearLayout
                 android:id="@+id/video_activity_tabs"
