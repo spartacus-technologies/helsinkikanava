@@ -130,16 +130,21 @@ public class MainActivity extends ActionBarActivity implements JsonListener, OnT
 
             //Council meetings tab
             case R.id.main_activity_tab_button_news:
-                Log.i("MainActivity", "CouncilMeetings tab" );
-                FragmentTransaction transaction1 = getFragmentManager().beginTransaction();
+                Log.i("MainActivity", "News tab" );
 
-//                transaction.replace(R.id.container, new FragmentMeetings(this));
-                transaction1.replace(R.id.container, new FragmentDefault());
-                transaction1.addToBackStack(null);
-                transaction1.commit();
+//                FragmentTransaction transaction1 = getFragmentManager().beginTransaction();
+//
+////                transaction.replace(R.id.container, new FragmentMeetings(this));
+//                transaction1.replace(R.id.container, new FragmentDefault());
+//                transaction1.addToBackStack(null);
+//                transaction1.commit();
 
                 ((Button)findViewById(R.id.main_activity_tab_button_news)).setTextColor(Color.WHITE);
                 ((Button)findViewById(R.id.main_activity_tab_button_councilmeetings)).setTextColor(Color.GRAY);
+
+                Intent intent = new Intent(this, ActivityVideo.class);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(intent);
 
                 break;
             //Scroll left:

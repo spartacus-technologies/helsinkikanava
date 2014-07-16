@@ -10,19 +10,22 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.view.View.OnTouchListener;
 
 /**
  * Created by vesa on 15.7.2014.
  */
-public class ActivityVideo extends Activity implements View.OnTouchListener
+public class ActivityVideo extends Activity implements OnTouchListener
 {
     private Scroller tab_bar_scroller;
     int scroll_speed = 7;
-
+    Fragment frag_video = new FragmentVideo(this);
+    Fragment frag_participant = new FragmentParticipants(this);
+    Fragment frag_resolutions = new FragmentResolutions(this);
 
     public ActivityVideo()
     {
-        tab_bar_scroller = new Scroller(this.findViewById(R.id.horizontalScrollView_video_activity_tabs));
+        Log.i("ActivityVideo", "Rakentaja");
     }
 
     @Override
@@ -33,12 +36,15 @@ public class ActivityVideo extends Activity implements View.OnTouchListener
         this.requestWindowFeature(this.getWindow().FEATURE_NO_TITLE);
         setContentView(R.layout.activity_video);
 
+        Log.i("ActivityVideo", "OnCreate");
+
         ((Button)this.findViewById(R.id.video_activity_tabs_button_left)).setOnTouchListener(this);
         ((Button)this.findViewById(R.id.video_activity_tabs_button_right)).setOnTouchListener(this);
 
         ((Button)findViewById(R.id.video_activity_tab_button_resolutions)).setTextColor(Color.GRAY);
         ((Button)findViewById(R.id.video_activity_tab_button_participants)).setTextColor(Color.GRAY);
         ((Button)findViewById(R.id.video_activity_tab_button_video)).setTextColor(Color.WHITE);
+        tab_bar_scroller = new Scroller(this.findViewById(R.id.horizontalScrollView_video_activity_tabs));
     }
 
     public void onClick(View v)
@@ -56,7 +62,7 @@ public class ActivityVideo extends Activity implements View.OnTouchListener
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
 //                transaction.replace(R.id.container, new FragmentMeetings(this));
-                transaction.replace(R.id.container, new FragmentDefault());
+                transaction.replace(R.id.video_container, frag_video);
                 transaction.addToBackStack(null);
                 transaction.commit();
 
@@ -72,7 +78,7 @@ public class ActivityVideo extends Activity implements View.OnTouchListener
                 FragmentTransaction transaction1 = getFragmentManager().beginTransaction();
 
 //                transaction.replace(R.id.container, new FragmentMeetings(this));
-                transaction1.replace(R.id.container, new FragmentDefault());
+                transaction1.replace(R.id.video_container, frag_participant);
                 transaction1.addToBackStack(null);
                 transaction1.commit();
 
@@ -88,7 +94,7 @@ public class ActivityVideo extends Activity implements View.OnTouchListener
                 FragmentTransaction transaction2 = getFragmentManager().beginTransaction();
 
 //                transaction.replace(R.id.container, new FragmentMeetings(this));
-                transaction2.replace(R.id.container, new FragmentDefault());
+                transaction2.replace(R.id.video_container, frag_resolutions);
                 transaction2.addToBackStack(null);
                 transaction2.commit();
 
