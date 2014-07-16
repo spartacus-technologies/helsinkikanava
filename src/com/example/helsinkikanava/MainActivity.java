@@ -55,7 +55,7 @@ public class MainActivity extends ActionBarActivity implements JsonListener, OnT
         //Show default fragment (for debugging)
         if (savedInstanceState == null)
         {
-        	 getFragmentManager().beginTransaction().add(R.id.container, new FragmentDefault()).commit();
+        	 getFragmentManager().beginTransaction().add(R.id.container, new FragmentDefault(this)).commit();
         }
     }
  
@@ -119,7 +119,7 @@ public class MainActivity extends ActionBarActivity implements JsonListener, OnT
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
 //                transaction.replace(R.id.container, new FragmentMeetings(this));
-                transaction.replace(R.id.container, new FragmentDefault());
+                transaction.replace(R.id.container, new FragmentDefault(this));
                 transaction.addToBackStack(null);
                 transaction.commit();
 
