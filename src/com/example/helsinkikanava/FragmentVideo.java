@@ -48,7 +48,7 @@ public class FragmentVideo extends Fragment {
     	
     	parent_ = parent;
     }
-    
+    /*
     /**
     Note: call this one when implementation is ready.
    */
@@ -61,9 +61,9 @@ public class FragmentVideo extends Fragment {
     /**
     Note: Don't use.
    */
-    public FragmentVideo() {
+    //public FragmentVideo() {
 
-    }
+    //}
     
     void generateVideoEvent(String title, String timestamp, String description){
     	

@@ -19,7 +19,7 @@ import android.view.View.OnTouchListener;
 
 import java.util.ArrayList;
 
-public class MainActivity extends ActionBarActivity implements JsonListener, OnTouchListener
+public class MainActivity extends ActionBarActivity implements IJsonListener, OnTouchListener
 {
 
     private WrapperJSON wrapperJSON = new WrapperJSON();
@@ -33,7 +33,7 @@ public class MainActivity extends ActionBarActivity implements JsonListener, OnT
 //        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 //        StrictMode.setThreadPolicy(policy);
 //        wrapperJSON.RegisterListener(this);
-        refreshData();
+
     }
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -164,17 +164,6 @@ public class MainActivity extends ActionBarActivity implements JsonListener, OnT
 
     }
 
-    private void refreshData ()
-    {
-        wrapperJSON.RefreshJson();
-    }
-
-
-    @Override
-    public void NewDataAvailable()
-    {
-//        wrapperJSON.GetSessions();
-    }
 
     // Scroll tab bar
     @Override
@@ -276,4 +265,15 @@ public class MainActivity extends ActionBarActivity implements JsonListener, OnT
         };
 
     }
+
+	@Override
+	public void YearsAvailable() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void DataAvailable(String year) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -22,32 +22,32 @@ import android.util.Log;
 public class WrapperJSON {
 	
 	// Listeners to inform when the data has been updated.
-	private ArrayList<IJsonListener> dataListeners;
+	private static ArrayList<IJsonListener> dataListeners;
 	
 	// Separate thread class for server communication.
-	private Model myModel;
+	private static Model myModel;
 	
 	// Class variable that does the actual communication with the server.
-    private HelsinkiKanavaDataAccess myHelsinkiKanavaDataAccess;
+    private static HelsinkiKanavaDataAccess myHelsinkiKanavaDataAccess;
     
     // Map to hold the all the sessions.
-    private Map<String, String> mySessions;
+    private static Map<String, String> mySessions;
     
     // Holds the available years
-    private ArrayList<String> yearsAvailable;
+    private static ArrayList<String> yearsAvailable;
     
     // Hashmap for the metadata information.
-    private HashMap<String, ArrayList<Metadata>> metadatas;
+    private static HashMap<String, ArrayList<Metadata>> metadatas;
 	
     /*******************************************************
      * Getters for data and years
      ******************************************************/
-    public ArrayList<Metadata> GetYearData(String year)
+    public static ArrayList<Metadata> GetYearData(String year)
     {
     	return metadatas.get(year);
     }
     
-    public ArrayList<String> GetYears()
+    public static ArrayList<String> GetYears()
     {
     	return  yearsAvailable;
     }
@@ -55,7 +55,7 @@ public class WrapperJSON {
     /*******************************************************
      * Refreshes the available years.
      ******************************************************/
-	public boolean RefreshYears()
+	static public boolean RefreshYears()
 	{
 		if (dataListeners == null)
 		{
@@ -83,7 +83,7 @@ public class WrapperJSON {
 	/*******************************************************
      * Refreshes the data of certain years.
      ******************************************************/
-	public boolean RefreshData(String year)
+	public static boolean RefreshData(String year)
 	{
 		if (dataListeners == null)
 		{
@@ -111,15 +111,17 @@ public class WrapperJSON {
 	/*******************************************************
      * Registers a listener
      ******************************************************/
-	public void RegisterListener(IJsonListener listener)
+	public static void RegisterListener(IJsonListener listener)
 	{
+		if(dataListeners == null) dataListeners = new ArrayList<IJsonListener>();
+		
 		dataListeners.add(listener);
 	}
 	
 	/*******************************************************
      * Unregisters a listener
      ******************************************************/
-	public void UnregisterListener(IJsonListener listener)
+	public static void UnregisterListener(IJsonListener listener)
 	{
 		dataListeners.remove(listener);
 	}
@@ -129,7 +131,7 @@ public class WrapperJSON {
 	 * This class is used as a thread that communicates with the
 	 * server. 
 	 ******************************************************/
-	private class Model extends Thread
+	private static class Model extends Thread
 	{
 		private String yearOrNot;
 		
@@ -159,10 +161,19 @@ public class WrapperJSON {
 	    	if (yearOrNot != null && yearOrNot != "")
 	    	{
 	    		GetData();
+	    		for (IJsonListener listener : dataListeners)
+				{
+					listener.DataAvailable(yearOrNot);
+				}
 	    	}
 	    	else // If years is empty or null, list of the years are wanted
 	    	{
 	    		GetAvailableYears();
+	    		for (IJsonListener listener : dataListeners)
+				{
+					listener.YearsAvailable();
+				}
+	    		
 	    	}
 	    }
 	    

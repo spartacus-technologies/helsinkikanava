@@ -12,16 +12,16 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 
 
-public class AutoUpdater implements iJSONListener{
+public class AutoUpdater {
 
 	
 	final static String updateServer = "http://94.237.68.33:2323/get_version_info";
 	
-	iJSONListener caller = null;
+	//iJSONListener caller = null;
 	
-	public void registerListener(iJSONListener li){
+	public void registerListener(){
 		
-		caller = li;
+		//caller = li;
 	}
 	
 	
@@ -106,10 +106,12 @@ public class AutoUpdater implements iJSONListener{
 	}
 	
 	static String getNewVersion(){
+		return null;
 		
+		/*
 		WrapperJSON wrapperJson = new WrapperJSON();
 		
-		String json = wrapperJson.RefreshJson();
+		//String json = wrapperJson.RefreshJson();
 		
 		if(json == null || json == ""){
 			
@@ -127,11 +129,11 @@ public class AutoUpdater implements iJSONListener{
 		//Log.i("testdsa", jsonData.get("version").toString());
 		
 		return jsonData.get("build_date").toString();
+		*/
 	}
 
 
 
-	@Override
 	public void newDataAvailable() {
 		// TODO Auto-generated method stub
 		

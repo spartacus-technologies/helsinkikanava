@@ -1,5 +1,6 @@
 package com.example.helsinkikanava;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import android.app.ActionBar.LayoutParams;
@@ -17,7 +18,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
-import android.webkit.WebView.FindListener;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
@@ -28,7 +28,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 //Example class for demostrating Fragment. -Eetu
-public class FragmentDefault extends Fragment implements OnClickListener, OnTouchListener {
+public class FragmentDefault extends Fragment implements OnClickListener, OnTouchListener, IJsonListener{
 
 	//Context parent_ = null;
 	View rootView = null;					//Owns all fragment Views
@@ -42,18 +42,22 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
     	
-    	
         rootView = inflater.inflate(R.layout.fragment_meetings, container, false);
-        //((Button)rootView.findViewById(R.id.button1)).setOnClickListener(this);
+
+        //Listeners:
         ((Button)rootView.findViewById(R.id.fragment_meetings_button_left)).setOnClickListener(this);
         ((Button)rootView.findViewById(R.id.fragment_meetings_button_right)).setOnClickListener(this);
         
         ((Button)rootView.findViewById(R.id.fragment_meetings_button_left)).setOnTouchListener(this);
         ((Button)rootView.findViewById(R.id.fragment_meetings_button_right)).setOnTouchListener(this);
-        //rootView.findViewById(R.id.fragment_meetings_button_left)
-   
+        //WrapperJSON.registerListener(this); //TODO
+        //WrapperJSON.refresh();
+        
         generateYearNavigation();
         generateDummyContent();
+        
+        WrapperJSON.RegisterListener(this);
+        WrapperJSON.RefreshYears();
         
         return rootView;
     }
@@ -369,6 +373,24 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 				}
 		    }
 		};
+		
+	}
+
+	@Override
+	public void YearsAvailable() {
+
+		ArrayList<String> years = WrapperJSON.GetYears();
+		
+		for (String string : years) {
+			Log.i("test", string);
+			
+		}
+		
+	}
+
+	@Override
+	public void DataAvailable(String year) {
+		// TODO Auto-generated method stub
 		
 	}
 	
