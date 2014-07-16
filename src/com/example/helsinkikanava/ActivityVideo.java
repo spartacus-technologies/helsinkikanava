@@ -41,7 +41,16 @@ public class ActivityVideo extends Activity implements OnTouchListener
         ((Button)findViewById(R.id.video_activity_tab_button_resolutions)).setTextColor(Color.GRAY);
         ((Button)findViewById(R.id.video_activity_tab_button_participants)).setTextColor(Color.GRAY);
         ((Button)findViewById(R.id.video_activity_tab_button_video)).setTextColor(Color.WHITE);
+
+
+
         tab_bar_scroller = new Scroller(this.findViewById(R.id.horizontalScrollView_video_activity_tabs));
+
+        //Show default fragment (for debugging)
+        if (savedInstanceState == null)
+        {
+            getFragmentManager().beginTransaction().add(R.id.video_container, new FragmentVideo(this)).commit();
+        }
     }
 
     public void onClick(View v)
