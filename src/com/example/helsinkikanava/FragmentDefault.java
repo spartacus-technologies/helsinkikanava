@@ -2,7 +2,9 @@ package com.example.helsinkikanava;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import HelsinkiKanavaDataAccess.Metadata;
 import android.app.ActionBar.LayoutParams;
@@ -39,19 +41,11 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 	Scroller scroller = new Scroller();  	//For scrolling year view
 	int scroll_speed = 7;
 	int debug = 2014;
-	int active_year = 2014; //TODO
+	String active_year = null;
 	private Context parent_;
 	ArrayList<String> years = null;
-	ArrayList<Metadata> metadata = null;
-	//UI Thread handler class
-	static Handler UiThreadHandler = new Handler() {
-    	
-    	@Override
-    	public void handleMessage(Message msg) {
-    		// TODO Auto-generated method stub
-    		super.handleMessage(msg);
-    	}
-	};
+	
+	Map<String, ArrayList<Metadata>> content = null;
 	
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -65,10 +59,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
         
         ((Button)rootView.findViewById(R.id.fragment_meetings_button_left)).setOnTouchListener(this);
         ((Button)rootView.findViewById(R.id.fragment_meetings_button_right)).setOnTouchListener(this);
-        //WrapperJSON.registerListener(this); //TODO
-        //WrapperJSON.refresh();
-        
-        //generateDummyContent();
+
         
         WrapperJSON.RegisterListener(this);
         WrapperJSON.RefreshYears();
@@ -76,22 +67,14 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
         return rootView;
     }
     
-    /*
-    public FragmentDefault() {
-
-    }
-    */
     
     public FragmentDefault(Context parent) {
     	
-    	//WrapperJSON.
     	parent_ = parent;
     }
     
     
     private void generateDummyContent(){
-    	
-    	Log.i("test123321", "test123231");
     	
     	LinearLayout my_root = (LinearLayout) rootView.findViewById(R.id.fragment_meetings_content);
     	my_root.removeAllViews();
@@ -217,7 +200,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 	        year_button.setOnClickListener(this);
 	        
 	        //Unselected years with gray:
-	        if(year_button.getId() != active_year){
+	        if(year_button.getId() != Integer.valueOf(active_year)){
 	        	
 	        	year_button.setTextColor(Color.GRAY);
 	        }
@@ -266,10 +249,16 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 				Log.i("FragmentDefault", "Bringing " + v.getId() +" to front");
 				
 				//Change color:
-				((TextView)rootView.findViewById(active_year)).setTextColor(Color.GRAY);
+				((TextView)rootView.findViewById(Integer.valueOf(active_year))).setTextColor(Color.GRAY);
 				((TextView)rootView.findViewById(v.getId())).setTextColor(Color.WHITE);
-				active_year = v.getId();
+				active_year = String.valueOf(v.getId());
+				WrapperJSON.RefreshData(active_year);
 				
+				//Clear content:
+				LinearLayout my_root = (LinearLayout) rootView.findViewById(R.id.fragment_meetings_content);
+		    	my_root.removeAllViews();
+				
+		    	
 				try {
 					
 					((ScrollView)rootView.findViewById(R.id.fragment_meetings_scrollView_content)).smoothScrollTo(0, rootView.findViewById(v.getId()*10).getTop());
@@ -395,36 +384,32 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 	public void YearsAvailable() {
 
 		years = WrapperJSON.GetYears();
-		//active_year = Integer.valueOf(years.get(0));
-		Log.i("test", years.toString());
-		for (String string : years) {
-			Log.i("test", string);
-		}
-		
-		if(years.size() == 0){
+
+		if(years == null || years.size() == 0){
 			
-			Log.w("FragmentDefault", "YearsAvailable Warning: response was empty!");
+			showErrorMessage("Error generating year navigation: no data available");
+			return;
 		}
 		
 		else{
+			
+			//First run(?)
+			if(active_year == null) active_year = years.get(0);
 			
 			//Run UI updates in external thread:
 			getActivity().runOnUiThread(new Runnable(){
 				
 				 public void run() {
 					
-                    generateDummyContent();
+					//Generate navigation and request metadata:
                     generateYearNavigation();
                     WrapperJSON.RefreshData(String.valueOf(active_year));
                  }
-				
-			});
-			 
-		}
-		//	generateYearNavigation();
-			
+			});	 
+		}	
 	}
 
+	//Displays error messages in UI with red text:
 	void showErrorMessage(String message){
 		
 		LinearLayout my_root = (LinearLayout) rootView.findViewById(R.id.fragment_meetings_content);
@@ -432,49 +417,36 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 		
     	TextView tv_error_message = new TextView(getActivity());
     	tv_error_message.setText(message);
+    	tv_error_message.setTextColor(Color.RED);
     	my_root.addView(tv_error_message, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
     	
 	}
 	
 	@Override
-	public void DataAvailable(String year) {
+	public void DataAvailable(final String year) {
 		
-		Log.i("FragmentMeetings", "DataAvailable");
-		Log.i("active_year", active_year - 1 + "");
+		Log.i("FragmentMeetings", "DataAvailable for year " + year);
 		
-		// TODO Auto-generated method stub
-		metadata = WrapperJSON.GetYearData(String.valueOf(active_year - 1));
+		//Create hashmap if non-existent:
+		if(content == null) content = new HashMap<String, ArrayList<Metadata>>();
+		
+		// add year to content map:
+		content.put(year, WrapperJSON.GetYearData(year));
 		
 		//Run UI updates in external thread:
 		getActivity().runOnUiThread(new Runnable(){
 			
 			 public void run() {
 				
-				 if(metadata == null){
+				 if(content.get(year) == null || content.get(year).size() == 0){
 						
-						Log.w("FragmentMeeting" , "Warning: metadata was null.");
-						showErrorMessage("Warning: null response for year " + active_year + ".");
-						
-						
+						Log.w("FragmentMeeting" , "Warning: metadata for year " + year + " was null.");
+						showErrorMessage("Warning: null or empty response for year " + year + ".");
+
 						return;
 					} 
-				 
 				 generateDummyContent();
-				 //WrapperJSON.Refre shData(String.valueOf(active_year));
-             }
-			
+             }	
 		});
-		
-		/*
-		Log.i("active_year", metadata.toString());
-		for(Metadata met : metadata){
-			
-			Log.i("MEtadata", met.title);
-			//Log.i("MEtadata", met.);
-			
-		}
-		*/
-		
 	}
-	
 }
