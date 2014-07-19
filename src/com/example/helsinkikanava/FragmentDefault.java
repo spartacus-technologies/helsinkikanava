@@ -2,14 +2,17 @@ package com.example.helsinkikanava;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import android.app.ActionBar.LayoutParams;
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -37,6 +40,17 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 	int debug = 2014;
 	int active_year = 2014; //TODO
 	private Context parent_;
+	ArrayList<String> years = null;
+	
+	//UI Thread handler class
+	static Handler UiThreadHandler = new Handler() {
+    	
+    	@Override
+    	public void handleMessage(Message msg) {
+    		// TODO Auto-generated method stub
+    		super.handleMessage(msg);
+    	}
+	};
 	
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,8 +67,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
         //WrapperJSON.registerListener(this); //TODO
         //WrapperJSON.refresh();
         
-        generateYearNavigation();
-        generateDummyContent();
+        //generateDummyContent();
         
         WrapperJSON.RegisterListener(this);
         WrapperJSON.RefreshYears();
@@ -71,13 +84,16 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     public FragmentDefault(Context parent) {
     	
     	//WrapperJSON.
-    	//parent_ = parent;
+    	parent_ = parent;
     }
     
     
     private void generateDummyContent(){
     	
+    	Log.i("test123321", "test123231");
+    	
     	LinearLayout my_root = (LinearLayout) rootView.findViewById(R.id.fragment_meetings_content);
+    	my_root.removeAllViews();
     	
     	for(int i = 0; i < 6; ++i){
     		
@@ -185,18 +201,18 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     
     
     private void generateYearNavigation(){
-    		
-    	int year_index = 2014;		//TODO
-    	int min_year = 2008;		//TODO
-
-    	while(year_index >= min_year){
     	
+    	Log.w("generateYearNavigation", "start...");
+    	for(String year : years){
+    	
+    		Log.w("generateYearNavigation", "loop: " + year);
 	    	Button year_button = new Button(getActivity());
-	    	year_button.setBackgroundColor(Color.BLACK);
-	    	year_button.setText(Integer.toString(year_index));
-	    	
+
+	    	year_button.setText(year);
+	        year_button.setId(Integer.valueOf(year));
+	        
 	    	year_button.setTextColor(Color.WHITE);
-	        year_button.setId(year_index);
+	    	year_button.setBackgroundColor(Color.BLACK);
 	        year_button.setOnClickListener(this);
 	        
 	        //Unselected years with gray:
@@ -204,17 +220,15 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 	        	
 	        	year_button.setTextColor(Color.GRAY);
 	        }
-	        
-	        
+
 	        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 	        		
 	        params.addRule(RelativeLayout.CENTER_IN_PARENT);
 	        
 	        LinearLayout my_root = (LinearLayout) rootView.findViewById(R.id.fragment_meetings_years);
 	    	my_root.addView(year_button, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
-	    	
-	    	--year_index;
     	}
+    	Log.w("generateYearNavigation", "ok...");
     }
     
 	@Override
@@ -379,13 +393,34 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 	@Override
 	public void YearsAvailable() {
 
-		ArrayList<String> years = WrapperJSON.GetYears();
-		
+		years = WrapperJSON.GetYears();
+		//active_year = Integer.valueOf(years.get(0));
+		Log.i("test", years.toString());
 		for (String string : years) {
 			Log.i("test", string);
-			
 		}
 		
+		if(years.size() == 0){
+			
+			Log.w("FragmentDefault", "YearsAvailable Warning: response was empty!");
+		}
+		
+		else{
+			
+			//Run UI updates in external thread:
+			getActivity().runOnUiThread(new Runnable(){
+				
+				 public void run() {
+					
+                    generateDummyContent();
+                    generateYearNavigation();
+                 }
+				
+			});
+			 
+		}
+		//	generateYearNavigation();
+			
 	}
 
 	@Override
