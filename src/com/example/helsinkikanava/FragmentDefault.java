@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import HelsinkiKanavaDataAccess.Metadata;
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.app.Fragment;
@@ -41,7 +42,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 	int active_year = 2014; //TODO
 	private Context parent_;
 	ArrayList<String> years = null;
-	
+	ArrayList<Metadata> metadata = null;
 	//UI Thread handler class
 	static Handler UiThreadHandler = new Handler() {
     	
@@ -414,6 +415,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 					
                     generateDummyContent();
                     generateYearNavigation();
+                    WrapperJSON.RefreshData(String.valueOf(active_year));
                  }
 				
 			});
@@ -423,9 +425,55 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 			
 	}
 
+	void showErrorMessage(String message){
+		
+		LinearLayout my_root = (LinearLayout) rootView.findViewById(R.id.fragment_meetings_content);
+    	my_root.removeAllViews();
+		
+    	TextView tv_error_message = new TextView(getActivity());
+    	tv_error_message.setText(message);
+    	my_root.addView(tv_error_message, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+    	
+	}
+	
 	@Override
 	public void DataAvailable(String year) {
+		
+		Log.i("FragmentMeetings", "DataAvailable");
+		Log.i("active_year", active_year - 1 + "");
+		
 		// TODO Auto-generated method stub
+		metadata = WrapperJSON.GetYearData(String.valueOf(active_year - 1));
+		
+		//Run UI updates in external thread:
+		getActivity().runOnUiThread(new Runnable(){
+			
+			 public void run() {
+				
+				 if(metadata == null){
+						
+						Log.w("FragmentMeeting" , "Warning: metadata was null.");
+						showErrorMessage("Warning: null response for year " + active_year + ".");
+						
+						
+						return;
+					} 
+				 
+				 generateDummyContent();
+				 //WrapperJSON.Refre shData(String.valueOf(active_year));
+             }
+			
+		});
+		
+		/*
+		Log.i("active_year", metadata.toString());
+		for(Metadata met : metadata){
+			
+			Log.i("MEtadata", met.title);
+			//Log.i("MEtadata", met.);
+			
+		}
+		*/
 		
 	}
 	
