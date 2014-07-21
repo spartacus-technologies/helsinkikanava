@@ -3,6 +3,7 @@ package com.example.helsinkikanava;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -40,7 +41,6 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 	View rootView = null;					//Owns all fragment Views
 	Scroller scroller = new Scroller();  	//For scrolling year view
 	int scroll_speed = 7;
-	int debug = 2014;
 	String active_year = null;
 	private Context parent_;
 	ArrayList<String> years = null;
@@ -73,48 +73,56 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     	parent_ = parent;
     }
     
+    private void createYearTitle(String year){
+    	
+    	LinearLayout my_root = (LinearLayout) rootView.findViewById(R.id.fragment_meetings_content);
+    	LinearLayout year_title = new LinearLayout(getActivity());
+		year_title.setOrientation(LinearLayout.VERTICAL);
+		
+		TextView tv_year_label = new TextView(getActivity());
+		tv_year_label.setText(year);
+		tv_year_label.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+		
+		View underline = new View(getActivity());
+		underline.setBackgroundColor(Color.BLACK);
+		underline.setPadding(0, 0, 0, 5);
+		
+		View spacer =  new View(getActivity());
+		spacer.setBackgroundColor(Color.TRANSPARENT);
+		spacer.setPadding(0, 0, 0, 5);
+			
+		/*
+		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+		params.setMargins(0, 0, 0, 10);
+		underline.setLayoutParams(params);
+		*/
+			
+			
+		year_title.addView(tv_year_label, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+		year_title.addView(underline, new LayoutParams(LayoutParams.MATCH_PARENT, 5));
+		year_title.addView(spacer, new LayoutParams(LayoutParams.MATCH_PARENT, 5));
+		
+		//year_title.setId(debug*10); //TODO
+			
+		my_root.addView(year_title, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
+    }
     
-    private void generateDummyContent(){
+    private void generateContent(){
     	
     	LinearLayout my_root = (LinearLayout) rootView.findViewById(R.id.fragment_meetings_content);
     	my_root.removeAllViews();
     	
-    	for(int i = 0; i < 6; ++i){
+    	int content_id_index = 0;
+    	
+    	//Add year_title:
+    	createYearTitle(active_year);
+    	
+    	//Create data for active year:
+    	for (Map.Entry<String, ArrayList<Metadata>> entry : content.entrySet()) {
     		
-    		//Add year_title:
-    		if(true){
-    			
-    			LinearLayout year_title = new LinearLayout(getActivity());
-    			year_title.setOrientation(LinearLayout.VERTICAL);
-    			
-    			TextView tv_year_label = new TextView(getActivity());
-    			tv_year_label.setText(debug + "");
-    			tv_year_label.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-    			
-    			View underline = new View(getActivity());
-    			underline.setBackgroundColor(Color.BLACK);
-    			underline.setPadding(0, 0, 0, 5);
-    			
-    			View spacer =  new View(getActivity());
-    			spacer.setBackgroundColor(Color.TRANSPARENT);
-    			spacer.setPadding(0, 0, 0, 5);
-    			
-    			/*
-    			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-    			params.setMargins(0, 0, 0, 10);
-    			underline.setLayoutParams(params);
-    			*/
-    			
-    			
-    			year_title.addView(tv_year_label, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-    			year_title.addView(underline, new LayoutParams(LayoutParams.MATCH_PARENT, 5));
-    			year_title.addView(spacer, new LayoutParams(LayoutParams.MATCH_PARENT, 5));
-    			
-    			//year_title.setId(debug*10); //TODO
-    			
-    			my_root.addView(year_title, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
-    		}
-    		
+    	    String key = entry.getKey();
+    	    Object value = entry.getValue();
+
     		LinearLayout meeting_layout = new LinearLayout(getActivity());
     		meeting_layout.setOrientation(LinearLayout.HORIZONTAL);
     		
@@ -126,7 +134,10 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     		ImageButton img_btn = new ImageButton(getActivity());
             img_btn.setImageResource(R.drawable.test_meeting);
     		img_btn.setPadding(0, 0, 0, 0);	
-    		img_btn.setId(debug*10); //TODO
+    		img_btn.setId(Integer.valueOf(active_year)*10 + content_id_index);
+    		Log.i("FragmentDefault:generateContent", "img_btn.setId(" + img_btn.getId() + ")");
+    		++content_id_index;
+    		
 			img_btn.setOnClickListener(this);
     		/**
     		View overlay = new ImageView(getActivity());
@@ -176,11 +187,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     		//Add views to list:
     		my_root.addView(meeting_layout, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
     		my_root.addView(separator, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
-    		
-    		--debug;
     	}
-    	
-    	
     }
     
     
@@ -432,6 +439,8 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 		
 		// add year to content map:
 		content.put(year, WrapperJSON.GetYearData(year));
+				
+		Log.i("TSET", content.get(year).toString());
 		
 		//Run UI updates in external thread:
 		getActivity().runOnUiThread(new Runnable(){
@@ -445,7 +454,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 
 						return;
 					} 
-				 generateDummyContent();
+				 generateContent();
              }	
 		});
 	}
