@@ -30,8 +30,8 @@ public class WrapperJSON {
 	// Class variable that does the actual communication with the server.
     private static HelsinkiKanavaDataAccess myHelsinkiKanavaDataAccess;
     
-    // Map to hold the all the sessions.
-    private static Map<String, String> mySessions;
+    // Map to hold the all the sessions. Key = url, value = title.
+    private static HashMap<String, String> mySessions;
     
     // Holds the available years
     private static ArrayList<String> yearsAvailable;
@@ -147,7 +147,7 @@ public class WrapperJSON {
 
 	    /*******************************************************
 	     * This method is run every time when some information is needed.
-	     * Calls
+	     * Calls the proper method for getting years or year's data.
 	     ******************************************************/
 	    @Override
 	    public void run()
@@ -155,6 +155,8 @@ public class WrapperJSON {
 	    	if (mySessions == null)
 	    	{
 	    		mySessions = myHelsinkiKanavaDataAccess.GetSessions();
+	    		
+	    		Log.i("sessiot: ", mySessions.toString());
 	    	}
 	    	
 	    	// If year is given in the constructor, years data is asked
@@ -185,17 +187,22 @@ public class WrapperJSON {
 	    	// Checks first which sessions belong to the given year
 	        ArrayList<String> sessions = new ArrayList<String>();
 	
-	        for (Map.Entry<String, String> entry : mySessions.entrySet())
+	        for (HashMap.Entry<String, String> entry : mySessions.entrySet())
 	        {
+	        	Log.i("tatattadsgfsdgt", entry.getKey());
+	        	
 	            if(IsYear(yearOrNot, entry.getKey()))
 	            {
+	            	Log.i("tatatta", entry.getKey());
 	                sessions.add(entry.getKey());
 	            }
 	        }
 	
+	        Log.i("sessiot: ", sessions.toString());
+	        
 	        ArrayList<Metadata> metadata = myHelsinkiKanavaDataAccess.GetMetadatasInArray(sessions);
 	        Collections.sort(metadata);
-	
+	        
 	        // Add to memory
 	        metadatas.put(yearOrNot, metadata);
 	    }
@@ -208,13 +215,16 @@ public class WrapperJSON {
 	    {
 	        ArrayList<String> years = new ArrayList<String>();
 
-	        for (Map.Entry<String, String> entry : mySessions.entrySet())
+	        for (HashMap.Entry<String, String> entry : mySessions.entrySet())
 	        {
 	            String year = WhatYear(entry.getKey());
 	            if(year == null || years.contains(year)) continue;
 
 	            years.add(year);
 	        }
+	        
+	        Collections.sort(years);
+	        
 	        yearsAvailable = years;
 	    }
 
@@ -222,8 +232,17 @@ public class WrapperJSON {
 	     * Checks if a year of an URL matches to the given year
 	     ******************************************************/
 	    private boolean IsYear(String year, String url)
-	    {
-	        return WhatYear(url) == year;
+	    {	
+	    	boolean check = false;
+	    	
+	    	String whatYear = WhatYear(url);
+	    		    	
+	    	if (whatYear != null)
+	    	{
+	    		 check = whatYear.equals(year);
+	    	}    	
+	    	
+	        return check;
 	    }
 
 	    /*******************************************************
@@ -235,7 +254,7 @@ public class WrapperJSON {
 	        Matcher matcher = pattern.matcher(url);
 
 	        if (matcher.find())
-	        {
+	        {	        	
 	            return matcher.group(1);
 	        }
 	        return null;

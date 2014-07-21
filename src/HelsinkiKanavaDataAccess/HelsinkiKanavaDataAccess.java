@@ -1,5 +1,7 @@
 package HelsinkiKanavaDataAccess;
 
+import android.util.Log;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 
@@ -34,10 +36,14 @@ public class HelsinkiKanavaDataAccess
      ******************************************************/
     public Metadata GetMetadata(String paUrl)
     {
+    	Log.i("urlia: ", paUrl);
+    	
         try
         {
             if(paUrl == null || !IsDataAvailable(paUrl)) return null;
 
+            Log.i("Tanne paastiin: ", "sdfgdfh");
+            
             return mapper.readValue(new URL(paUrl), Metadata.class);
         }
         catch (IOException e)
@@ -59,6 +65,8 @@ public class HelsinkiKanavaDataAccess
             HttpURLConnection httpURLConnection =  (HttpURLConnection) url.openConnection();
             httpURLConnection.setRequestMethod("HEAD");
 
+            Log.i("Lokia2: ", Integer.toString(httpURLConnection.getResponseCode()));
+            
             if(httpURLConnection.getResponseCode() == HttpURLConnection.HTTP_OK)
             {
                 return true;
@@ -75,9 +83,9 @@ public class HelsinkiKanavaDataAccess
     /*******************************************************
      * Returns all the metadata of a session in a map
      ******************************************************/
-    public Map<String, Metadata> GetMetadatas(List<String> paUrls)
+    public HashMap<String, Metadata> GetMetadatas(List<String> paUrls)
     {
-        Map<String, Metadata> metadatas = new HashMap<String, Metadata>();
+        HashMap<String, Metadata> metadatas = new HashMap<String, Metadata>();
 
         for (String url : paUrls)
         {
@@ -101,9 +109,9 @@ public class HelsinkiKanavaDataAccess
         for (String url : paUrls)
         {
             Metadata metadata = GetMetadata(url);
-
+            
             if (metadata == null) continue;
-
+            
             metadatas.add(metadata);
         }
 
@@ -113,17 +121,18 @@ public class HelsinkiKanavaDataAccess
     /*******************************************************
      * Gets all the sessions in a map.
      ******************************************************/
-    public Map<String, String> GetSessions()
+    public HashMap<String, String> GetSessions()
     {
-        Map<String, String> sessions = new HashMap<String, String>();
+        HashMap<String, String> sessions = new HashMap<String, String>();
 
         try
         {
             Index index = mapper.readValue(new URL(mySESSIONS_URL), Index.class);
-
+            
             for (Session session : index.sessions)
             {
                 sessions.put(session.url, session.title);
+                Log.i("Yksi sessio: ", session.url);
             }
         }
         catch (IOException e)
