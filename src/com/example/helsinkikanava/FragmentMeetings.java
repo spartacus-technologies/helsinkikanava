@@ -22,8 +22,6 @@ public class FragmentMeetings extends Fragment implements OnClickListener {
         ((Button)rootView.findViewById(R.id.button1)).setOnClickListener(this);
         //((Button)getView().findViewById(R.id.button1)).setOnClickListener(this);
         
-        
-        
         return rootView;
     }
 

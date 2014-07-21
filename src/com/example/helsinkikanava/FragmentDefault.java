@@ -14,6 +14,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -118,11 +119,11 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     	createYearTitle(active_year);
     	
     	//Create data for active year:
-    	for (Map.Entry<String, ArrayList<Metadata>> entry : content.entrySet()) {
-    		
-    	    String key = entry.getKey();
-    	    Object value = entry.getValue();
-
+    	ArrayList<Metadata> year_data = content.get(active_year);
+    	
+    	
+    	for (Metadata meeting_data : year_data) {
+    	    
     		LinearLayout meeting_layout = new LinearLayout(getActivity());
     		meeting_layout.setOrientation(LinearLayout.HORIZONTAL);
     		
@@ -133,6 +134,11 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     		
     		ImageButton img_btn = new ImageButton(getActivity());
             img_btn.setImageResource(R.drawable.test_meeting);
+    		
+    		//Log.i("meeting_data.url", meeting_data.video.screenshot_url);
+    		//Log.i("meeting_data.session_url", meeting_data.session_url);
+    		//img_btn.setImageURI(Uri.parse(meeting_data.video.screenshot_url));
+    		
     		img_btn.setPadding(0, 0, 0, 0);	
     		img_btn.setId(Integer.valueOf(active_year)*10 + content_id_index);
     		Log.i("FragmentDefault:generateContent", "img_btn.setId(" + img_btn.getId() + ")");
@@ -146,6 +152,8 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     		*/
     		TextView tv_info = new TextView(getActivity());
     		tv_info.setText("This is sample text about some meeting.");
+    		tv_info.setText(meeting_data.title);
+    		
     		tv_info.setPadding(10, 0, 0, 0);
     		tv_info.setTextColor(Color.BLUE);
     		
@@ -156,12 +164,15 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 			//Date date = new Date(Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
     		//date.
     		
+    		tv_date.setText(meeting_data.started);
+    		
+    		/**
     		tv_date.setText( 
     						Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + "." +
 							Calendar.getInstance().get(Calendar.MONTH) + "." +
 							Calendar.getInstance().get(Calendar.YEAR)
     					);
-    		
+    		*/
     		tv_date.setPadding(10, 0, 0, 0);
     		
     		
