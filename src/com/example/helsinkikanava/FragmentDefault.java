@@ -124,6 +124,8 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     	
     	for (Metadata meeting_data : year_data) {
     	    
+    		String[] text_content = parseTitleAndDate(meeting_data.title);
+    		
     		LinearLayout meeting_layout = new LinearLayout(getActivity());
     		meeting_layout.setOrientation(LinearLayout.HORIZONTAL);
     		
@@ -151,8 +153,8 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     		img_btn.getOverlay().add(overlay);
     		*/
     		TextView tv_info = new TextView(getActivity());
-    		tv_info.setText("This is sample text about some meeting.");
-    		tv_info.setText(meeting_data.title);
+
+    		tv_info.setText(text_content[0]);
     		
     		tv_info.setPadding(10, 0, 0, 0);
     		tv_info.setTextColor(Color.BLUE);
@@ -164,7 +166,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 			//Date date = new Date(Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
     		//date.
     		
-    		tv_date.setText(meeting_data.started);
+    		tv_date.setText(text_content[1]);
     		
     		/**
     		tv_date.setText( 
@@ -201,6 +203,19 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     	}
     }
     
+    String[] parseTitleAndDate(String text){
+    	
+    	String[] returnvalue = new String[2];
+    	
+    	returnvalue[0] = text.substring(0, text.indexOf("/", 0));
+    	returnvalue[1] = text.substring( text.indexOf("/", 0) + 1);
+    	
+    	Log.i("teststring1", returnvalue[0]);
+    	Log.i("teststring2", returnvalue[1]);
+    	
+		return returnvalue;
+    	
+    }
     
     private void generateYearNavigation(){
     	
