@@ -19,7 +19,8 @@ public class FragmentResolutions extends Fragment {
         return rootView;
     }
 
-    public FragmentResolutions(Context parent) {
+    public FragmentResolutions(Context parent, String title)
+    {
 
     }
 }
