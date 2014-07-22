@@ -38,7 +38,7 @@ public class WrapperJSON {
     // Holds the available years
     private static ArrayList<String> yearsAvailable;
     
-    // Hashmap for the metadata information.
+    // Hashmap for the metadata information. Key = year.
     private static HashMap<String, ArrayList<Metadata>> metadatas;
 
     /*******************************************************
