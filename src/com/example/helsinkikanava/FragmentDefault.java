@@ -14,6 +14,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -47,7 +48,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 	private Context parent_;
 	ArrayList<String> years = null;
 	final int content_id_factor = 100;
-	
+	final int video_id_factor = 1000;
 	Map<String, ArrayList<Metadata>> content = null;
 	
     @Override
@@ -140,15 +141,15 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     		//source. http://sampleprogramz.com/android/imagebutton.php
     		
     		ImageButton img_btn = new ImageButton(getActivity());
-            //img_btn.setImageResource(R.drawable.test_meeting);
-    		img_btn.setImageURI(null);
-    		img_btn.setImageURI(Uri.parse(meeting_data.video.screenshot_url));
+            img_btn.setImageResource(R.drawable.play);
+    		//img_btn.setImageURI(null);
+    		//img_btn.setImageURI(Uri.parse(meeting_data.video.screenshot_url));
     		Log.i("URI test", Uri.parse(meeting_data.video.screenshot_url).toString());
     		
     		img_btn.setPadding(0, 0, 0, 0);	
-    		img_btn.setId(Integer.valueOf(active_year)*content_id_factor + content_id_index);
+    		img_btn.setId(Integer.valueOf(active_year)*video_id_factor + content_id_index);
     		Log.i("FragmentDefault:generateContent", "img_btn.setId(" + img_btn.getId() + ")");
-    		++content_id_index;
+    		
     		
     		//Request imagedata:
     		WrapperJSON.RefreshImage(meeting_data.video.screenshot_url);
@@ -162,9 +163,12 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     		TextView tv_info = new TextView(getActivity());
 
     		tv_info.setText(text_content[0]);
-    		
+    		tv_info.setPaintFlags(tv_info.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
     		tv_info.setPadding(10, 0, 0, 0);
     		tv_info.setTextColor(Color.BLUE);
+    		tv_info.setId(Integer.valueOf(active_year)*content_id_factor + content_id_index);
+    		tv_info.setOnClickListener(this);
+    		
     		
     		TextView tv_date = new TextView(getActivity());
     		
@@ -194,6 +198,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     		//Add views to list:
     		my_root.addView(meeting_layout, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
     		my_root.addView(separator, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
+    		++content_id_index;
     	}
     }
     
@@ -301,7 +306,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 				}
 				
 			}
-			//Meetings:
+			//Meeting headers:
 			else if(v.getId() > 1900*content_id_factor && v.getId() < 2100*content_id_factor){
 				
 				Intent intent = new Intent(parent_, ActivityVideo.class);
@@ -317,9 +322,19 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 				
 				startActivity(intent);
 			}
-			else{
+			//Imagebuttons for videos:
+			else if(v.getId() > 1900*video_id_factor && v.getId() < 2100*video_id_factor){
 				
-				Log.i("FragmentDefault", "Warning: unknown button.");
+				Log.i("FragmentDefault", "Clicked ID: " + v.getId());
+
+				
+				Metadata temp_data = content.get(active_year).get(v.getId() % video_id_factor);
+				Log.i("FragmentDefault", "URL: " + temp_data.video.rtmp.netconnection_url + "/" + temp_data.video.rtmp.video_id);
+				Uri uri = Uri.parse(temp_data.video.rtmp.netconnection_url + "/" + temp_data.video.rtmp.video_id);
+				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+				startActivity(intent);
+				
+				
 			}
 		}
 		

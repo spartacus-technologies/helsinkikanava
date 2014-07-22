@@ -51,7 +51,7 @@ public class ActivityVideo extends Activity implements OnTouchListener
             {
                 title = extras.getString("new_variable_name");
             }
-
+ 
             frag_video_ = new FragmentVideo(this, title);
             frag_participant_ = new FragmentParticipants(this, title);
             frag_resolutions_ = new FragmentResolutions(this, title);
