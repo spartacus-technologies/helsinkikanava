@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.TreeSet;
 
 public class FragmentParticipants extends Fragment
 {
@@ -23,9 +24,8 @@ public class FragmentParticipants extends Fragment
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
-    	
-    	
+            Bundle savedInstanceState)
+    {
         View rootView = inflater.inflate(R.layout.fragment_participants, container, false);
         rootView_ = rootView;
 
@@ -43,8 +43,9 @@ public class FragmentParticipants extends Fragment
     private void generateParticipantListing()
     {
         //Get Parties from wrapperJSON
-        ArrayList<String> parties = new ArrayList<String>();
-        parties.add("Puolue 1"); parties.add("Puolue2");
+        TreeSet<String> parties = WrapperJSON.GetParties( session_title_);
+
+//        parties.add("Puolue 1"); parties.add("Puolue2");
 
         createPartySegments(parties);
 
@@ -59,8 +60,11 @@ public class FragmentParticipants extends Fragment
 
     }
 
-    private void createPartySegments(ArrayList<String> parties )
+    private void createPartySegments(TreeSet<String> parties )
     {
+        if (parties == null )
+            return;
+
         for (String party: parties)
         {
             //Create title for party
