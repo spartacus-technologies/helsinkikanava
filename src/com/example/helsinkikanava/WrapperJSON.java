@@ -63,7 +63,7 @@ public class WrapperJSON {
 
         ArrayList<Metadata> yearsMetadatas = metadatas.get(year);
 
-        //Prevents adding multiple intances and keeps the order of the elements
+        //Prevents adding multiple instances and keeps the order of the elements
         TreeSet<String> parties = new TreeSet<String>();
 
         for(Metadata metadata : yearsMetadatas)
@@ -185,8 +185,6 @@ public class WrapperJSON {
 	    	if (mySessions == null)
 	    	{
 	    		mySessions = myHelsinkiKanavaDataAccess.GetSessions();
-	    		
-	    		Log.i("sessiot: ", mySessions.toString());
 	    	}
 	    	
 	    	// If year is given in the constructor, years data is asked
@@ -218,17 +216,12 @@ public class WrapperJSON {
 	        ArrayList<String> sessions = new ArrayList<String>();
 	
 	        for (HashMap.Entry<String, String> entry : mySessions.entrySet())
-	        {
-	        	Log.i("tatattadsgfsdgt", entry.getKey());
-	        	
+	        {	        	
 	            if(IsYear(yearOrNot, entry.getKey()))
 	            {
-	            	Log.i("tatatta", entry.getKey());
 	                sessions.add(entry.getKey());
 	            }
 	        }
-	
-	        Log.i("sessiot: ", sessions.toString());
 	        
 	        ArrayList<Metadata> metadata = myHelsinkiKanavaDataAccess.GetMetadatasInArray(sessions);
 	        Collections.sort(metadata);
@@ -253,7 +246,7 @@ public class WrapperJSON {
 	            years.add(year);
 	        }
 	        
-	        Collections.sort(years);
+	        Collections.sort(years, Collections.reverseOrder());
 	        
 	        yearsAvailable = years;
 	    }

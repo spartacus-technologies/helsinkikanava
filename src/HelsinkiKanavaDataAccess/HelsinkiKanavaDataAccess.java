@@ -36,14 +36,10 @@ public class HelsinkiKanavaDataAccess
      * Gets a single metadata patch from the server.
      ******************************************************/
     public Metadata GetMetadata(String paUrl)
-    {
-    	Log.i("urlia: ", paUrl);
-    	
+    {    	
         try
         {
             if(paUrl == null || !IsDataAvailable(paUrl)) return null;
-
-            Log.i("Tanne paastiin: ", "sdfgdfh");
             
             return mapper.readValue(new URL(paUrl), Metadata.class);
         }
@@ -65,8 +61,6 @@ public class HelsinkiKanavaDataAccess
 
             HttpURLConnection httpURLConnection =  (HttpURLConnection) url.openConnection();
             httpURLConnection.setRequestMethod("HEAD");
-
-            Log.i("Lokia2: ", Integer.toString(httpURLConnection.getResponseCode()));
             
             if(httpURLConnection.getResponseCode() == HttpURLConnection.HTTP_OK)
             {
@@ -133,7 +127,6 @@ public class HelsinkiKanavaDataAccess
             for (Session session : index.sessions)
             {
                 sessions.put(session.url, session.title);
-                Log.i("Yksi sessio: ", session.url);
             }
         }
         catch (IOException e)
