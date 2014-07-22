@@ -469,4 +469,10 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
              }	
 		});
 	}
+	
+	@Override
+	public void ImageAvailable(String url) {
+		// TODO Auto-generated method stub
+		
+	}
 }

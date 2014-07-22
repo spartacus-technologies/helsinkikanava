@@ -9,14 +9,23 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection; 
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.methods.HttpGet;
+
 import HelsinkiKanavaDataAccess.HelsinkiKanavaDataAccess;
 import HelsinkiKanavaDataAccess.Metadata;
 import HelsinkiKanavaDataAccess.Attendance;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.http.AndroidHttpClient;
 import android.util.Log;
 
 
@@ -40,6 +49,9 @@ public class WrapperJSON {
     
     // Hashmap for the metadata information. Key = year.
     private static HashMap<String, ArrayList<Metadata>> metadatas;
+    
+    // Key = url, Value = Bitmap image
+    private static HashMap<String, Bitmap> sessionImages;
 
     /*******************************************************
      * Getters
@@ -52,6 +64,11 @@ public class WrapperJSON {
     public static ArrayList<String> GetYears()
     {
     	return  yearsAvailable;
+    }
+    
+    public static Bitmap GetImage(String url)
+    {
+    	return sessionImages.get(url);
     }
 
     // PRECONDITION
@@ -95,7 +112,7 @@ public class WrapperJSON {
 		{
 			if (yearsAvailable == null)
 			{
-				myModel = new Model(null);
+				myModel = new Model(null, null);
 				myModel.start();
 			}
 			else // Data already available, just notify listeners
@@ -123,7 +140,7 @@ public class WrapperJSON {
 		{
 			if (!metadatas.containsKey(year))
 	    	{
-				myModel = new Model(year);
+				myModel = new Model(year, null);
 				myModel.start();
 	    	}
 			else // Data already available, just notify listeners
@@ -137,6 +154,38 @@ public class WrapperJSON {
 			return true;
 		}
 	}
+	
+	/*******************************************************
+     * Gets the image for a certain url/session.
+     ******************************************************/
+	public static boolean RefreshImage(String url)
+	{
+		if (dataListeners == null)
+		{
+			return false;
+		}
+		
+		if (sessionImages == null)
+		{
+			sessionImages = new HashMap<String, Bitmap>();
+		}
+		
+		if (!sessionImages.containsKey(url))
+    	{
+			myModel = new Model(null, url);
+			myModel.start();
+    	}
+		else // Data already available, just notify listeners
+		{
+			for (IJsonListener listener : dataListeners)
+			{
+				listener.DataAvailable(url);
+			}
+		}
+		
+		return true;
+	}
+	
 	
 	/*******************************************************
      * Registers a listener
@@ -164,15 +213,17 @@ public class WrapperJSON {
 	private static class Model extends Thread
 	{
 		private String yearOrNot;
+		private String urlOrNot;
 		
 		/*******************************************************
 	     * Constructor
 	     ******************************************************/
-	    public Model(String year)
+	    public Model(String year, String url)
 	    {
 	        myHelsinkiKanavaDataAccess = new HelsinkiKanavaDataAccess();
 	        metadatas = new HashMap<String, ArrayList<Metadata>>();
 	        yearOrNot = year;
+	        urlOrNot = url;
 	    }
 
 	    /*******************************************************
@@ -187,8 +238,20 @@ public class WrapperJSON {
 	    		mySessions = myHelsinkiKanavaDataAccess.GetSessions();
 	    	}
 	    	
-	    	// If year is given in the constructor, years data is asked
-	    	if (yearOrNot != null && yearOrNot != "")
+	    	// First check if the given parameter was an url. If it was, get image.
+	    	// If year is given in the constructor, years data is asked.
+	    	if (urlOrNot != null && urlOrNot != "")
+	    	{
+	    		if (GetImage())
+	    		{
+		    		for (IJsonListener listener : dataListeners)
+					{
+						listener.ImageAvailable(urlOrNot);
+					}
+	    		}
+	    		// TODO: else something for error handling if the image retrieval failed
+	    	}
+	    	else if (yearOrNot != null && yearOrNot != "")
 	    	{
 	    		GetData();
 	    		for (IJsonListener listener : dataListeners)
@@ -205,6 +268,63 @@ public class WrapperJSON {
 				}
 	    		
 	    	}
+	    }
+	    
+	    /*******************************************************
+	     * Method for retrieving image for a specific session.
+	     ******************************************************/
+	    private boolean GetImage()
+	    {
+	    	final AndroidHttpClient client = AndroidHttpClient.newInstance("Android");
+	        final HttpGet getRequest = new HttpGet(urlOrNot);
+
+	        try 
+	        {
+	            HttpResponse response = client.execute(getRequest);
+	            final int statusCode = response.getStatusLine().getStatusCode();
+	            if (statusCode != HttpStatus.SC_OK) 
+	            { 
+	                Log.w("ImageDownloader", "Error " + statusCode + " while retrieving bitmap from " + urlOrNot); 
+	                return false;
+	            }
+	            
+	            final HttpEntity entity = response.getEntity();
+	            if (entity != null) 
+	            {
+	                InputStream inputStream = null;
+	                try 
+	                {
+	                    inputStream = entity.getContent(); 
+	                    final Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+	                    
+	                    sessionImages.put(urlOrNot, bitmap);
+	                    return true;
+	                } 
+	                finally 
+	                {
+	                    if (inputStream != null) 
+	                    {
+	                        inputStream.close();  
+	                    }
+	                    entity.consumeContent();
+	                }
+	            }
+	        }
+            catch (Exception e) 
+	        {
+                // Could provide a more explicit error message for IOException or IllegalStateException
+                getRequest.abort();
+                Log.i("ImageDownloader", "Error while retrieving bitmap from " + 
+                		urlOrNot + "Exception: " + e.toString());
+            }
+	        finally 
+	        {
+	            if (client != null) 
+	            {
+	                client.close();
+	            }
+	        }
+	        return false;
 	    }
 	    
 	    /*******************************************************
