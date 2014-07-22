@@ -142,7 +142,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
             //img_btn.setImageResource(R.drawable.test_meeting);
     		img_btn.setImageURI(null);
     		img_btn.setImageURI(Uri.parse(meeting_data.video.screenshot_url));
-    		Log.i("testeeeee", Uri.parse(meeting_data.video.screenshot_url).toString());
+    		Log.i("URI test", Uri.parse(meeting_data.video.screenshot_url).toString());
     		
     		img_btn.setPadding(0, 0, 0, 0);	
     		img_btn.setId(Integer.valueOf(active_year)*10 + content_id_index);
@@ -302,7 +302,9 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 				
 				Intent intent = new Intent(parent_, ActivityVideo.class);
 //              intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-              startActivity(intent);
+				intent.putExtra("title", "test_title");
+				
+				startActivity(intent);
 			}
 			else{
 				
