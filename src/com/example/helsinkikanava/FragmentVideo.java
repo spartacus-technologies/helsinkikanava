@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,7 +29,8 @@ public class FragmentVideo extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_video, container, false);
         rootView_ = rootView;
         
-        
+        ((TextView)rootView.findViewById(R.id.fragment_video_title)).setText(parseTitleAndDate(title_)[0]);
+        ((TextView)rootView.findViewById(R.id.fragment_video_date)).setText(parseTitleAndDate(title_)[1]);
         
         //Debug: TODO
         generateVideoEvent("Meaningless talking.", "1:04", "Description1");
@@ -66,6 +68,7 @@ public class FragmentVideo extends Fragment {
     	parent_ = parent;
     	//meeting_info_ = data;
     	title_ = title;
+    	Log.i("FragmentVideo:FragmentVideo", "title_=" + title_);
     }
     
     
@@ -105,6 +108,19 @@ public class FragmentVideo extends Fragment {
 		((LinearLayout)rootView_.findViewById(R.id.fragment_video_title_layout)).addView(video_event_layout, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
 
     }
-    
+
+    String[] parseTitleAndDate(String text){
+    	
+    	String[] returnvalue = new String[2];
+    	
+    	returnvalue[0] = text.substring(0, text.indexOf("/", 0));
+    	returnvalue[1] = text.substring( text.indexOf("/", 0) + 1);
+    	
+    	Log.i("teststring1", returnvalue[0]);
+    	Log.i("teststring2", returnvalue[1]);
+    	
+		return returnvalue;
+    	
+    }
     
 }

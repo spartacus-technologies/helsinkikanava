@@ -9,7 +9,7 @@
     tools:context="com.example.helsinkikanava.PopupCheckUpdates" >
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/fragment_video_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"

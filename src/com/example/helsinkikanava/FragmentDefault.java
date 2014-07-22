@@ -150,6 +150,9 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     		Log.i("FragmentDefault:generateContent", "img_btn.setId(" + img_btn.getId() + ")");
     		++content_id_index;
     		
+    		//Request imagedata:
+    		WrapperJSON.RefreshImage(meeting_data.video.screenshot_url);
+    		
 			img_btn.setOnClickListener(this);
     		/**
     		View overlay = new ImageView(getActivity());
@@ -310,7 +313,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 				Metadata meet = content.get(String.valueOf(v.getId()/content_id_factor)).get(v.getId() % content_id_factor);
 				
 				Log.i("title", meet.title);
-				intent.putExtra("title", meet.title);
+				intent.putExtra("new_variable_name", meet.title);
 				
 				startActivity(intent);
 			}
@@ -491,7 +494,8 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 	
 	@Override
 	public void ImageAvailable(String url) {
-		// TODO Auto-generated method stub
+		
+		Log.i("fragmentdefault", "image available:" + url);
 		
 	}
 }
