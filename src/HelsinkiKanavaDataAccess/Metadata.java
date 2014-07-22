@@ -2,6 +2,9 @@ package HelsinkiKanavaDataAccess;
 
 import java.util.List;
 
+import HelsinkiKanavaDataClasses.Issues;
+import HelsinkiKanavaDataClasses.Video;
+
 public class Metadata implements Comparable<Metadata>
 {
     public String version;
