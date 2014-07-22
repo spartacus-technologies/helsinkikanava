@@ -32,7 +32,13 @@ public class MainActivity extends ActionBarActivity implements IJsonListener, On
         //FIXME Sallii dataliikenteen käytön pääsäikeessä DataAccess "kirjaston" debuggausta varten :D (voi tulla pääohjelma hiukan jäätäväksi ilman säikeistystä :)
 //        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 //        StrictMode.setThreadPolicy(policy);
-//        wrapperJSON.RegisterListener(this);
+
+/*
+        wrapperJSON.RegisterListener(this);
+        wrapperJSON.RefreshYears();
+        WrapperJSON.RefreshData("2010");
+*/
+
 
     }
     @Override
@@ -274,6 +280,6 @@ public class MainActivity extends ActionBarActivity implements IJsonListener, On
 	@Override
 	public void DataAvailable(String year) {
 		// TODO Auto-generated method stub
-		
+        /*WrapperJSON.getParties("2010","vuoden2010sessioninUrl");*/
 	}
 }

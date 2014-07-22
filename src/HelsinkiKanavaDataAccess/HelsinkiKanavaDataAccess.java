@@ -193,12 +193,6 @@ class Rtmp
     public String video_id;
 }
 
-class Attendance
-{
-    public String name;
-    public String party;
-    public String seat;
-}
 class Issues
 {
     public String id;
@@ -252,6 +246,6 @@ class Result
 {
     public String absent; // Poissa
     public String against; // Ei
-    public String empty; // Tyhjä
+    public String empty; // Tyhjï¿½
     public String behalf; // Jaa
 }

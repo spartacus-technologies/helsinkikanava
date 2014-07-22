@@ -3,7 +3,8 @@ package com.example.helsinkikanava;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.Comparator;
+import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.io.BufferedReader;
@@ -15,6 +16,7 @@ import java.net.URL;
 
 import HelsinkiKanavaDataAccess.HelsinkiKanavaDataAccess;
 import HelsinkiKanavaDataAccess.Metadata;
+import HelsinkiKanavaDataAccess.Attendance;
 import android.util.Log;
 
 
@@ -23,7 +25,7 @@ public class WrapperJSON {
 	
 	// Listeners to inform when the data has been updated.
 	private static ArrayList<IJsonListener> dataListeners;
-	
+
 	// Separate thread class for server communication.
 	private static Model myModel;
 	
@@ -38,9 +40,9 @@ public class WrapperJSON {
     
     // Hashmap for the metadata information.
     private static HashMap<String, ArrayList<Metadata>> metadatas;
-	
+
     /*******************************************************
-     * Getters for data and years
+     * Getters
      ******************************************************/
     public static ArrayList<Metadata> GetYearData(String year)
     {
@@ -51,7 +53,35 @@ public class WrapperJSON {
     {
     	return  yearsAvailable;
     }
-    
+
+    // PRECONDITION
+    // The year being queried has to be earlier fetched
+    // before this method can return parties of given sessionUrl
+    public static TreeSet<String> GetParties(String year, String paSessionUrl)
+    {
+        if(metadatas == null || !metadatas.containsKey(year)) return null;
+
+        ArrayList<Metadata> yearsMetadatas = metadatas.get(year);
+
+        //Prevents adding multiple intances and keeps the order of the elements
+        TreeSet<String> parties = new TreeSet<String>();
+
+        for(Metadata metadata : yearsMetadatas)
+        {
+            if(metadata.session_url == paSessionUrl)
+            {
+                if(metadata.attendance == null) return null;
+
+                for(Attendance attendance : metadata.attendance)
+                {
+                    parties.add(attendance.party);
+                }
+                return parties;
+            }
+        }
+        return null;
+    }
+
     /*******************************************************
      * Refreshes the available years.
      ******************************************************/
@@ -79,13 +109,13 @@ public class WrapperJSON {
 			return true;	
 		}
 	}
-	
+
 	/*******************************************************
      * Refreshes the data of certain years.
      ******************************************************/
 	public static boolean RefreshData(String year)
 	{
-		if (dataListeners == null)
+		if (dataListeners == null || metadatas == null)
 		{
 			return false;
 		}
