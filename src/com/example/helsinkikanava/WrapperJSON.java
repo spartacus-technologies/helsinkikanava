@@ -3,7 +3,8 @@ package com.example.helsinkikanava;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Comparator;
+import java.util.Map;
+import java.util.Iterator;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -80,14 +81,14 @@ public class WrapperJSON {
 
         ArrayList<Metadata> yearsMetadatas = metadatas.get(year);
 
-        //Prevents adding multiple instances and keeps the order of the elements
-        TreeSet<String> parties = new TreeSet<String>();
-
         for(Metadata metadata : yearsMetadatas)
         {
             if(metadata.session_url == paSessionUrl)
             {
                 if(metadata.attendance == null) return null;
+
+                //Prevents adding multiple instances and keeps the order of the elements
+                TreeSet<String> parties = new TreeSet<String>();
 
                 for(Attendance attendance : metadata.attendance)
                 {
@@ -95,6 +96,41 @@ public class WrapperJSON {
                 }
                 return parties;
             }
+        }
+        return null;
+    }
+
+    // PRECONDITION
+    // The year being queried has to be earlier fetched
+    // before this method can return parties of given sessionUrl
+    public static TreeSet<String> GetParties(String paSessionUrl)
+    {
+        if(metadatas == null) return null;
+
+        ArrayList<Metadata> yearsMetadatas = null;
+        Iterator it = metadatas.entrySet().iterator();
+
+        while (it.hasNext())
+        {
+            Map.Entry pair = (Map.Entry)it.next();
+
+            yearsMetadatas = metadatas.get(pair.getValue());
+
+            for(Metadata metadata : yearsMetadatas)
+            {
+                if(metadata.session_url == paSessionUrl)
+                {
+                    if(metadata.attendance == null) return null;
+
+                    TreeSet<String> parties = new TreeSet<String>();
+                    for(Attendance attendance : metadata.attendance)
+                    {
+                        parties.add(attendance.party);
+                    }
+                    return parties;
+                }
+            }
+            it.remove(); // avoids a ConcurrentModificationException
         }
         return null;
     }
