@@ -46,6 +46,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 	String active_year = null;
 	private Context parent_;
 	ArrayList<String> years = null;
+	final int content_id_factor = 100;
 	
 	Map<String, ArrayList<Metadata>> content = null;
 	
@@ -145,7 +146,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     		Log.i("URI test", Uri.parse(meeting_data.video.screenshot_url).toString());
     		
     		img_btn.setPadding(0, 0, 0, 0);	
-    		img_btn.setId(Integer.valueOf(active_year)*10 + content_id_index);
+    		img_btn.setId(Integer.valueOf(active_year)*content_id_factor + content_id_index);
     		Log.i("FragmentDefault:generateContent", "img_btn.setId(" + img_btn.getId() + ")");
     		++content_id_index;
     		
@@ -298,11 +299,18 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 				
 			}
 			//Meetings:
-			else if(v.getId() > 19000 && v.getId() < 21000){
+			else if(v.getId() > 1900*content_id_factor && v.getId() < 2100*content_id_factor){
 				
 				Intent intent = new Intent(parent_, ActivityVideo.class);
 //              intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-				intent.putExtra("title", "test_title");
+				
+				//get meeting title:
+				Log.i("clicked year:", "" + v.getId()/content_id_factor);
+				Log.i("clicked view:", "" + (v.getId() % content_id_factor));
+				Metadata meet = content.get(String.valueOf(v.getId()/content_id_factor)).get(v.getId() % content_id_factor);
+				
+				Log.i("title", meet.title);
+				intent.putExtra("title", meet.title);
 				
 				startActivity(intent);
 			}
