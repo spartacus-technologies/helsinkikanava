@@ -18,6 +18,7 @@ public class FragmentVideo extends Fragment {
 	Session meeting_info_ = null;
 	View rootView_ = null;					//Owns all fragment Views
 	Context parent_ = null;
+	private String title_;
 	
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,16 +49,26 @@ public class FragmentVideo extends Fragment {
     	
     	parent_ = parent;
     }
-    /*
+    
     /**
-    Note: call this one when implementation is ready.
+    Note: Don't use.
    */
     public FragmentVideo(Context parent, Session data) {
     	
     	parent_ = parent;
     	meeting_info_ = data;
     }
-
+    /**
+    Note: call this one when implementation is ready.
+   */
+    public FragmentVideo(Context parent, String title) {
+    	
+    	parent_ = parent;
+    	//meeting_info_ = data;
+    	title_ = title;
+    }
+    
+    
     /**
     Note: Don't use.
    */

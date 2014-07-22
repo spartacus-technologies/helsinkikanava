@@ -26,6 +26,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.webkit.WebView.FindListener;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
@@ -45,6 +46,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 	String active_year = null;
 	private Context parent_;
 	ArrayList<String> years = null;
+	final int content_id_factor = 100;
 	
 	Map<String, ArrayList<Metadata>> content = null;
 	
@@ -113,6 +115,9 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     	LinearLayout my_root = (LinearLayout) rootView.findViewById(R.id.fragment_meetings_content);
     	my_root.removeAllViews();
     	
+    	//HIde overlay oading animation:
+    	getView().findViewById(R.id.fragment_meetings_overlay).setVisibility(View.INVISIBLE);
+    	
     	int content_id_index = 0;
     	
     	//Add year_title:
@@ -124,6 +129,8 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     	
     	for (Metadata meeting_data : year_data) {
     	    
+    		String[] text_content = parseTitleAndDate(meeting_data.title);
+    		
     		LinearLayout meeting_layout = new LinearLayout(getActivity());
     		meeting_layout.setOrientation(LinearLayout.HORIZONTAL);
     		
@@ -133,14 +140,13 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     		//source. http://sampleprogramz.com/android/imagebutton.php
     		
     		ImageButton img_btn = new ImageButton(getActivity());
-            img_btn.setImageResource(R.drawable.test_meeting);
-    		
-    		//Log.i("meeting_data.url", meeting_data.video.screenshot_url);
-    		//Log.i("meeting_data.session_url", meeting_data.session_url);
-    		//img_btn.setImageURI(Uri.parse(meeting_data.video.screenshot_url));
+            //img_btn.setImageResource(R.drawable.test_meeting);
+    		img_btn.setImageURI(null);
+    		img_btn.setImageURI(Uri.parse(meeting_data.video.screenshot_url));
+    		Log.i("URI test", Uri.parse(meeting_data.video.screenshot_url).toString());
     		
     		img_btn.setPadding(0, 0, 0, 0);	
-    		img_btn.setId(Integer.valueOf(active_year)*10 + content_id_index);
+    		img_btn.setId(Integer.valueOf(active_year)*content_id_factor + content_id_index);
     		Log.i("FragmentDefault:generateContent", "img_btn.setId(" + img_btn.getId() + ")");
     		++content_id_index;
     		
@@ -151,28 +157,15 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     		img_btn.getOverlay().add(overlay);
     		*/
     		TextView tv_info = new TextView(getActivity());
-    		tv_info.setText("This is sample text about some meeting.");
-    		tv_info.setText(meeting_data.title);
+
+    		tv_info.setText(text_content[0]);
     		
     		tv_info.setPadding(10, 0, 0, 0);
     		tv_info.setTextColor(Color.BLUE);
     		
     		TextView tv_date = new TextView(getActivity());
     		
-    		//Generate date:
-    		//@SuppressWarnings("deprecation")
-			//Date date = new Date(Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
-    		//date.
-    		
-    		tv_date.setText(meeting_data.started);
-    		
-    		/**
-    		tv_date.setText( 
-    						Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + "." +
-							Calendar.getInstance().get(Calendar.MONTH) + "." +
-							Calendar.getInstance().get(Calendar.YEAR)
-    					);
-    		*/
+    		tv_date.setText(text_content[1]);
     		tv_date.setPadding(10, 0, 0, 0);
     		
     		
@@ -201,6 +194,19 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     	}
     }
     
+    String[] parseTitleAndDate(String text){
+    	
+    	String[] returnvalue = new String[2];
+    	
+    	returnvalue[0] = text.substring(0, text.indexOf("/", 0));
+    	returnvalue[1] = text.substring( text.indexOf("/", 0) + 1);
+    	
+    	Log.i("teststring1", returnvalue[0]);
+    	Log.i("teststring2", returnvalue[1]);
+    	
+		return returnvalue;
+    	
+    }
     
     private void generateYearNavigation(){
     	
@@ -261,8 +267,12 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 		//Dynamic buttons:
 		default:
 			
-			//Year navigation labels:
-			if(v.getId() > 1900 && v.getId() < 2100){
+			//Year navigation labels: (not active_year)
+			if(v.getId() > 1900 && v.getId() < 2100 && v.getId() != Integer.valueOf(active_year)){
+				
+		    	//HIde overlay oading animation:
+		    	getView().findViewById(R.id.fragment_meetings_overlay).setVisibility(View.VISIBLE);
+		    	
 				
 				Log.i("FragmentDefault", "Bringing " + v.getId() +" to front");
 				
@@ -289,11 +299,20 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 				
 			}
 			//Meetings:
-			else if(v.getId() > 19000 && v.getId() < 21000){
+			else if(v.getId() > 1900*content_id_factor && v.getId() < 2100*content_id_factor){
 				
 				Intent intent = new Intent(parent_, ActivityVideo.class);
 //              intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-              startActivity(intent);
+				
+				//get meeting title:
+				Log.i("clicked year:", "" + v.getId()/content_id_factor);
+				Log.i("clicked view:", "" + (v.getId() % content_id_factor));
+				Metadata meet = content.get(String.valueOf(v.getId()/content_id_factor)).get(v.getId() % content_id_factor);
+				
+				Log.i("title", meet.title);
+				intent.putExtra("title", meet.title);
+				
+				startActivity(intent);
 			}
 			else{
 				

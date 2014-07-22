@@ -89,7 +89,7 @@ public class MainActivity extends ActionBarActivity implements IJsonListener, On
 			
 			break;
 			
-		case R.id.action_settings:
+		case R.id.fragment_meetings_overlay:
 			
 			new ActivityPopupSettings().showDialog(this);
 			//PopupCheckUpdates.showDialog(this);
