@@ -282,4 +282,10 @@ public class MainActivity extends ActionBarActivity implements IJsonListener, On
 		// TODO Auto-generated method stub
         /*WrapperJSON.getParties("2010","vuoden2010sessioninUrl");*/
 	}
+	
+	@Override
+	public void ImageAvailable(String url) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -7,4 +7,5 @@ public interface IJsonListener
 {
 	public void YearsAvailable();
     public void DataAvailable(String year);
+    public void ImageAvailable(String url);
 }
