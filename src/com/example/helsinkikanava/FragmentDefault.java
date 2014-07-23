@@ -289,7 +289,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 		    	getView().findViewById(R.id.fragment_meetings_overlay).setVisibility(View.VISIBLE);
 		    	
 				
-				Log.i("FragmentDefault", "Bringing " + v.getId() +" to front");
+				Log.i("FragmentDefault", "Requesting data for year" + v.getId());
 				
 				//Change color:
 				((TextView)rootView.findViewById(Integer.valueOf(active_year))).setTextColor(Color.GRAY);
@@ -492,10 +492,12 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 		//Create hashmap if non-existent:
 		if(content == null) content = new HashMap<String, ArrayList<Metadata>>();
 		
+		content.clear(); //TODO
+		
 		// add year to content map:
 		content.put(year, WrapperJSON.GetYearData(year));
-				
-		Log.i("TSET", content.get(year).toString());
+
+		Log.i("FragmentMeetings", "Meetings: " + content.size());
 		
 		//Run UI updates in external thread:
 		getActivity().runOnUiThread(new Runnable(){
@@ -524,7 +526,15 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 					
 					 public void run() {
 						
-						 ((ImageButton)getActivity().findViewById(id)).setImageBitmap(WrapperJSON.GetImage(id));
+						 //Error checking for view already deleted
+						 
+						 try {
+							 ((ImageButton)getActivity().findViewById(id)).setImageBitmap(WrapperJSON.GetImage(id));
+						} catch (NullPointerException e) {
+
+							Log.e("ImageAvailable", "error: view with id " + id + " was not found.");
+						}
+						 
 		             }	
 				});
 		
