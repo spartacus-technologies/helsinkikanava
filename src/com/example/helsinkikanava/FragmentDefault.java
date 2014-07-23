@@ -152,7 +152,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     		
     		
     		//Request imagedata:
-    		WrapperJSON.RefreshImage(meeting_data.video.screenshot_url);
+    		WrapperJSON.RefreshImage(1, meeting_data.video.screenshot_url);
     		
 			img_btn.setOnClickListener(this);
     		/**
@@ -508,9 +508,9 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 	}
 	
 	@Override
-	public void ImageAvailable(String url) {
+	public void ImageAvailable(int id) {
 		
-		Log.i("fragmentdefault", "image available:" + url);
+		Log.i("fragmentdefault", "image available:" + id);
 		
 	}
 }

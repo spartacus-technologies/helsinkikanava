@@ -284,7 +284,7 @@ public class MainActivity extends ActionBarActivity implements IJsonListener, On
 	}
 	
 	@Override
-	public void ImageAvailable(String url) {
+	public void ImageAvailable(int id) {
 		// TODO Auto-generated method stub
 		
 	}

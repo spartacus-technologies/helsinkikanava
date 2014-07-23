@@ -210,7 +210,7 @@ public class WrapperJSON {
 		{
 			for (IJsonListener listener : dataListeners)
 			{
-				listener.DataAvailable(url);
+				listener.ImageAvailable(id);
 			}
 		}
 		
@@ -296,7 +296,7 @@ public class WrapperJSON {
 	    		mySessions = myHelsinkiKanavaDataAccess.GetSessions();
 	    	}
 	    	
-	    	// First check if the given parameter was an url. If it was, get image.
+	    	// First check that url and image id were given. If they were, get image.
 	    	// If year is given in the constructor, years data is asked.
 	    	if (urlOrNot != null && urlOrNot != "" && idOrNot > -1)
 	    	{
@@ -304,7 +304,7 @@ public class WrapperJSON {
 	    		{
 		    		for (IJsonListener listener : dataListeners)
 					{
-						listener.ImageAvailable(urlOrNot);
+						listener.ImageAvailable(idOrNot);
 					}
 	    		}
 	    		// TODO: else something for error handling if the image retrieval failed
