@@ -289,7 +289,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 		    	getView().findViewById(R.id.fragment_meetings_overlay).setVisibility(View.VISIBLE);
 		    	
 				
-				Log.i("FragmentDefault", "Requesting data for year" + v.getId());
+				Log.i("FragmentDefault", "Requesting data for year " + v.getId());
 				
 				//Change color:
 				((TextView)rootView.findViewById(Integer.valueOf(active_year))).setTextColor(Color.GRAY);
@@ -489,10 +489,12 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 		
 		Log.i("FragmentMeetings", "DataAvailable for year " + year);
 		
+		content = null;
+		
 		//Create hashmap if non-existent:
 		if(content == null) content = new HashMap<String, ArrayList<Metadata>>();
 		
-		content.clear(); //TODO
+		//content.clear(); //TODO
 		
 		// add year to content map:
 		content.put(year, WrapperJSON.GetYearData(year));
@@ -529,7 +531,9 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 						 //Error checking for view already deleted
 						 
 						 try {
+							 
 							 ((ImageButton)getActivity().findViewById(id)).setImageBitmap(WrapperJSON.GetImage(id));
+							 
 						} catch (NullPointerException e) {
 
 							Log.e("ImageAvailable", "error: view with id " + id + " was not found.");
