@@ -1,15 +1,11 @@
 package com.example.helsinkikanava;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import HelsinkiKanavaDataAccess.Metadata;
 import android.app.ActionBar.LayoutParams;
-import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
@@ -18,7 +14,6 @@ import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -28,7 +23,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
-import android.webkit.WebView.FindListener;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
@@ -129,9 +123,10 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     	//Create data for active year:
     	ArrayList<Metadata> year_data = content.get(active_year);
     	
+    	Log.i("FragmentDefault.generateContent", "generateContent:start. Available meetings: " + year_data.size());
     	
     	for (Metadata meeting_data : year_data) {
-    	    
+    		
     		String[] text_content = parseTitleAndDate(meeting_data.title);
     		
     		LinearLayout meeting_layout = new LinearLayout(getActivity());
@@ -163,9 +158,6 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     		img_btn.setPadding(0, 0, 0, 0);	
     		img_btn.setId(Integer.valueOf(active_year)*video_id_factor + content_id_index);
   		
-    		//Request imagedata:
-    		WrapperJSON.RefreshImage(img_btn.getId(), meeting_data.video.screenshot_url);
-    		
 			img_btn.setOnClickListener(this);
 
     		TextView tv_info = new TextView(getActivity());
@@ -200,6 +192,10 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     		my_root.addView(meeting_layout, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
     		my_root.addView(separator, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
     		++content_id_index;
+    		
+    		//Request imagedata:
+    		WrapperJSON.RefreshImage(img_btn.getId(), meeting_data.video.screenshot_url);
+    		
     	}
     }
     
@@ -283,24 +279,15 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 				((TextView)rootView.findViewById(Integer.valueOf(active_year))).setTextColor(Color.GRAY);
 				((TextView)rootView.findViewById(v.getId())).setTextColor(Color.WHITE);
 				active_year = String.valueOf(v.getId());
-				WrapperJSON.RefreshData(active_year);
-				
+
 				//Clear content:
 				LinearLayout my_root = (LinearLayout) rootView.findViewById(R.id.fragment_meetings_content);
 		    	my_root.removeAllViews();
-				
 		    	
-				try {
-					
-					((ScrollView)rootView.findViewById(R.id.fragment_meetings_scrollView_content)).smoothScrollTo(0, rootView.findViewById(v.getId()*10).getTop());
-					
-				//Overkill:
-				} catch (NullPointerException e) {
-
-					
-				}
-				
+		    	WrapperJSON.RefreshData(active_year);
+		    	
 			}
+			
 			//Meeting headers:
 			else if(v.getId() > 1900*content_id_factor && v.getId() < 2100*content_id_factor){
 				
@@ -467,9 +454,9 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 	@Override
 	public void DataAvailable(final String year) {
 		
-		Log.i("FragmentMeetings", "DataAvailable for year " + year);
+		Log.i("FragmentMeetings:DataAvailable", "DataAvailable for year " + year + ". Current year active is " + active_year + ".");
 		
-		content = null;
+		content = null; //TODO
 		
 		//Create hashmap if non-existent:
 		if(content == null) content = new HashMap<String, ArrayList<Metadata>>();
@@ -479,7 +466,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 		// add year to content map:
 		content.put(year, WrapperJSON.GetYearData(year));
 
-		Log.i("FragmentMeetings", "Meetings: " + content.size());
+		Log.i("FragmentMeetings:DataAvailable", "Meetings: " + content.get(year).size());
 		
 		//Run UI updates in external thread:
 		getActivity().runOnUiThread(new Runnable(){
@@ -492,7 +479,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 						showErrorMessage("Warning: null or empty response for year " + year + ".");
 
 						return;
-					} 
+				} 
 				 generateContent();
              }	
 		});
@@ -502,25 +489,24 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 	public void ImageAvailable(final int id) {
 		
 		//Log.i("fragmentdefault", "image available:" + id);
-		
+		//if(true) return;
 		//Run UI updates in external thread:
-				getActivity().runOnUiThread(new Runnable(){
-					
-					 public void run() {
-						
-						 //Error checking for view already deleted
-						 
-						 try {
-							 
-							 ((ImageButton)getActivity().findViewById(id)).setImageBitmap(WrapperJSON.GetImage(id));
-							 
-						} catch (NullPointerException e) {
+		getActivity().runOnUiThread(new Runnable(){
+			
+			 public void run() {
+				
+				 //Error checking for view already deleted
+				 
+				 try {
+					 
+					 ((ImageButton)getActivity().findViewById(id)).setImageBitmap(WrapperJSON.GetImage(id));
+					 
+				 } catch (NullPointerException e) {
 
-							Log.e("ImageAvailable", "error: view with id " + id + " was not found.");
-						}
-						 
-		             }	
-				});
-		
+					Log.e("ImageAvailable", "error: view with id " + id + " was not found.");
+				 }
+				 
+             }	
+		});
 	}
 }
