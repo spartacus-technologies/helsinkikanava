@@ -67,9 +67,13 @@ public class WrapperJSON {
     	return sessionImages.get(id);
     }
 
-    // PRECONDITION
-    // The year being queried has to be earlier fetched
-    // before this method can return parties of given sessionUrl
+    /*******************************************************
+     * Gets different parties of a specific meeting / session
+     * 
+     * PRECONDITION
+     * The year being queried has to be earlier fetched
+     * before this method can return parties of given sessionUrl
+     ******************************************************/
     public static TreeSet<String> GetParties(String year, String paSessionUrl)
     {
         if(metadatas == null || !metadatas.containsKey(year)) return null;
@@ -95,9 +99,13 @@ public class WrapperJSON {
         return null;
     }
 
-    // PRECONDITION
-    // The year being queried has to be earlier fetched
-    // before this method can return parties of given sessionUrl
+    /*******************************************************
+     * Gets different parties of a specific meeting / session
+     * 
+     * PRECONDITION
+     * The year being queried has to be earlier fetched
+     * before this method can return parties of given sessionUrl
+     ******************************************************/
     public static TreeSet<String> GetParties(String paSessionUrl)
     {
         if(metadatas == null) return null;
@@ -158,6 +166,28 @@ public class WrapperJSON {
 		}
 	}
 
+	/*******************************************************
+     * Get single meeting metadata.
+     * 
+     * PRECONDITION
+     * All years' Metadatas have been fetched!
+     ******************************************************/
+	public static Metadata RefreshMeetingData(String title)
+	{
+		for (ArrayList<Metadata> yearData : metadatas.values())
+		{
+			for (Metadata data : yearData)
+			{
+				if (data.title.equals(title))
+				{
+					return data;
+				}
+			}
+		}
+		
+		return null;
+	}
+	
 	/*******************************************************
      * Refreshes the data of certain years.
      ******************************************************/

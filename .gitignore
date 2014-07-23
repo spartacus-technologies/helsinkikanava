@@ -1,1 +1,6 @@
 /bin/
+/bin/AndroidManifest.xml
+/bin/R.txt
+/gen
+/bin
+/project.properties
