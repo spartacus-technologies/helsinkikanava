@@ -8,13 +8,7 @@ import java.util.Iterator;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection; 
-import java.net.MalformedURLException;
-import java.net.URL;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -28,6 +22,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.http.AndroidHttpClient;
 import android.util.Log;
+import android.util.SparseArray;
 
 
 //Wrapper class for getting JSON values conveniently
@@ -52,7 +47,7 @@ public class WrapperJSON {
     private static HashMap<String, ArrayList<Metadata>> metadatas;
     
     // Key = url, Value = Bitmap image
-    private static HashMap<String, Bitmap> sessionImages;
+    private static SparseArray<Bitmap> sessionImages;
 
     /*******************************************************
      * Getters
@@ -67,9 +62,9 @@ public class WrapperJSON {
     	return  yearsAvailable;
     }
     
-    public static Bitmap GetImage(String url)
+    public static Bitmap GetImage(int id)
     {
-    	return sessionImages.get(url);
+    	return sessionImages.get(id);
     }
 
     // PRECONDITION
@@ -148,7 +143,7 @@ public class WrapperJSON {
 		{
 			if (yearsAvailable == null)
 			{
-				myModel = new Model(null, null);
+				myModel = new Model();
 				myModel.start();
 			}
 			else // Data already available, just notify listeners
@@ -176,7 +171,7 @@ public class WrapperJSON {
 		{
 			if (!metadatas.containsKey(year))
 	    	{
-				myModel = new Model(year, null);
+				myModel = new Model(year);
 				myModel.start();
 	    	}
 			else // Data already available, just notify listeners
@@ -194,7 +189,7 @@ public class WrapperJSON {
 	/*******************************************************
      * Gets the image for a certain url/session.
      ******************************************************/
-	public static boolean RefreshImage(String url)
+	public static boolean RefreshImage(int id, String url)
 	{
 		if (dataListeners == null)
 		{
@@ -203,12 +198,12 @@ public class WrapperJSON {
 		
 		if (sessionImages == null)
 		{
-			sessionImages = new HashMap<String, Bitmap>();
+			sessionImages = new SparseArray<Bitmap>();
 		}
 		
-		if (!sessionImages.containsKey(url))
+		if (sessionImages.get(id) == null)
     	{
-			myModel = new Model(null, url);
+			myModel = new Model(id, url);
 			myModel.start();
     	}
 		else // Data already available, just notify listeners
@@ -248,20 +243,47 @@ public class WrapperJSON {
 	 ******************************************************/
 	private static class Model extends Thread
 	{
-		private String yearOrNot;
-		private String urlOrNot;
+		private String yearOrNot = null;
+		int idOrNot = -1;
+		private String urlOrNot = null;
 		
 		/*******************************************************
-	     * Constructor
+	     * Constructors
 	     ******************************************************/
-	    public Model(String year, String url)
+		public Model()
+		{
+			CheckDataAccessAndMetadatasInitialize();
+		}
+		public Model(String year)
+		{
+			CheckDataAccessAndMetadatasInitialize();
+			
+			yearOrNot = year;
+		}
+	    public Model(int id, String url)
 	    {
-	        myHelsinkiKanavaDataAccess = new HelsinkiKanavaDataAccess();
-	        metadatas = new HashMap<String, ArrayList<Metadata>>();
-	        yearOrNot = year;
+	        CheckDataAccessAndMetadatasInitialize();
+	        	        
+	        idOrNot = id;
 	        urlOrNot = url;
 	    }
 
+	    /*******************************************************
+	     * Initialize the variables on the first time.
+	     ******************************************************/
+	    private void CheckDataAccessAndMetadatasInitialize()
+	    {
+	    	if (myHelsinkiKanavaDataAccess == null)
+	    	{
+	    		myHelsinkiKanavaDataAccess = new HelsinkiKanavaDataAccess();
+	    	}
+	    	
+	    	if (metadatas == null)
+	        {
+	        	metadatas = new HashMap<String, ArrayList<Metadata>>();
+	        }
+	    }
+	    
 	    /*******************************************************
 	     * This method is run every time when some information is needed.
 	     * Calls the proper method for getting years or year's data.
@@ -276,7 +298,7 @@ public class WrapperJSON {
 	    	
 	    	// First check if the given parameter was an url. If it was, get image.
 	    	// If year is given in the constructor, years data is asked.
-	    	if (urlOrNot != null && urlOrNot != "")
+	    	if (urlOrNot != null && urlOrNot != "" && idOrNot > -1)
 	    	{
 	    		if (GetImage())
 	    		{
@@ -333,7 +355,7 @@ public class WrapperJSON {
 	                    inputStream = entity.getContent(); 
 	                    final Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
 	                    
-	                    sessionImages.put(urlOrNot, bitmap);
+	                    sessionImages.append(idOrNot, bitmap);
 	                    return true;
 	                } 
 	                finally 
