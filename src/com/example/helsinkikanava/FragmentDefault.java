@@ -380,6 +380,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 			else if(event.getAction() == android.view.MotionEvent.ACTION_UP){
 				
 				scroller.stop();
+				v.performClick();
 			}
 			
 			break;
@@ -392,7 +393,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 		Log.i("FragmentDefault", event.toString());
 		//Log.i("FragmentDefault", "touch");
 		
-		v.performClick();
+		
 		return false;
 	}
 	
