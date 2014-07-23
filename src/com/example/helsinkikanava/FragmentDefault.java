@@ -21,6 +21,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -29,6 +30,7 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.webkit.WebView.FindListener;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -140,8 +142,24 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     		
     		//source. http://sampleprogramz.com/android/imagebutton.php
     		
+    		//ImageButton with overlay:
+    		//=========================
+    		
+    		FrameLayout previewLayout = new FrameLayout(getActivity());
+    		LayoutParams l_parameters = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+    		l_parameters.gravity = Gravity.CENTER;
+    		
+    		
     		ImageButton img_btn = new ImageButton(getActivity());
             img_btn.setImageResource(R.drawable.play);
+    		
+    		ImageView overlay = new ImageView(getActivity());
+    		overlay.setImageResource(R.drawable.play_small);
+    		
+    		previewLayout.setLayoutParams(l_parameters);
+    		previewLayout.addView(img_btn, l_parameters);
+    		previewLayout.addView(overlay, l_parameters);
+            
     		//img_btn.setImageURI(null);
     		//img_btn.setImageURI(Uri.parse(meeting_data.video.screenshot_url));
     		Log.i("URI test", Uri.parse(meeting_data.video.screenshot_url).toString());
@@ -152,14 +170,10 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     		
     		
     		//Request imagedata:
-    		WrapperJSON.RefreshImage(1, meeting_data.video.screenshot_url);
+    		WrapperJSON.RefreshImage(img_btn.getId(), meeting_data.video.screenshot_url);
     		
 			img_btn.setOnClickListener(this);
-    		/**
-    		View overlay = new ImageView(getActivity());
-    		overlay.setImageResource(R.drawable.play);
-    		img_btn.getOverlay().add(overlay);
-    		*/
+
     		TextView tv_info = new TextView(getActivity());
 
     		tv_info.setText(text_content[0]);
@@ -179,15 +193,8 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     		text_layout.addView(tv_info, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
     		text_layout.addView(tv_date, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
     		
-    		meeting_layout.addView(img_btn, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
-    		
-    		//TODO
-    		View overlay = new View(getActivity());
-			overlay.setBackgroundColor(Color.RED);
-			overlay.setLayoutParams(new LayoutParams(img_btn.getLayoutParams()));
-    		
-    		
-    		
+    		meeting_layout.addView(previewLayout, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
+    		    		
     		//meeting_layout.addView(overlay);
     		meeting_layout.addView(text_layout, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
     		
@@ -508,9 +515,18 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 	}
 	
 	@Override
-	public void ImageAvailable(int id) {
+	public void ImageAvailable(final int id) {
 		
 		Log.i("fragmentdefault", "image available:" + id);
+		
+		//Run UI updates in external thread:
+				getActivity().runOnUiThread(new Runnable(){
+					
+					 public void run() {
+						
+						 ((ImageButton)getActivity().findViewById(id)).setImageBitmap(WrapperJSON.GetImage(id));
+		             }	
+				});
 		
 	}
 }
