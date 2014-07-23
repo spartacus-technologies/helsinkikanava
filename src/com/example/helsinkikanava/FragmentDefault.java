@@ -159,16 +159,10 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     		previewLayout.setLayoutParams(l_parameters);
     		previewLayout.addView(img_btn, l_parameters);
     		previewLayout.addView(overlay, l_parameters);
-            
-    		//img_btn.setImageURI(null);
-    		//img_btn.setImageURI(Uri.parse(meeting_data.video.screenshot_url));
-    		Log.i("URI test", Uri.parse(meeting_data.video.screenshot_url).toString());
     		
     		img_btn.setPadding(0, 0, 0, 0);	
     		img_btn.setId(Integer.valueOf(active_year)*video_id_factor + content_id_index);
-    		Log.i("FragmentDefault:generateContent", "img_btn.setId(" + img_btn.getId() + ")");
-    		
-    		
+  		
     		//Request imagedata:
     		WrapperJSON.RefreshImage(img_btn.getId(), meeting_data.video.screenshot_url);
     		
@@ -216,19 +210,14 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     	returnvalue[0] = text.substring(0, text.indexOf("/", 0));
     	returnvalue[1] = text.substring( text.indexOf("/", 0) + 1);
     	
-    	Log.i("teststring1", returnvalue[0]);
-    	Log.i("teststring2", returnvalue[1]);
-    	
 		return returnvalue;
     	
     }
     
     private void generateYearNavigation(){
     	
-    	Log.w("generateYearNavigation", "start...");
     	for(String year : years){
     	
-    		Log.w("generateYearNavigation", "loop: " + year);
 	    	Button year_button = new Button(getActivity());
 
 	    	year_button.setText(year);
@@ -251,13 +240,12 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 	        LinearLayout my_root = (LinearLayout) rootView.findViewById(R.id.fragment_meetings_years);
 	    	my_root.addView(year_button, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
     	}
-    	Log.w("generateYearNavigation", "ok...");
     }
     
 	@Override
 	public void onClick(View v) {
 
-		Log.i("FragmentDefault", "Cliked.id: " + v.getId());
+		Log.i("FragmentDefault:onClick", "Cliked.id: " + v.getId());
 		
 		//Static buttons:
 		switch (v.getId()) {
@@ -336,7 +324,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 
 				
 				Metadata temp_data = content.get(active_year).get(v.getId() % video_id_factor);
-				Log.i("FragmentDefault", "URL: " + temp_data.video.rtmp.netconnection_url + "/" + temp_data.video.rtmp.video_id);
+
 				Uri uri = Uri.parse(temp_data.video.rtmp.netconnection_url + "/" + temp_data.video.rtmp.video_id);
 				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 				startActivity(intent);
@@ -388,11 +376,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 			
 		default:
 			break;
-		}
-		
-		Log.i("FragmentDefault", event.toString());
-		//Log.i("FragmentDefault", "touch");
-		
+		}		
 		
 		return false;
 	}
@@ -427,20 +411,15 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 		    @Override 
 		    public void run() {
 		    	
-		    	Log.i("Scroller", "running...");
-		    	
 		    	mHandler.postDelayed(this, mInterval);
 		    	((HorizontalScrollView)rootView.findViewById(R.id.horizontalScrollView_years)).scrollBy(direction_, 0);
 		    	
 				if(!run){
 					
-					Log.w("Scroller", "quitting...");
 					mHandler.removeCallbacks(this);
-					//finish();
 				}
 		    }
-		};
-		
+		};	
 	}
 
 	@Override
@@ -522,7 +501,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 	@Override
 	public void ImageAvailable(final int id) {
 		
-		Log.i("fragmentdefault", "image available:" + id);
+		//Log.i("fragmentdefault", "image available:" + id);
 		
 		//Run UI updates in external thread:
 				getActivity().runOnUiThread(new Runnable(){

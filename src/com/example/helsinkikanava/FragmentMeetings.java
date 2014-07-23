@@ -18,6 +18,7 @@ public class FragmentMeetings extends Fragment implements OnClickListener {
             Bundle savedInstanceState) {
     	
     	
+    	
         View rootView = inflater.inflate(R.layout.fragment_default, container, false);
         ((Button)rootView.findViewById(R.id.button1)).setOnClickListener(this);
         //((Button)getView().findViewById(R.id.button1)).setOnClickListener(this);
