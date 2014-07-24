@@ -139,6 +139,28 @@ public class WrapperJSON {
     }
 
     /*******************************************************
+     * Get single meeting metadata.
+     * 
+     * PRECONDITION
+     * All years' Metadatas have been fetched!
+     ******************************************************/
+	public static Metadata RefreshMeetingData(String title)
+	{
+		for (ArrayList<Metadata> yearData : metadatas.values())
+		{
+			for (Metadata data : yearData)
+			{
+				if (data.title.equals(title))
+				{
+					return data;
+				}
+			}
+		}
+		
+		return null;
+	}
+    
+    /*******************************************************
      * Refreshes the available years.
      ******************************************************/
 	static public boolean RefreshYears()
@@ -165,28 +187,6 @@ public class WrapperJSON {
 			return true;	
 		}
 	}
-
-	/*******************************************************
-     * Get single meeting metadata.
-     * 
-     * PRECONDITION
-     * All years' Metadatas have been fetched!
-     ******************************************************/
-	public static Metadata RefreshMeetingData(String title)
-	{
-		for (ArrayList<Metadata> yearData : metadatas.values())
-		{
-			for (Metadata data : yearData)
-			{
-				if (data.title.equals(title))
-				{
-					return data;
-				}
-			}
-		}
-		
-		return null;
-	}
 	
 	/*******************************************************
      * Refreshes the data of certain years.
@@ -197,23 +197,11 @@ public class WrapperJSON {
 		{
 			return false;
 		}
-		else
-		{
-			if (!metadatas.containsKey(year))
-	    	{
-				myModel = new Model(year);
-				myModel.start();
-	    	}
-			else // Data already available, just notify listeners
-			{
-				for (IJsonListener listener : dataListeners)
-				{
-					listener.DataAvailable(year);
-				}
-			}
-						
-			return true;
-		}
+		
+		myModel = new Model(year);
+		myModel.start();
+	    				
+		return true;
 	}
 	
 	/*******************************************************
@@ -231,18 +219,8 @@ public class WrapperJSON {
 			sessionImages = new SparseArray<Bitmap>();
 		}
 		
-		if (sessionImages.get(id) == null)
-    	{
-			myModel = new Model(id, url);
-			myModel.start();
-    	}
-		else // Data already available, just notify listeners
-		{
-			for (IJsonListener listener : dataListeners)
-			{
-				listener.ImageAvailable(id);
-			}
-		}
+		myModel = new Model(id, url);
+		myModel.start();
 		
 		return true;
 	}
@@ -363,11 +341,17 @@ public class WrapperJSON {
 	     ******************************************************/
 	    private boolean GetImage()
 	    {
+	    	// If image already exists, just notify listeners
+	    	if (sessionImages.get(idOrNot) != null)
+	    	{
+	    		return true;
+	    	}
+	    	
 	    	final AndroidHttpClient client = AndroidHttpClient.newInstance("Android");
 	        final HttpGet getRequest = new HttpGet(urlOrNot);
-
+	    	
 	        try 
-	        {
+	        {	        	        
 	            HttpResponse response = client.execute(getRequest);
 	            final int statusCode = response.getStatusLine().getStatusCode();
 	            if (statusCode != HttpStatus.SC_OK) 
@@ -396,7 +380,7 @@ public class WrapperJSON {
 	                    }
 	                    entity.consumeContent();
 	                }
-	            }
+	            }	
 	        }
             catch (Exception e) 
 	        {
@@ -420,6 +404,12 @@ public class WrapperJSON {
 	     ******************************************************/
 	    private void GetData()
 	    {
+	    	// If metadata has been fetched already, just return and notify listeners
+	    	if (metadatas.containsKey(yearOrNot))
+	    	{
+	    		return;
+	    	}
+	    	
 	    	// Checks first which sessions belong to the given year
 	        ArrayList<String> sessions = new ArrayList<String>();
 	
@@ -444,6 +434,12 @@ public class WrapperJSON {
 	     ******************************************************/
 	    private void GetAvailableYears()
 	    {
+	    	// If years have been fetched already, just return and notify listeners
+	    	if (yearsAvailable != null && !yearsAvailable.isEmpty())
+			{
+	    		return;
+			}
+	    	
 	        ArrayList<String> years = new ArrayList<String>();
 
 	        for (HashMap.Entry<String, String> entry : mySessions.entrySet())
