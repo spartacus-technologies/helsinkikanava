@@ -3,13 +3,14 @@ package com.example.helsinkikanava;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
 import HelsinkiKanavaDataAccess.Metadata;
+import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -108,7 +109,9 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 		my_root.addView(year_title, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
     }
     
-    private void generateContent(){
+    @SuppressLint("NewApi")				//Version checking in code.
+	@SuppressWarnings("deprecation")	//Backwards support.
+	private void generateContent(){
     	
     	LinearLayout my_root = (LinearLayout) rootView.findViewById(R.id.fragment_meetings_content);
     	my_root.removeAllViews();
@@ -133,8 +136,24 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     		LinearLayout meeting_layout = new LinearLayout(getActivity());
     		
     		//Check screeen resolution:
-        	@SuppressWarnings("deprecation")
-			int scrWidth  = getActivity().getWindowManager().getDefaultDisplay().getWidth();
+
+    		int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+    		int scrWidth = 0;
+    		
+    		if (currentapiVersion >= 13){
+    			
+    			Display display = getActivity().getWindowManager().getDefaultDisplay();
+    			Point size = new Point();
+    			display.getSize(size);
+    			scrWidth = size.x;
+    			
+    		//Backwards compability:
+    		} else{
+            	scrWidth = getActivity().getWindowManager().getDefaultDisplay().getWidth();
+    		}
+    		
+    		
+
         	
         	if(scrWidth < 1080){
         		
