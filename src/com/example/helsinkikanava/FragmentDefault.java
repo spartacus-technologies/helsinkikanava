@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import HelsinkiKanavaDataAccess.Metadata;
-import android.app.ActionBar.LayoutParams;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
@@ -24,6 +23,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.widget.FrameLayout.LayoutParams;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
@@ -108,112 +108,8 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 		my_root.addView(year_title, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
     }
     
-    private void generateContent_v2(){
-    	
-    	LinearLayout my_root = (LinearLayout) rootView.findViewById(R.id.fragment_meetings_content);
-    	my_root.removeAllViews();
-    	
-    	//HIde overlay oading animation:
-    	getView().findViewById(R.id.fragment_meetings_overlay).setVisibility(View.INVISIBLE);
-    	
-    	int content_id_index = 0;
-    	
-    	//Add year_title:
-    	createYearTitle(active_year);
-    	
-    	//Create data for active year:
-    	ArrayList<Metadata> year_data = content.get(active_year);
-    	
-    	Log.i("FragmentDefault.generateContent", "generateContent:start. Available meetings: " + year_data.size());
-    	
-    	for (Metadata meeting_data : year_data) {
-    		
-    		String[] text_content = parseTitleAndDate(meeting_data.title);
-    		
-    		LinearLayout meeting_layout = new LinearLayout(getActivity());
-    		meeting_layout.setOrientation(LinearLayout.VERTICAL);
-    		
-    		LinearLayout text_layout = new LinearLayout(getActivity());
-    		text_layout.setOrientation(LinearLayout.VERTICAL);
-    		
-    		//source. http://sampleprogramz.com/android/imagebutton.php
-    		
-    		//ImageButton with overlay:
-    		//=========================
-    		
-    		FrameLayout previewLayout = new FrameLayout(getActivity());
-    		LayoutParams l_parameters = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-    		l_parameters.gravity = Gravity.CENTER;
-    		
-    		
-    		ImageButton img_btn = new ImageButton(getActivity());
-            img_btn.setImageResource(R.drawable.play);
-    		
-    		ImageView overlay = new ImageView(getActivity());
-    		overlay.setImageResource(R.drawable.play_small);
-    		
-    		previewLayout.setLayoutParams(l_parameters);
-    		previewLayout.addView(img_btn, l_parameters);
-    		previewLayout.addView(overlay, l_parameters);
-    		
-    		img_btn.setPadding(0, 0, 0, 0);	
-    		img_btn.setId(Integer.valueOf(active_year)*video_id_factor + content_id_index);
-  		
-			img_btn.setOnClickListener(this);
-
-    		TextView tv_info = new TextView(getActivity());
-
-    		tv_info.setText(text_content[0]);
-    		tv_info.setPaintFlags(tv_info.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-    		tv_info.setPadding(10, 0, 0, 0);
-    		tv_info.setTextColor(Color.BLUE);
-    		tv_info.setId(Integer.valueOf(active_year)*content_id_factor + content_id_index);
-    		tv_info.setOnClickListener(this);
-    		
-    		
-    		TextView tv_date = new TextView(getActivity());
-    		
-    		tv_date.setText(text_content[1]);
-    		tv_date.setPadding(10, 0, 0, 0);
-    		
-    		
-    		text_layout.addView(tv_info, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-    		text_layout.addView(tv_date, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-    		
-    		meeting_layout.addView(text_layout, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
-    		meeting_layout.addView(previewLayout, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
-    		    		
-    		
-    		
-    		ImageView separator = new ImageView(getActivity());
-    		separator.setImageResource(R.drawable.separator_horizontal);
-    		separator.setPadding(0, 7, 0, 7);
-    		
-    		//Add views to list:
-    		my_root.addView(meeting_layout, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
-    		my_root.addView(separator, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
-    		++content_id_index;
-    		
-    		//Request imagedata:
-    		WrapperJSON.RefreshImage(img_btn.getId(), meeting_data.video.screenshot_url);
-    		
-    	}
-    }
-    
-    
     private void generateContent(){
     	
-    	//Check resolution first:
-    	int scrWidth  = getActivity().getWindowManager().getDefaultDisplay().getWidth();
-    	int scrHeight = getActivity().getWindowManager().getDefaultDisplay().getHeight();
-    	
-    	if(scrWidth < 1080){
-    		
-    		Log.w("FragmentDefault:generateContent", "warning screen resolution is " + scrWidth + " - which is small. Switching layout type.");
-    		generateContent_v2();
-    		return;
-    	}
-    	
     	LinearLayout my_root = (LinearLayout) rootView.findViewById(R.id.fragment_meetings_content);
     	my_root.removeAllViews();
     	
@@ -235,8 +131,21 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     		String[] text_content = parseTitleAndDate(meeting_data.title);
     		
     		LinearLayout meeting_layout = new LinearLayout(getActivity());
-    		meeting_layout.setOrientation(LinearLayout.HORIZONTAL);
     		
+    		//Check screeen resolution:
+        	@SuppressWarnings("deprecation")
+			int scrWidth  = getActivity().getWindowManager().getDefaultDisplay().getWidth();
+        	
+        	if(scrWidth < 1080){
+        		
+        		meeting_layout.setOrientation(LinearLayout.VERTICAL);
+        		return;
+        	}
+        	else{
+        		
+        		meeting_layout.setOrientation(LinearLayout.HORIZONTAL);
+        	}
+
     		LinearLayout text_layout = new LinearLayout(getActivity());
     		text_layout.setOrientation(LinearLayout.VERTICAL);
     		
@@ -246,8 +155,10 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     		//=========================
     		
     		FrameLayout previewLayout = new FrameLayout(getActivity());
-    		LayoutParams l_parameters = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-    		l_parameters.gravity = Gravity.CENTER;
+    		LayoutParams l_parameters1 = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+    		LayoutParams l_parameters2 = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+    		l_parameters1.gravity = Gravity.CENTER;
+    		l_parameters2.gravity = Gravity.CENTER;
     		
     		
     		ImageButton img_btn = new ImageButton(getActivity());
@@ -256,9 +167,9 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     		ImageView overlay = new ImageView(getActivity());
     		overlay.setImageResource(R.drawable.play_small);
     		
-    		previewLayout.setLayoutParams(l_parameters);
-    		previewLayout.addView(img_btn, l_parameters);
-    		previewLayout.addView(overlay, l_parameters);
+    		previewLayout.setLayoutParams(l_parameters1);
+    		previewLayout.addView(img_btn, l_parameters1);
+    		previewLayout.addView(overlay, l_parameters2);
     		
     		img_btn.setPadding(0, 0, 0, 0);	
     		img_btn.setId(Integer.valueOf(active_year)*video_id_factor + content_id_index);
