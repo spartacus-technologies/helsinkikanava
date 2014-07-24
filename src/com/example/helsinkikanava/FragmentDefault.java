@@ -149,12 +149,10 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     			
     		//Backwards compability:
     		} else{
+    			
             	scrWidth = getActivity().getWindowManager().getDefaultDisplay().getWidth();
     		}
     		
-    		
-
-        	
         	if(scrWidth < 1080){
         		
         		meeting_layout.setOrientation(LinearLayout.VERTICAL);

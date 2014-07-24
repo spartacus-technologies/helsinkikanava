@@ -63,4 +63,14 @@
         android:layout_marginTop="15dp"
         android:text="Server version:" />
 
+    <TextView
+        android:id="@+id/fragment_video_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/popUp_checkingUpdates_static"
+        android:layout_marginBottom="46dp"
+        android:layout_toRightOf="@+id/textView_current_version_static"
+        android:text="Large Text"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
 </RelativeLayout>
