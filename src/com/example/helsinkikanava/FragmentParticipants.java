@@ -43,36 +43,48 @@ public class FragmentParticipants extends Fragment
     private void generateParticipantListing()
     {
         //Get Parties from wrapperJSON
-        TreeSet<String> parties = WrapperJSON.GetParties( session_title_);
+//        TreeSet<String> parties = WrapperJSON.GetParties( session_title_);
+        TreeSet<String> parties = new TreeSet<String>();
 
-//        parties.add("Puolue 1"); parties.add("Puolue2");
+        parties.add("Puolue 1");
+        parties.add("Puolue 2");
+        parties.add("Puolue 3");
+        parties.add("Puolue 4");
+        parties.add("Puolue 5");
+        parties.add("Puolue 6");
+        parties.add("Puolue 7");
+        parties.add("Puolue 8");
+        parties.add("Puolue 9");
 
         createPartySegments(parties);
 
         //Get participants for each party from wrapperJSON
-//        for (String party: parties)
-//        {
-//            ArrayList<String> participants = new ArrayList<String>();
-//            participants.add("Matti Meikäläinen"); participants.add("Marja Meikäläinen");
-//
-//            addParticipantsToParty(party, participants);
-//        }
+        for (int i = 0; i < parties.size(); ++i)
+        {
+            ArrayList<String> participants = new ArrayList<String>();
+            participants.add("Matti Meikäläinen"); participants.add("Marja Meikäläinen");
+
+            addParticipantsToParty(i, participants);
+        }
 
     }
 
     private void createPartySegments(TreeSet<String> parties )
     {
+        //There was no data
         if (parties == null )
             return;
 
+        int i = 0;
         for (String party: parties)
         {
             //Create title for party
-            LinearLayout party_layout = new LinearLayout(getActivity());
+            LinearLayout party_layout = new LinearLayout( getActivity() );
             party_layout.setOrientation(LinearLayout.VERTICAL);
+            party_layout.setId(i);
 
             TextView title = new TextView(getActivity());
-            TextView event_description = new TextView(getActivity());
+//            TextView event_description = new TextView(getActivity());
             title.setText(party);
             title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
 
@@ -85,18 +97,34 @@ public class FragmentParticipants extends Fragment
             spacer.setPadding(0, 0, 0, 5);
 
             party_layout.addView(title, new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.WRAP_CONTENT));
-            party_layout.addView(event_description, new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.WRAP_CONTENT));
-//            party_layout.addView(underline, new (LayoutParams.MATCH_PARENT, 5));
+//            party_layout.addView(event_description, new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.WRAP_CONTENT));
+            party_layout.addView(underline, new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, 5));
             party_layout.addView(spacer, new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, 5));
 
             //year_title.setId(debug*10);
 
-            ((LinearLayout) rootView_.findViewById(R.id.fragment_participant_title_layout)).addView(party_layout, new ActionBar.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.MATCH_PARENT));
+            ((LinearLayout) rootView_.findViewById(R.id.fragment_participant_content)).addView(party_layout, new ActionBar.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.MATCH_PARENT));
+            ++i;
         }
     }
 
-    private void addParticipantsToParty(String party, ArrayList<String>  participants)
+    private void addParticipantsToParty(int party, ArrayList<String>  participants)
     {
+        LinearLayout my_root = (LinearLayout) rootView_.findViewById(party);
 
+        LinearLayout text_layout = new LinearLayout(getActivity());
+        text_layout.setOrientation( LinearLayout.VERTICAL );
+
+        for (String participant : participants)
+        {
+            TextView name = new TextView(getActivity());
+
+            name.setText(participant);
+            name.setPadding(40,0,0,10);
+            name.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+
+            text_layout.addView(name, new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.WRAP_CONTENT));
+        }
+        my_root.addView(text_layout, new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.WRAP_CONTENT));
     }
 }

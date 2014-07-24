@@ -3,25 +3,18 @@ package com.example.helsinkikanava;
 import android.app.FragmentTransaction;
 import android.graphics.Color;
 import android.os.Handler;
-import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
-import android.app.Dialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.*;
-import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.HorizontalScrollView;
-import android.widget.PopupWindow;
-import android.widget.Toast;
 import android.view.View.OnTouchListener;
 
 import java.util.ArrayList;
 
 public class MainActivity extends ActionBarActivity implements IJsonListener, OnTouchListener
 {
-
+    FragmentDefault frag_default_ = null;
     private WrapperJSON wrapperJSON = new WrapperJSON();
     private ArrayList<Session> council_meetings = new ArrayList<Session>();
     private Scroller tab_bar_scroller;
@@ -58,10 +51,14 @@ public class MainActivity extends ActionBarActivity implements IJsonListener, On
 
         tab_bar_scroller = new Scroller(this.findViewById(R.id.horizontalScrollView_main_activity_tabs));
 
+        if (frag_default_ == null)
+        {
+            frag_default_ = new FragmentDefault(this);
+        }
         //Show default fragment (for debugging)
         if (savedInstanceState == null)
         {
-        	 getFragmentManager().beginTransaction().add(R.id.container, new FragmentDefault(this)).commit();
+        	 getFragmentManager().beginTransaction().add(R.id.container, frag_default_).commit();
         }
     }
  
@@ -125,7 +122,7 @@ public class MainActivity extends ActionBarActivity implements IJsonListener, On
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
 //                transaction.replace(R.id.container, new FragmentMeetings(this));
-                transaction.replace(R.id.container, new FragmentDefault(this));
+                transaction.replace(R.id.container, frag_default_);
                 transaction.addToBackStack(null);
                 transaction.commit();
 
@@ -145,12 +142,12 @@ public class MainActivity extends ActionBarActivity implements IJsonListener, On
 //                transaction1.addToBackStack(null);
 //                transaction1.commit();
 
-                ((Button)findViewById(R.id.main_activity_tab_button_news)).setTextColor(Color.WHITE);
-                ((Button)findViewById(R.id.main_activity_tab_button_councilmeetings)).setTextColor(Color.GRAY);
-
-                Intent intent = new Intent(this, ActivityVideo.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                startActivity(intent);
+//                ((Button)findViewById(R.id.main_activity_tab_button_news)).setTextColor(Color.WHITE);
+//                ((Button)findViewById(R.id.main_activity_tab_button_councilmeetings)).setTextColor(Color.GRAY);
+//
+//                Intent intent = new Intent(this, ActivityVideo.class);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+//                startActivity(intent);
 
                 break;
             //Scroll left:
