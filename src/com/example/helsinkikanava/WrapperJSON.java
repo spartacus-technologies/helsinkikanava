@@ -74,41 +74,9 @@ public class WrapperJSON {
      * The year being queried has to be earlier fetched
      * before this method can return parties of given sessionUrl
      ******************************************************/
-    public static TreeSet<String> GetParties(String year, String paSessionUrl)
-    {
-        if(metadatas == null || !metadatas.containsKey(year)) return null;
-
-        ArrayList<Metadata> yearsMetadatas = metadatas.get(year);
-
-        for(Metadata metadata : yearsMetadatas)
-        {
-            if(metadata.session_url == paSessionUrl)
-            {
-                if(metadata.attendance == null) return null;
-
-                //Prevents adding multiple instances and keeps the order of the elements
-                TreeSet<String> parties = new TreeSet<String>();
-
-                for(Attendance attendance : metadata.attendance)
-                {
-                    parties.add(attendance.party);
-                }
-                return parties;
-            }
-        }
-        return null;
-    }
-
-    /*******************************************************
-     * Gets different parties of a specific meeting / session
-     * 
-     * PRECONDITION
-     * The year being queried has to be earlier fetched
-     * before this method can return parties of given sessionUrl
-     ******************************************************/
     public static TreeSet<String> GetParties(String paSessionUrl)
     {
-        if(metadatas == null) return null;
+        if(metadatas == null || metadatas.isEmpty()) return null;
 
         ArrayList<Metadata> yearsMetadatas = null;
         Iterator it = metadatas.entrySet().iterator();
@@ -117,11 +85,11 @@ public class WrapperJSON {
         {
             Map.Entry pair = (Map.Entry)it.next();
 
-            yearsMetadatas = metadatas.get(pair.getValue());
+            yearsMetadatas = (ArrayList<Metadata>) pair.getValue();
 
             for(Metadata metadata : yearsMetadatas)
             {
-                if(metadata.session_url == paSessionUrl)
+                if(paSessionUrl.equals(metadata.url))
                 {
                     if(metadata.attendance == null) return null;
 

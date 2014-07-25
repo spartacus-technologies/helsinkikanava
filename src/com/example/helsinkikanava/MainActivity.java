@@ -134,6 +134,7 @@ public class MainActivity extends ActionBarActivity implements IJsonListener, On
             //Council meetings tab
             case R.id.main_activity_tab_button_news:
                 Log.i("MainActivity", "News tab" );
+                WrapperJSON.GetParties("http://www.helsinkikanava.fi/fi/kaupunginvaltuusto/kaupunginvaltuuston-kokous-9-21-5.2014");
 
 //                FragmentTransaction transaction1 = getFragmentManager().beginTransaction();
 //
@@ -277,7 +278,7 @@ public class MainActivity extends ActionBarActivity implements IJsonListener, On
 	@Override
 	public void DataAvailable(String year) {
 		// TODO Auto-generated method stub
-        /*WrapperJSON.getParties("2010","vuoden2010sessioninUrl");*/
+
 	}
 	
 	@Override
