@@ -36,6 +36,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 //Example class for demostrating Fragment. -Eetu
 public class FragmentDefault extends Fragment implements OnClickListener, OnTouchListener, IJsonListener{
@@ -338,27 +339,20 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 			
 			//Meeting headers:
 			else if(v.getId() > 1900*content_id_factor && v.getId() < 2100*content_id_factor){
-				
-				Intent intent = new Intent(parent_, ActivityVideo.class);
-//              intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-				
-				//get meeting title:
-				Log.i("clicked year:", "" + v.getId()/content_id_factor);
-				Log.i("clicked view:", "" + (v.getId() % content_id_factor));
-				Metadata meet = content.get(String.valueOf(v.getId()/content_id_factor)).get(v.getId() % content_id_factor);
-				
-				Log.i("title", meet.title);
-				intent.putExtra("new_variable_name", meet.title);
-				
-				try {
+
+					
+					Intent intent = new Intent(parent_, ActivityVideo.class);
+	//              intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+					
+					//get meeting title:
+					Log.i("clicked year:", "" + v.getId()/content_id_factor);
+					Log.i("clicked view:", "" + (v.getId() % content_id_factor));
+					Metadata meet = content.get(String.valueOf(v.getId()/content_id_factor)).get(v.getId() % content_id_factor);
+					
+					Log.i("title", meet.title);
+					intent.putExtra("new_variable_name", meet.title);
 					
 					startActivity(intent);	
-				
-				} catch (ActivityNotFoundException e) {
-					
-					//Toast
-					Log.w("FragmentDefault.onClick()", "ActivityNotFoundException");
-				}
 				
 			}
 			//Imagebuttons for videos:
@@ -371,14 +365,16 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 
 				Uri uri = Uri.parse(temp_data.video.rtmp.netconnection_url + "/" + temp_data.video.rtmp.video_id);
 				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-				startActivity(intent);
 				
-				
+				try {
+					startActivity(intent);
+				} catch (ActivityNotFoundException e) {
+					
+					Log.w("FragmentDefault.onClick()", "ActivityNotFoundException");
+					Toast.makeText(getActivity(), "Warning: video player not found. Consider installing MX Player.", Toast.LENGTH_LONG).show();
+				}
 			}
 		}
-		
-		
-		
 	}
 
 	@Override
