@@ -12,7 +12,7 @@ import android.view.View.OnTouchListener;
 
 import java.util.ArrayList;
 
-public class MainActivity extends ActionBarActivity implements IJsonListener, OnTouchListener
+public class MainActivity extends ActionBarActivity implements  OnTouchListener
 {
     FragmentDefault frag_default_ = null;
     private WrapperJSON wrapperJSON = new WrapperJSON();
@@ -22,16 +22,6 @@ public class MainActivity extends ActionBarActivity implements IJsonListener, On
 
     public MainActivity()
     {
-        //FIXME Sallii dataliikenteen käytön pääsäikeessä DataAccess "kirjaston" debuggausta varten :D (voi tulla pääohjelma hiukan jäätäväksi ilman säikeistystä :)
-//        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-//        StrictMode.setThreadPolicy(policy);
-
-/*
-        wrapperJSON.RegisterListener(this);
-        wrapperJSON.RefreshYears();
-        WrapperJSON.RefreshData("2010");
-*/
-
 
     }
     @Override
@@ -62,6 +52,8 @@ public class MainActivity extends ActionBarActivity implements IJsonListener, On
         }
     }
 
+    //There is no need for menu key
+    //************************************
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event)
     {
@@ -93,45 +85,9 @@ public class MainActivity extends ActionBarActivity implements IJsonListener, On
     {
         return false;
     }
+    //************************************
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu)
-//    {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-////        getMenuInflater().inflate(R.menu.main, menu);
-//        return true;
-//    }
-
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        switch (item.getItemId()) {
-//
-//		case R.id.check_updates_menu_button:
-//
-//			//Log.i("MainActivity", "check_updates");
-//
-//			new PopupCheckUpdates().showDialog(this);
-//			//PopupCheckUpdates.showDialog(this);
-//
-//			break;
-//
-//		case R.id.fragment_meetings_overlay:
-//
-//			new ActivityPopupSettings().showDialog(this);
-//			//PopupCheckUpdates.showDialog(this);
-//			Log.i("MainActivity", "action_settings");
-//			break;
-//		default:
-//			break;
-//		}
-//
-//        return super.onOptionsItemSelected(item);
-//    }
-
-
+    //Tabbar buttons - currently only one
     public void onClick(View v)
     {
 
@@ -140,14 +96,6 @@ public class MainActivity extends ActionBarActivity implements IJsonListener, On
         // Static buttons:
         switch (v.getId())
         {
-            //Refresh data
-//            case R.id.imageButton_refresh:
-//
-//                Log.i("MainActivity", "REFRESH" );
-//                refreshData();
-//
-//                break;
-
             //Council meetings tab
             case R.id.main_activity_tab_button_councilmeetings:
                 Log.i("MainActivity", "CouncilMeetings tab" );
@@ -163,26 +111,10 @@ public class MainActivity extends ActionBarActivity implements IJsonListener, On
 
                 break;
 
-            //Council meetings tab
+            //DEBUG -button
             case R.id.main_activity_tab_button_news:
-                Log.i("MainActivity", "News tab" );
-                WrapperJSON.GetParties("http://www.helsinkikanava.fi/fi/kaupunginvaltuusto/kaupunginvaltuuston-kokous-9-21-5.2014");
-
-//                FragmentTransaction transaction1 = getFragmentManager().beginTransaction();
-//
-////                transaction.replace(R.id.container, new FragmentMeetings(this));
-//                transaction1.replace(R.id.container, new FragmentDefault());
-//                transaction1.addToBackStack(null);
-//                transaction1.commit();
-
-//                ((Button)findViewById(R.id.main_activity_tab_button_news)).setTextColor(Color.WHITE);
-//                ((Button)findViewById(R.id.main_activity_tab_button_councilmeetings)).setTextColor(Color.GRAY);
-//
-//                Intent intent = new Intent(this, ActivityVideo.class);
-//                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-//                startActivity(intent);
-
                 break;
+
             //Scroll left:
             case R.id.main_activity_tabs_button_left:
 
@@ -235,7 +167,6 @@ public class MainActivity extends ActionBarActivity implements IJsonListener, On
 
                 break;
 
-
             default:
                 break;
         }
@@ -244,8 +175,9 @@ public class MainActivity extends ActionBarActivity implements IJsonListener, On
         return false;
     }
 
+    //For scrolling tab bar
     class Scroller
-    {		//For scrolling tab bar
+    {
 
         final Handler mHandler = new Handler();
         private int mInterval = 10;
@@ -294,21 +226,4 @@ public class MainActivity extends ActionBarActivity implements IJsonListener, On
         };
 
     }
-
-	@Override
-	public void YearsAvailable() {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void DataAvailable(String year) {
-		// TODO Auto-generated method stub
-
-	}
-	
-	@Override
-	public void ImageAvailable(int id) {
-		// TODO Auto-generated method stub
-		
-	}
 }
