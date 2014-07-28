@@ -74,7 +74,7 @@ public class WrapperJSON {
      * The year being queried has to be earlier fetched
      * before this method can return parties of given sessionUrl
      ******************************************************/
-    public static TreeSet<String> GetParties(String paSessionUrl)
+    public static TreeSet<String> GetParties(String paSessionTitle)
     {
         if(metadatas == null || metadatas.isEmpty()) return null;
 
@@ -89,7 +89,7 @@ public class WrapperJSON {
 
             for(Metadata metadata : yearsMetadatas)
             {
-                if(paSessionUrl.equals(metadata.url))
+                if(paSessionTitle.equals(metadata.title))
                 {
                     if(metadata.attendance == null) return null;
 
