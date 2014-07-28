@@ -32,6 +32,7 @@ import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -50,6 +51,10 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 	ArrayList<String> years = null;
 	final int content_id_factor = 100;
 	final int video_id_factor = 1000;
+	
+	final int preview_height = 90;
+	final int preview_width = 160;
+	
 	Map<String, ArrayList<Metadata>> content = null;
 	
     @Override
@@ -158,7 +163,8 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     		
         	if(scrWidth < 1080){
         		
-        		meeting_layout.setOrientation(LinearLayout.VERTICAL);
+        		//meeting_layout.setOrientation(LinearLayout.VERTICAL);
+        		meeting_layout.setOrientation(LinearLayout.HORIZONTAL);
         	}
         	else{
         		
@@ -177,6 +183,18 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     		FrameLayout previewLayout = new FrameLayout(getActivity());
     		LayoutParams l_parameters1 = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
     		LayoutParams l_parameters2 = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+    		
+    		//Image size in DP:
+    		int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 
+                    (float) preview_height, getResources().getDisplayMetrics());
+    		int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 
+                    (float) preview_width, getResources().getDisplayMetrics());
+    		
+    		Log.i("FragmentMeetings:generateContent", "Video preview dimensions: " + width + "x" + height);
+    		
+    		l_parameters1.width = width;
+    		l_parameters1.height = height;
+    		
     		l_parameters1.gravity = Gravity.CENTER;
     		l_parameters2.gravity = Gravity.CENTER;
     		
@@ -192,6 +210,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     		previewLayout.addView(overlay, l_parameters2);
     		
     		img_btn.setPadding(0, 0, 0, 0);	
+    		img_btn.setScaleType(ScaleType.FIT_XY);
     		img_btn.setId(Integer.valueOf(active_year)*video_id_factor + content_id_index);
   		
 			img_btn.setOnClickListener(this);
@@ -229,22 +248,8 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     		my_root.addView(separator, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
     		++content_id_index;
     		
-    		Log.w("FragmentDefault:generateContent", "TextView tv_info linecount is " + tv_info.getLineCount());
-    		
-    		/**
-    		//TODO
-    		//Check if current display is too small -> use different layout:
-    		if(tv_info.getLineCount() > 1){
-    			
-    			Log.w("FragmentDefault:generateContent", "TextView tv_info spans over 1 lines.");
-    			Log.w("FragmentDefault:generateContent", "Current resolution is small -> swithcing layout type.");
-    			generateContent_v2();
-    		}
-    		*/
     		//Request imagedata if everything is OK:
-    		WrapperJSON.RefreshImage(img_btn.getId(), meeting_data.video.screenshot_url);
-    		
-    		
+    		WrapperJSON.RefreshImage(img_btn.getId(), meeting_data.video.screenshot_url);	
     	}
     }
     
