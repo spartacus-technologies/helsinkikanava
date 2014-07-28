@@ -49,8 +49,10 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 	String active_year = null;
 	private Context parent_;
 	ArrayList<String> years = null;
-	final int content_id_factor = 100;
-	final int video_id_factor = 1000;
+	final int content_id_factor = 1000;
+	final int video_id_factor = 10000;
+	
+	final String TAG = FragmentDefault.class.toString();
 	
 	final int preview_height = 90;
 	final int preview_width = 160;
@@ -135,7 +137,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     	//Create data for active year:
     	ArrayList<Metadata> year_data = content.get(active_year);
     	
-    	Log.i("FragmentDefault.generateContent", "generateContent:start. Available meetings: " + year_data.size());
+    	Log.i(TAG + ":generateContent", "generateContent:start. Available meetings: " + year_data.size());
     	
     	for (Metadata meeting_data : year_data) {
     		
@@ -417,8 +419,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 			}
 			
 			break;
-			
-			
+
 		default:
 			break;
 		}		
@@ -512,7 +513,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 	@Override
 	public void DataAvailable(final String year) {
 		
-		Log.i("FragmentMeetings:DataAvailable", "DataAvailable for year " + year + ". Current year active is " + active_year + "-> ignore.");
+		Log.i("FragmentMeetings:DataAvailable", "DataAvailable for year " + year + ". Current year active is " + active_year + ".");
 		if(year != active_year){
 			
 			Log.w("FragmentDefault:DataAvailable", "Warning: not active year data -> ignore.");
@@ -538,7 +539,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 				
 				 if(content.get(year) == null || content.get(year).size() == 0){
 						
-						Log.w("FragmentMeeting" , "Warning: metadata for year " + year + " was null.");
+						Log.e("FragmentMeeting" , "Warning: metadata for year " + year + " was null.");
 						LinearLayout my_root = (LinearLayout) rootView.findViewById(R.id.fragment_meetings_content);
 				    	my_root.removeAllViews();
 						
