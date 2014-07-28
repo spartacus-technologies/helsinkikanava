@@ -3,9 +3,11 @@ package com.example.helsinkikanava;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
 import HelsinkiKanavaDataAccess.Metadata;
 import android.annotation.SuppressLint;
 import android.app.Fragment;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -156,9 +158,9 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
         	if(scrWidth < 1080){
         		
         		meeting_layout.setOrientation(LinearLayout.VERTICAL);
-        		return;
         	}
         	else{
+        		
         		
         		meeting_layout.setOrientation(LinearLayout.HORIZONTAL);
         	}
@@ -179,7 +181,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     		
     		
     		ImageButton img_btn = new ImageButton(getActivity());
-            img_btn.setImageResource(R.drawable.play);
+            img_btn.setImageResource(R.drawable.test_meeting);
     		
     		ImageView overlay = new ImageView(getActivity());
     		overlay.setImageResource(R.drawable.play_small);
@@ -348,7 +350,16 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 				Log.i("title", meet.title);
 				intent.putExtra("new_variable_name", meet.title);
 				
-				startActivity(intent);
+				try {
+					
+					startActivity(intent);	
+				
+				} catch (ActivityNotFoundException e) {
+					
+					//Toast
+					Log.w("FragmentDefault.onClick()", "ActivityNotFoundException");
+				}
+				
 			}
 			//Imagebuttons for videos:
 			else if(v.getId() > 1900*video_id_factor && v.getId() < 2100*video_id_factor){
@@ -522,8 +533,11 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 				 if(content.get(year) == null || content.get(year).size() == 0){
 						
 						Log.w("FragmentMeeting" , "Warning: metadata for year " + year + " was null.");
+						LinearLayout my_root = (LinearLayout) rootView.findViewById(R.id.fragment_meetings_content);
+				    	my_root.removeAllViews();
+						
 						showErrorMessage("Warning: null or empty response for year " + year + ".");
-
+						
 						return;
 				} 
 				 generateContent();
