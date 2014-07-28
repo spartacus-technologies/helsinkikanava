@@ -69,7 +69,7 @@
                         <Button
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Kaupungin valtuusto"
+                                android:text="Kaupunginvaltuusto"
                                 android:id="@+id/main_activity_tab_button_councilmeetings" android:singleLine="true"
                                 android:textColor="#ffffffff" android:background="@android:color/black"
                                 android:enabled="true" android:onClick="onClick" android:paddingLeft="5dp"

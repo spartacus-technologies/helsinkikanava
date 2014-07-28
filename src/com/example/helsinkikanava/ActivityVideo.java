@@ -77,7 +77,6 @@ public class ActivityVideo extends Activity implements OnTouchListener
 
             //Council meetings tab
             case R.id.video_activity_tab_button_video:
-                Log.i("VideoActivity", "Video tab" );
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
 //                transaction.replace(R.id.container, new FragmentMeetings(this));
@@ -93,7 +92,6 @@ public class ActivityVideo extends Activity implements OnTouchListener
 
             //Council meetings tab
             case R.id.video_activity_tab_button_participants:
-                Log.i("VideoActivity", "Participants tab" );
                 FragmentTransaction transaction1 = getFragmentManager().beginTransaction();
 
 //                transaction.replace(R.id.container, new FragmentMeetings(this));
@@ -109,7 +107,7 @@ public class ActivityVideo extends Activity implements OnTouchListener
 
             //Council meetings tab
             case R.id.video_activity_tab_button_resolutions:
-                Log.i("VideoActivity", "Resolution tab" );
+
                 FragmentTransaction transaction2 = getFragmentManager().beginTransaction();
 
 //                transaction.replace(R.id.container, new FragmentMeetings(this));
@@ -139,7 +137,6 @@ public class ActivityVideo extends Activity implements OnTouchListener
     @Override
     public boolean onTouch(View v, MotionEvent event)
     {
-        Log.i("VideoActivity.onTouch", "alkaa");
         switch (v.getId())
         {
             case R.id.video_activity_tabs_button_left:
@@ -177,8 +174,7 @@ public class ActivityVideo extends Activity implements OnTouchListener
                 break;
         }
 
-        Log.i("VideoActivity", event.toString());
-        v.performClick();
+//        v.performClick();
         return false;
     }
 
@@ -219,7 +215,6 @@ public class ActivityVideo extends Activity implements OnTouchListener
             @Override
             public void run()
             {
-                Log.i("TabBarScroller", "running...");
 
                 mHandler.postDelayed(this, mInterval);
 
@@ -227,9 +222,7 @@ public class ActivityVideo extends Activity implements OnTouchListener
 
                 if(!run)
                 {
-                    Log.w("TabBarScroller", "quitting...");
                     mHandler.removeCallbacks(this);
-                    //finish();
                 }
             }
         };

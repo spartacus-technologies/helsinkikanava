@@ -61,43 +61,75 @@ public class MainActivity extends ActionBarActivity implements IJsonListener, On
         	 getFragmentManager().beginTransaction().add(R.id.container, frag_default_).commit();
         }
     }
- 
+
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-
-        return true;
+    public boolean onKeyUp(int keyCode, KeyEvent event)
+    {
+        if (keyCode == KeyEvent.KEYCODE_MENU)
+        {
+            return true;
+        }
+        else
+        {
+            return super.onKeyUp(keyCode, event);
+        }
     }
 
-    @Override 
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        switch (item.getItemId()) {
-		
-		case R.id.check_updates_menu_button:
-			
-			//Log.i("MainActivity", "check_updates");
-					
-			new PopupCheckUpdates().showDialog(this);
-			//PopupCheckUpdates.showDialog(this);
-			
-			break;
-			
-		case R.id.fragment_meetings_overlay:
-			
-			new ActivityPopupSettings().showDialog(this);
-			//PopupCheckUpdates.showDialog(this);
-			Log.i("MainActivity", "action_settings");
-			break;
-		default:
-			break;
-		}
-        
-        return super.onOptionsItemSelected(item);
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+        if (keyCode == KeyEvent.KEYCODE_MENU)
+        {
+            return true;
+        }
+        else
+        {
+            return super.onKeyDown(keyCode, event);
+        }
     }
+
+    @Override
+    public boolean onPrepareOptionsMenu (Menu menu)
+    {
+        return false;
+    }
+
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu)
+//    {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+////        getMenuInflater().inflate(R.menu.main, menu);
+//        return true;
+//    }
+
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        // Handle action bar item clicks here. The action bar will
+//        // automatically handle clicks on the Home/Up button, so long
+//        // as you specify a parent activity in AndroidManifest.xml.
+//        switch (item.getItemId()) {
+//
+//		case R.id.check_updates_menu_button:
+//
+//			//Log.i("MainActivity", "check_updates");
+//
+//			new PopupCheckUpdates().showDialog(this);
+//			//PopupCheckUpdates.showDialog(this);
+//
+//			break;
+//
+//		case R.id.fragment_meetings_overlay:
+//
+//			new ActivityPopupSettings().showDialog(this);
+//			//PopupCheckUpdates.showDialog(this);
+//			Log.i("MainActivity", "action_settings");
+//			break;
+//		default:
+//			break;
+//		}
+//
+//        return super.onOptionsItemSelected(item);
+//    }
 
 
     public void onClick(View v)
@@ -173,19 +205,17 @@ public class MainActivity extends ActionBarActivity implements IJsonListener, On
     @Override
     public boolean onTouch(View v, MotionEvent event)
     {
-        Log.i("MainActivity.onTouch", "alkaa");
         switch (v.getId())
         {
             case R.id.main_activity_tabs_button_left:
 
                 tab_bar_scroller.setDirection(-scroll_speed);
-                if(event.getAction() == android.view.MotionEvent.ACTION_DOWN){
-
-
+                if(event.getAction() == android.view.MotionEvent.ACTION_DOWN)
+                {
                     tab_bar_scroller.start();
                 }
-                else if(event.getAction() == android.view.MotionEvent.ACTION_UP){
-
+                else if(event.getAction() == android.view.MotionEvent.ACTION_UP)
+                {
                     tab_bar_scroller.stop();
                 }
 
@@ -194,13 +224,12 @@ public class MainActivity extends ActionBarActivity implements IJsonListener, On
             case R.id.main_activity_tabs_button_right:
 
                 tab_bar_scroller.setDirection(scroll_speed);
-                if(event.getAction() == android.view.MotionEvent.ACTION_DOWN){
-
-
+                if(event.getAction() == android.view.MotionEvent.ACTION_DOWN)
+                {
                     tab_bar_scroller.start();
                 }
-                else if(event.getAction() == android.view.MotionEvent.ACTION_UP){
-
+                else if(event.getAction() == android.view.MotionEvent.ACTION_UP)
+                {
                     tab_bar_scroller.stop();
                 }
 
@@ -211,8 +240,7 @@ public class MainActivity extends ActionBarActivity implements IJsonListener, On
                 break;
         }
 
-        Log.i("MainActivity", event.toString());
-        v.performClick();
+//        v.performClick();
         return false;
     }
 
@@ -253,7 +281,6 @@ public class MainActivity extends ActionBarActivity implements IJsonListener, On
             @Override
             public void run()
             {
-                Log.i("TabBarScroller", "running...");
 
                 mHandler.postDelayed(this, mInterval);
 
@@ -261,9 +288,7 @@ public class MainActivity extends ActionBarActivity implements IJsonListener, On
 
                 if(!run)
                 {
-                    Log.w("TabBarScroller", "quitting...");
                     mHandler.removeCallbacks(this);
-                    //finish();
                 }
             }
         };

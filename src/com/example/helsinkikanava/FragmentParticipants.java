@@ -43,18 +43,22 @@ public class FragmentParticipants extends Fragment
     private void generateParticipantListing()
     {
         //Get Parties from wrapperJSON
-//        TreeSet<String> parties = WrapperJSON.GetParties( session_title_);
-        TreeSet<String> parties = new TreeSet<String>();
+        TreeSet<String> parties = WrapperJSON.GetParties( session_title_);
+//        TreeSet<String> parties = new TreeSet<String>();
 
-        parties.add("Puolue 1");
-        parties.add("Puolue 2");
-        parties.add("Puolue 3");
-        parties.add("Puolue 4");
-        parties.add("Puolue 5");
-        parties.add("Puolue 6");
-        parties.add("Puolue 7");
-        parties.add("Puolue 8");
-        parties.add("Puolue 9");
+//        parties.add("Puolue 1");
+//        parties.add("Puolue 2");
+//        parties.add("Puolue 3");
+//        parties.add("Puolue 4");
+//        parties.add("Puolue 5");
+//        parties.add("Puolue 6");
+//        parties.add("Puolue 7");
+//        parties.add("Puolue 8");
+//        parties.add("Puolue 9");
+
+        //There was no data
+        if (parties == null )
+            return;
 
         createPartySegments(parties);
 
@@ -71,10 +75,6 @@ public class FragmentParticipants extends Fragment
 
     private void createPartySegments(TreeSet<String> parties )
     {
-        //There was no data
-        if (parties == null )
-            return;
-
         int i = 0;
         for (String party: parties)
         {
