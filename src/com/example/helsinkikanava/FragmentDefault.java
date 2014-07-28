@@ -190,7 +190,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     		int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 
                     (float) preview_width, getResources().getDisplayMetrics());
     		
-    		Log.i("FragmentMeetings:generateContent", "Video preview dimensions: " + width + "x" + height);
+    		//Log.i("FragmentMeetings:generateContent", "Video preview dimensions: " + width + "x" + height);
     		
     		l_parameters1.width = width;
     		l_parameters1.height = height;
@@ -512,7 +512,12 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 	@Override
 	public void DataAvailable(final String year) {
 		
-		Log.i("FragmentMeetings:DataAvailable", "DataAvailable for year " + year + ". Current year active is " + active_year + ".");
+		Log.i("FragmentMeetings:DataAvailable", "DataAvailable for year " + year + ". Current year active is " + active_year + "-> ignore.");
+		if(year != active_year){
+			
+			Log.w("FragmentDefault:DataAvailable", "Warning: not active year data -> ignore.");
+			return;
+		}
 		
 		content = null; //TODO
 		
