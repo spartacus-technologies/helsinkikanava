@@ -1,15 +1,12 @@
 package com.example.helsinkikanava;
 
-import java.util.Calendar;
-import java.util.concurrent.TimeUnit;
+
 
 import HelsinkiKanavaDataAccess.Metadata;
 import HelsinkiKanavaDataClasses.Issues;
-import android.R.integer;
 import android.app.Fragment;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -27,16 +24,21 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.ImageView.ScaleType;
 import android.app.ActionBar.LayoutParams;
 
-public class FragmentVideo extends Fragment implements OnClickListener{
+public class FragmentVideo extends Fragment implements OnClickListener, IJsonListener{
 	
 	View rootView_ = null;					//Owns all fragment Views
 	Context parent_ = null;
 	private String title_;
 	Metadata meeting_data = null;
 	
+	final int preview_height = 90;
+	final int preview_width = 160;
 	final String EXTRA_POSITION	= "position";
+	final int PreviewID = 1;
+	
 	//i.putExtra( EXTRA_POSITION, 10000 );
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,6 +55,7 @@ public class FragmentVideo extends Fragment implements OnClickListener{
         //Generate dynamic content:
         generatePreview();
         generateVideoContent();
+        WrapperJSON.RegisterListener(this);
         return rootView;
     }
     
@@ -108,29 +111,79 @@ public class FragmentVideo extends Fragment implements OnClickListener{
 		//ImageButton with overlay:
 		//=========================
 		Log.i("generatePreview", "test1");
-		FrameLayout previewLayout = (FrameLayout) getActivity().findViewById(R.id.fragment_video_preview);
+		LinearLayout video_content_layout = (LinearLayout) rootView_.findViewById(R.id.fragment_video_content);
 		
-		if(previewLayout == null){ 
-			Log.w("FragmentVideo:generatePreview", "Warning: layout null -> quitting.");
-			return;
-		}
+		LayoutParams previewLayoutParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
+		previewLayoutParams.gravity = Gravity.CENTER;
 		
-		LayoutParams l_parameters1 = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		LayoutParams l_parameters2 = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-		l_parameters1.gravity = Gravity.CENTER;
-		l_parameters2.gravity = Gravity.CENTER;
-		Log.i("generatePreview", "test2");
+		
+		FrameLayout previewLayout = new FrameLayout(getActivity());
+		previewLayout.setLayoutParams(previewLayoutParams);
 		
 		ImageButton img_btn = new ImageButton(getActivity());
         img_btn.setImageResource(R.drawable.test_meeting);
-        Log.i("generatePreview", "test3");
+        img_btn.setPadding(0, 0, 0, 0);	
+		img_btn.setScaleType(ScaleType.FIT_XY);
+		img_btn.setId(1);
+		
+		//Image size in DP:
+		int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 
+                (float) preview_height, getResources().getDisplayMetrics());
+		int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 
+                (float) preview_width, getResources().getDisplayMetrics());
+		LayoutParams imageLayoutParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
+		imageLayoutParams.gravity = Gravity.CENTER;
+		imageLayoutParams.width = width;
+		imageLayoutParams.height = height;
+		
+		
+		
+		
+		
+		previewLayout.addView(img_btn, imageLayoutParams);
+		
+		video_content_layout.addView(previewLayout);
+		
+		//WrapperJSON.RefreshImage(PreviewID, meeting_data.video.screenshot_url);
+		
+		/*
+		
+		LayoutParams l_parameters1 = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		LayoutParams l_parameters2 = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+		
+		//Image size in DP:
+		int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 
+                (float) preview_height, getResources().getDisplayMetrics());
+		int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 
+                (float) preview_width, getResources().getDisplayMetrics());
+		
+		l_parameters1.width = width;
+		l_parameters1.height = height;
+		
+		l_parameters1.gravity = Gravity.CENTER;
+		l_parameters2.gravity = Gravity.CENTER;
+		
+		
+		ImageButton img_btn = new ImageButton(getActivity());
+        img_btn.setImageResource(R.drawable.test_meeting);
+		
 		ImageView overlay = new ImageView(getActivity());
 		overlay.setImageResource(R.drawable.play_small);
-		Log.i("generatePreview", "test4");
+		
 		previewLayout.setLayoutParams(l_parameters1);
 		previewLayout.addView(img_btn, l_parameters1);
+		previewLayout.addView(overlay, l_parameters2);
+		
+		img_btn.setPadding(0, 0, 0, 0);	
+		img_btn.setScaleType(ScaleType.FIT_XY);
+		img_btn.setId(1);
+		
+		img_btn.setOnClickListener(this);
+
+		video_content_layout.addView(previewLayout, l_parameters2);
 		//previewLayout.addView(overlay, l_parameters2);
 		Log.i("generatePreview", "test5");
+		*/
     }
     
     void generateVideoContent(){
@@ -204,5 +257,40 @@ public class FragmentVideo extends Fragment implements OnClickListener{
 		
 	}
 
-    
+	@Override
+	public void YearsAvailable() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void DataAvailable(String year) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void ImageAvailable(final int id) {
+		
+		Log.i("FragmentVideo:ImageAvailable", "id=" + id);
+		
+		//Run UI updates in external thread:
+		getActivity().runOnUiThread(new Runnable(){
+			
+			 public void run() {
+				
+				 //Error checking for view already deleted
+				 
+				try {
+					
+					((ImageView)rootView_.findViewById(PreviewID)).setImageBitmap(WrapperJSON.GetImage(id));
+					
+				} catch (NullPointerException e) {
+					
+					Log.w("FragmentVideo:ImageAvailable", "Warning: view not found.");
+					
+				}
+			 }
+		});
+	}
 }

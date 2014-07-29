@@ -57,6 +57,8 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 	final int preview_height = 90;
 	final int preview_width = 160;
 	
+	final boolean previewLink = false;
+	
 	Map<String, ArrayList<Metadata>> content = null;
 	
     @Override
@@ -203,7 +205,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
             img_btn.setImageResource(R.drawable.test_meeting);
     		
     		ImageView overlay = new ImageView(getActivity());
-    		overlay.setImageResource(R.drawable.play_small);
+    		if(previewLink) overlay.setImageResource(R.drawable.play_small);
     		
     		previewLayout.setLayoutParams(l_parameters1);
     		previewLayout.addView(img_btn, l_parameters1);
@@ -213,8 +215,11 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     		img_btn.setScaleType(ScaleType.FIT_XY);
     		img_btn.setId(Integer.valueOf(active_year)*video_id_factor + content_id_index);
   		
-			img_btn.setOnClickListener(this);
+    		if(previewLink) img_btn.setOnClickListener(this);
 
+    		//Info textview:
+    		//==============
+    		
     		TextView tv_info = new TextView(getActivity());
 
     		tv_info.setText(text_content[0]);
