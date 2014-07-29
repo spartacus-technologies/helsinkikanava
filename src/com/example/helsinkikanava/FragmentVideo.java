@@ -1,31 +1,43 @@
 package com.example.helsinkikanava;
 
+import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
+
 import HelsinkiKanavaDataAccess.Metadata;
 import HelsinkiKanavaDataClasses.Issues;
+import android.R.integer;
 import android.app.Fragment;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.app.ActionBar.LayoutParams;
 
-public class FragmentVideo extends Fragment {
+public class FragmentVideo extends Fragment implements OnClickListener{
 	
 	View rootView_ = null;					//Owns all fragment Views
 	Context parent_ = null;
 	private String title_;
 	Metadata meeting_data = null;
 	
+	final String EXTRA_POSITION	= "position";
+	//i.putExtra( EXTRA_POSITION, 10000 );
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
@@ -63,6 +75,10 @@ public class FragmentVideo extends Fragment {
 		TextView event_title = new TextView(getActivity());
 		TextView event_description = new TextView(getActivity());
 		event_title.setText(convertSecondstoTime(timestamp));
+		event_title.setId(Integer.valueOf(timestamp));
+		event_title.setOnClickListener(this);
+		Log.i("FragmentVideo:generateVideoEvent", "setId = " + Integer.valueOf(timestamp));
+		
 		event_description.setText(description);
 		event_title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
 		
@@ -130,10 +146,16 @@ public class FragmentVideo extends Fragment {
     
     String convertSecondstoTime(String input){
     	
-    	int total = Integer.valueOf(input);
-    	int hours = total/3600;
-    	int minutes = total/60;
-    	int seconds = total%60;
+    	int seconds = (Integer.valueOf(input)) % 60 ;
+    	int minutes = ((Integer.valueOf(input) /60) % 60);
+    	int hours   = ((Integer.valueOf(input) / (60*60)) % 24);
+    	
+    	
+    	//Ghetto:
+    	if(minutes < 10 && seconds < 10){
+    		
+    		return hours + ":0" + minutes + ":0" + seconds;
+    	}
     	
     	//Ghetto:
     	if(seconds < 10){
@@ -143,15 +165,12 @@ public class FragmentVideo extends Fragment {
     	//Ghetompi:
     	if(minutes < 10){
     		
-    		return hours + ":0" + minutes + seconds;
+    		return hours + ":0" + minutes + ":" + seconds;
     	}
-    	//Ghetoin:
-    	if(minutes < 10 && seconds < 10){
-    		
-    		return hours + ":0" + minutes + ":0" + seconds;
-    	}
+
     	
 		return hours + ":" + minutes + ":" + seconds;
+		
     }
     
     String[] parseTitleAndDate(String text){
@@ -167,5 +186,23 @@ public class FragmentVideo extends Fragment {
 		return returnvalue;
     	
     }
+
+	@Override
+	public void onClick(View v) {
+		
+		Uri uri = Uri.parse(meeting_data.video.rtmp.netconnection_url + "/" + meeting_data.video.rtmp.video_id);
+		Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+		intent.putExtra( EXTRA_POSITION, v.getId()*1000);
+		
+		try {
+			startActivity(intent);
+		} catch (ActivityNotFoundException e) {
+			
+			Log.w("FragmentDefault.onClick()", "ActivityNotFoundException");
+			Toast.makeText(getActivity(), "Warning: video player not found. Consider installing MX Player.", Toast.LENGTH_LONG).show();
+		}
+		
+	}
+
     
 }
