@@ -22,6 +22,7 @@ public class ActivityVideo extends Activity implements OnTouchListener
     Fragment frag_video_ = null;
     Fragment frag_participant_ = null;
     Fragment frag_resolutions_ = null;
+    String title_ = null;
 
     public ActivityVideo()
     {
@@ -42,19 +43,29 @@ public class ActivityVideo extends Activity implements OnTouchListener
         ((Button)findViewById(R.id.video_activity_tab_button_participants)).setTextColor(Color.GRAY);
         ((Button)findViewById(R.id.video_activity_tab_button_video)).setTextColor(Color.WHITE);
 
+        //Session title from intent extras
+        Bundle extras = getIntent().getExtras();
+        String title = null;
+        if (extras != null)
+        {
+            title = extras.getString("new_variable_name");
+        }
+
+        //If title is different than previously, create new fragments
+        if ( title != null && title_ != null && !title_.equals(title) )
+        {
+            frag_video_ = null;
+            frag_participant_ = null;
+            frag_resolutions_ = null;
+        }
+
         //Create fragments
         if ( frag_video_ == null || frag_participant_ == null || frag_resolutions_ == null )
         {
-            Bundle extras = getIntent().getExtras();
-            String title = null;
-            if (extras != null)
-            {
-                title = extras.getString("new_variable_name");
-            }
- 
-            frag_video_ = new FragmentVideo(this, title);
-            frag_participant_ = new FragmentParticipants(this, title);
-            frag_resolutions_ = new FragmentResolutions(this, title);
+            title_ = title;
+            frag_video_ = new FragmentVideo(this, title_);
+            frag_participant_ = new FragmentParticipants(this, title_);
+            frag_resolutions_ = new FragmentResolutions(this, title_);
         }
 
         tab_bar_scroller = new Scroller(this.findViewById(R.id.horizontalScrollView_video_activity_tabs));

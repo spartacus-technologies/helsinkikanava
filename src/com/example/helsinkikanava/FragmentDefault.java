@@ -49,11 +49,15 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 	String active_year = null;
 	private Context parent_;
 	ArrayList<String> years = null;
-	final int content_id_factor = 100;
-	final int video_id_factor = 1000;
+	final int content_id_factor = 1000;
+	final int video_id_factor = 10000;
+	
+	final String TAG = FragmentDefault.class.toString();
 	
 	final int preview_height = 90;
 	final int preview_width = 160;
+	
+	final boolean previewLink = false;
 	
 	Map<String, ArrayList<Metadata>> content = null;
 	
@@ -114,7 +118,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 		
 		//year_title.setId(debug*10); //TODO
 			
-		my_root.addView(year_title, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
+		my_root.addView(year_title, 0, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
     }
     
     @SuppressLint("NewApi")				//Version checking in code.
@@ -124,18 +128,16 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     	LinearLayout my_root = (LinearLayout) rootView.findViewById(R.id.fragment_meetings_content);
     	my_root.removeAllViews();
     	
-    	//HIde overlay oading animation:
+    	//Hide overlay loading animation:
     	getView().findViewById(R.id.fragment_meetings_overlay).setVisibility(View.INVISIBLE);
     	
     	int content_id_index = 0;
-    	
-    	//Add year_title:
-    	createYearTitle(active_year);
+
     	
     	//Create data for active year:
     	ArrayList<Metadata> year_data = content.get(active_year);
     	
-    	Log.i("FragmentDefault.generateContent", "generateContent:start. Available meetings: " + year_data.size());
+    	Log.i(TAG + ":generateContent", "generateContent:start. Available meetings: " + year_data.size());
     	
     	for (Metadata meeting_data : year_data) {
     		
@@ -203,7 +205,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
             img_btn.setImageResource(R.drawable.test_meeting);
     		
     		ImageView overlay = new ImageView(getActivity());
-    		overlay.setImageResource(R.drawable.play_small);
+    		if(previewLink) overlay.setImageResource(R.drawable.play_small);
     		
     		previewLayout.setLayoutParams(l_parameters1);
     		previewLayout.addView(img_btn, l_parameters1);
@@ -213,8 +215,11 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     		img_btn.setScaleType(ScaleType.FIT_XY);
     		img_btn.setId(Integer.valueOf(active_year)*video_id_factor + content_id_index);
   		
-			img_btn.setOnClickListener(this);
+    		if(previewLink) img_btn.setOnClickListener(this);
 
+    		//Info textview:
+    		//==============
+    		
     		TextView tv_info = new TextView(getActivity());
 
     		tv_info.setText(text_content[0]);
@@ -244,13 +249,17 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     		separator.setPadding(0, 7, 0, 7);
     		
     		//Add views to list:
-    		my_root.addView(meeting_layout, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
-    		my_root.addView(separator, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
+    		my_root.addView(separator, 0, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
+    		my_root.addView(meeting_layout, 0, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
+    		
     		++content_id_index;
     		
     		//Request imagedata if everything is OK:
     		WrapperJSON.RefreshImage(img_btn.getId(), meeting_data.video.screenshot_url);	
     	}
+    	
+    	//Add year_title:
+    	createYearTitle(active_year);
     }
     
     String[] parseTitleAndDate(String text){
@@ -417,8 +426,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 			}
 			
 			break;
-			
-			
+
 		default:
 			break;
 		}		
@@ -512,7 +520,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 	@Override
 	public void DataAvailable(final String year) {
 		
-		Log.i("FragmentMeetings:DataAvailable", "DataAvailable for year " + year + ". Current year active is " + active_year + "-> ignore.");
+		Log.i("FragmentMeetings:DataAvailable", "DataAvailable for year " + year + ". Current year active is " + active_year + ".");
 		if(year != active_year){
 			
 			Log.w("FragmentDefault:DataAvailable", "Warning: not active year data -> ignore.");
@@ -538,7 +546,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 				
 				 if(content.get(year) == null || content.get(year).size() == 0){
 						
-						Log.w("FragmentMeeting" , "Warning: metadata for year " + year + " was null.");
+						Log.e("FragmentMeeting" , "Warning: metadata for year " + year + " was null.");
 						LinearLayout my_root = (LinearLayout) rootView.findViewById(R.id.fragment_meetings_content);
 				    	my_root.removeAllViews();
 						
