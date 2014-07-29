@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.view.View.OnTouchListener;
 
 import java.util.ArrayList;
+import java.util.TreeSet;
 
 public class MainActivity extends ActionBarActivity implements  OnTouchListener
 {
@@ -113,6 +114,8 @@ public class MainActivity extends ActionBarActivity implements  OnTouchListener
 
             //DEBUG -button
             case R.id.main_activity_tab_button_news:
+/*                TreeSet<String> parties = WrapperJSON.GetParties("Kaupunginvaltuuston kokous 11/18.6.2014");
+                wrapperJSON.GetParticipantsByParty("Kaupunginvaltuuston kokous 11/18.6.2014", parties.last());*/
                 break;
 
             //Scroll left:

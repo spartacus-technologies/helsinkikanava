@@ -1,11 +1,6 @@
 package com.example.helsinkikanava;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Iterator;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.io.InputStream;
@@ -72,9 +67,46 @@ public class WrapperJSON {
      * 
      * PRECONDITION
      * The year being queried has to be earlier fetched
-     * before this method can return parties of given sessionUrl
+     * before this method can return parties of given sessionTitle
      ******************************************************/
-    public static TreeSet<String> GetParties(String paSessionUrl)
+    public static TreeSet<String> GetParties(String paSessionTitle)
+    {
+        Metadata metadata = GetMetadata(paSessionTitle);
+
+        if (metadata == null || metadata.attendance == null) return null;
+
+        TreeSet<String> parties = new TreeSet<String>();
+
+        for (Attendance attendance : metadata.attendance)
+        {
+            parties.add(attendance.party);
+        }
+        return parties;
+    }
+
+    /*******************************************************
+     * Gets the participants of the given party who where present
+     * at the given meeting.
+     *
+     * PRECONDITION
+     * The year being queried has to be earlier fetched
+     ******************************************************/
+    public static HashSet<String> GetParticipantsByParty (String paSessionTitle, String paParty)
+    {
+        Metadata metadata = GetMetadata(paSessionTitle);
+
+        if(metadata == null || metadata.attendance == null) return null;
+
+        HashSet<String> participants = new HashSet<String>();
+
+        for(Attendance attendance : metadata.attendance)
+        {
+            if(attendance.party.equals(paParty)) participants.add(attendance.name);
+        }
+        return participants;
+    }
+
+    private static Metadata GetMetadata(String paSessionTitle)
     {
         if(metadatas == null || metadatas.isEmpty()) return null;
 
@@ -89,17 +121,7 @@ public class WrapperJSON {
 
             for(Metadata metadata : yearsMetadatas)
             {
-                if(paSessionUrl.equals(metadata.url))
-                {
-                    if(metadata.attendance == null) return null;
-
-                    TreeSet<String> parties = new TreeSet<String>();
-                    for(Attendance attendance : metadata.attendance)
-                    {
-                        parties.add(attendance.party);
-                    }
-                    return parties;
-                }
+                if(paSessionTitle.equals(metadata.title)) return metadata;
             }
             it.remove(); // avoids a ConcurrentModificationException
         }
