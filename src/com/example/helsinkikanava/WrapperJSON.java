@@ -13,6 +13,7 @@ import org.apache.http.client.methods.HttpGet;
 import HelsinkiKanavaDataAccess.HelsinkiKanavaDataAccess;
 import HelsinkiKanavaDataAccess.Metadata;
 import HelsinkiKanavaDataAccess.Attendance;
+import HelsinkiKanavaDataClasses.Issues;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.http.AndroidHttpClient;
@@ -89,7 +90,7 @@ public class WrapperJSON {
      * at the given meeting.
      *
      * PRECONDITION
-     * The year being queried has to be earlier fetched
+     * Metadatas have to be fetched.
      ******************************************************/
     public static TreeSet<String> GetParticipantsByParty (String paSessionTitle, String paParty)
     {
@@ -99,13 +100,62 @@ public class WrapperJSON {
 
         TreeSet<String> participants = new TreeSet<String>();
 
-        for(Attendance attendance : metadata.attendance)
+        for (Attendance attendance : metadata.attendance)
         {
             if(attendance.party.equals(paParty)) participants.add(attendance.name);
         }
         return participants;
     }
 
+    /*******************************************************
+     * Gets the issue titles of a single session.
+     *
+     * PRECONDITION
+     * Metadatas have to be fetched.
+     ******************************************************/
+    public static TreeSet<String> GetIssueTitles(String paSessionTitle)
+    {
+    	Metadata metadata = GetMetadata(paSessionTitle);
+    	
+    	if (metadata == null || metadata.issues == null) return null;
+    	
+    	TreeSet<String> issueTitles = new TreeSet<String>();
+    	
+    	for (Issues issue : metadata.issues)
+    	{
+    		issueTitles.add(issue.title);
+    	}    	
+    	return issueTitles;
+    }
+    
+    /*******************************************************
+     * Gets the resolutions of a single issue.
+     *
+     * PRECONDITION
+     * Metadatas have to be fetched.
+     ******************************************************/
+    public static String GetResolutions(String paSessionTitle, String issueTitle)
+    {
+    	Metadata metadata = GetMetadata(paSessionTitle);
+    	
+    	if (metadata == null || metadata.issues == null) return null;
+    	
+    	for (Issues issue : metadata.issues)
+    	{
+    		if (issue.title.equals(issueTitle))
+    		{
+    			return issue.resolution;
+    		}
+    	}
+    	return null;
+    }
+    
+    /*******************************************************
+     * Gets Metadata of a single session
+     *
+     * PRECONDITION
+     * Metadatas have been fetched
+     ******************************************************/
     private static Metadata GetMetadata(String paSessionTitle)
     {
         if(metadatas == null || metadatas.isEmpty()) return null;
@@ -305,7 +355,7 @@ public class WrapperJSON {
 						listener.ImageAvailable(idOrNot);
 					}
 	    		}
-	    		// TODO: else something for error handling if the image retrieval failed
+	    		// TODO: in else-clause something for error handling if the image retrieval failed
 	    	}
 	    	else if (yearOrNot != null && yearOrNot != "")
 	    	{
@@ -397,7 +447,14 @@ public class WrapperJSON {
 	    	// If metadata has been fetched already, just return and notify listeners
 	    	if (metadatas.containsKey(yearOrNot))
 	    	{
-	    		return;
+	    		if (metadatas.get(yearOrNot) != null)
+	    		{
+	    			return;
+	    		}
+	    		else // if the fetch on previous time had failed and returned null metadata, remove from map and fetch again.
+	    		{
+	    			metadatas.remove(yearOrNot);
+	    		}
 	    	}
 	    	
 	    	// Checks first which sessions belong to the given year
