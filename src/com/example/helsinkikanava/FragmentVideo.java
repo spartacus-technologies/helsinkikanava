@@ -131,16 +131,27 @@ public class FragmentVideo extends Fragment {
     String convertSecondstoTime(String input){
     	
     	int total = Integer.valueOf(input);
+    	int hours = total/3600;
     	int minutes = total/60;
     	int seconds = total%60;
     	
     	//Ghetto:
     	if(seconds < 10){
     		
-    		return minutes + ":0" + seconds;
+    		return hours + ":" + minutes + ":0" + seconds;
+    	}
+    	//Ghetompi:
+    	if(minutes < 10){
+    		
+    		return hours + ":0" + minutes + seconds;
+    	}
+    	//Ghetoin:
+    	if(minutes < 10 && seconds < 10){
+    		
+    		return hours + ":0" + minutes + ":0" + seconds;
     	}
     	
-		return minutes + ":" + seconds;
+		return hours + ":" + minutes + ":" + seconds;
     }
     
     String[] parseTitleAndDate(String text){
