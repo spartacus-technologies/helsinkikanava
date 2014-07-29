@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.TreeSet;
 
 public class FragmentParticipants extends Fragment
@@ -44,17 +45,6 @@ public class FragmentParticipants extends Fragment
     {
         //Get Parties from wrapperJSON
         TreeSet<String> parties = WrapperJSON.GetParties( session_title_);
-//        TreeSet<String> parties = new TreeSet<String>();
-
-//        parties.add("Puolue 1");
-//        parties.add("Puolue 2");
-//        parties.add("Puolue 3");
-//        parties.add("Puolue 4");
-//        parties.add("Puolue 5");
-//        parties.add("Puolue 6");
-//        parties.add("Puolue 7");
-//        parties.add("Puolue 8");
-//        parties.add("Puolue 9");
 
         //There was no data
         if (parties == null )
@@ -63,12 +53,13 @@ public class FragmentParticipants extends Fragment
         createPartySegments(parties);
 
         //Get participants for each party from wrapperJSON
-        for (int i = 0; i < parties.size(); ++i)
+        int i = 0;
+        for (String party: parties)
         {
-            ArrayList<String> participants = new ArrayList<String>();
-            participants.add("Matti Meikäläinen"); participants.add("Marja Meikäläinen");
+            TreeSet<String> participants = WrapperJSON.GetParticipantsByParty(session_title_, party);
 
             addParticipantsToParty(i, participants);
+            ++i;
         }
 
     }
@@ -85,6 +76,9 @@ public class FragmentParticipants extends Fragment
 
             TextView title = new TextView(getActivity());
 //            TextView event_description = new TextView(getActivity());
+            if (party.isEmpty())
+                party = "(Ei puoluetta)";
+
             title.setText(party);
             title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
 
@@ -108,7 +102,7 @@ public class FragmentParticipants extends Fragment
         }
     }
 
-    private void addParticipantsToParty(int party, ArrayList<String>  participants)
+    private void addParticipantsToParty(int party, TreeSet<String> participants)
     {
         LinearLayout my_root = (LinearLayout) rootView_.findViewById(party);
 

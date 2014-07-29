@@ -91,13 +91,13 @@ public class WrapperJSON {
      * PRECONDITION
      * The year being queried has to be earlier fetched
      ******************************************************/
-    public static HashSet<String> GetParticipantsByParty (String paSessionTitle, String paParty)
+    public static TreeSet<String> GetParticipantsByParty (String paSessionTitle, String paParty)
     {
         Metadata metadata = GetMetadata(paSessionTitle);
 
         if(metadata == null || metadata.attendance == null) return null;
 
-        HashSet<String> participants = new HashSet<String>();
+        TreeSet<String> participants = new TreeSet<String>();
 
         for(Attendance attendance : metadata.attendance)
         {
