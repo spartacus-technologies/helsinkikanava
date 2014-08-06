@@ -57,7 +57,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 	final int preview_height = 90;
 	final int preview_width = 160;
 	
-	final boolean previewLink = false;
+	final boolean previewLink = true;
 	
 	Map<String, ArrayList<Metadata>> content = null;
 	
