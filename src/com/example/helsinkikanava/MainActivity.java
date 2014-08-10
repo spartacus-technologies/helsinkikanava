@@ -11,11 +11,11 @@ import android.widget.Button;
 import android.view.View.OnTouchListener;
 
 import java.util.ArrayList;
-import java.util.TreeSet;
 
 public class MainActivity extends ActionBarActivity implements  OnTouchListener
 {
     FragmentDefault frag_default_ = null;
+    FragmentSettings frag_settings = null;
     private WrapperJSON wrapperJSON = new WrapperJSON();
     private ArrayList<Session> council_meetings = new ArrayList<Session>();
     private Scroller tab_bar_scroller;
@@ -37,7 +37,7 @@ public class MainActivity extends ActionBarActivity implements  OnTouchListener
         ((Button)this.findViewById(R.id.main_activity_tabs_button_left)).setOnTouchListener(this);
         ((Button)this.findViewById(R.id.main_activity_tabs_button_right)).setOnTouchListener(this);
 
-        ((Button)findViewById(R.id.main_activity_tab_button_news)).setTextColor(Color.GRAY);
+        ((Button)findViewById(R.id.main_activity_tab_button_settings)).setTextColor(Color.GRAY);
         ((Button)findViewById(R.id.main_activity_tab_button_councilmeetings)).setTextColor(Color.WHITE);
 
         tab_bar_scroller = new Scroller(this.findViewById(R.id.horizontalScrollView_main_activity_tabs));
@@ -45,6 +45,7 @@ public class MainActivity extends ActionBarActivity implements  OnTouchListener
         if (frag_default_ == null)
         {
             frag_default_ = new FragmentDefault(this);
+            frag_settings = new FragmentSettings(this);
         }
         //Show default fragment (for debugging)
         if (savedInstanceState == null)
@@ -99,23 +100,28 @@ public class MainActivity extends ActionBarActivity implements  OnTouchListener
         {
             //Council meetings tab
             case R.id.main_activity_tab_button_councilmeetings:
-                Log.i("MainActivity", "CouncilMeetings tab" );
+
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
-//                transaction.replace(R.id.container, new FragmentMeetings(this));
                 transaction.replace(R.id.container, frag_default_);
                 transaction.addToBackStack(null);
                 transaction.commit();
 
-                ((Button)findViewById(R.id.main_activity_tab_button_news)).setTextColor(Color.GRAY);
+                ((Button)findViewById(R.id.main_activity_tab_button_settings)).setTextColor(Color.GRAY);
                 ((Button)findViewById(R.id.main_activity_tab_button_councilmeetings)).setTextColor(Color.WHITE);
 
                 break;
 
-            //Asetukset -button
-            case R.id.main_activity_tab_button_news:
-/*                TreeSet<String> parties = WrapperJSON.GetParties("Kaupunginvaltuuston kokous 11/18.6.2014");
-                wrapperJSON.GetParticipantsByParty("Kaupunginvaltuuston kokous 11/18.6.2014", parties.last());*/
+            //Settings -button
+            case R.id.main_activity_tab_button_settings:
+                FragmentTransaction transaction1 = getFragmentManager().beginTransaction();
+
+                transaction1.replace(R.id.container, frag_settings);
+                transaction1.addToBackStack(null);
+                transaction1.commit();
+
+                ((Button)findViewById(R.id.main_activity_tab_button_settings)).setTextColor(Color.WHITE);
+                ((Button)findViewById(R.id.main_activity_tab_button_councilmeetings)).setTextColor(Color.GRAY);
                 break;
 
             //Scroll left:
