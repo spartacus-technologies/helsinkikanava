@@ -12,12 +12,20 @@
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="80dp" android:weightSum="1">
-            <ImageView
-                    android:layout_width="wrap_content"
+            <TextView
+                    android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:id="@+id/imageView_topBanner" android:layout_gravity="left|top" android:src="@drawable/ylabanneri"
-                    android:scaleType="fitCenter" android:layout_weight="1" android:focusableInTouchMode="true"
-                    android:focusable="false"/>
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="HELSINKIKANAVA mobiili"
+                    android:id="@+id/textView" android:layout_weight="1" android:layout_gravity="center"
+                    android:gravity="center_vertical|center_horizontal"/>
+
+            <!--<ImageView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="fill_parent"-->
+                    <!--android:id="@+id/imageView_topBanner" android:layout_gravity="left|top" android:src="@drawable/ylabanneri"-->
+                    <!--android:scaleType="fitCenter" android:layout_weight="1" android:focusableInTouchMode="true"-->
+                    <!--android:focusable="false"/>-->
             <!--<ImageButton-->
                     <!--android:layout_width="wrap_content"-->
                     <!--android:layout_height="fill_parent"-->
@@ -85,7 +93,7 @@
                         <Button
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="DEBUG"
+                                android:text="Asetukset"
                                 android:id="@+id/main_activity_tab_button_news" android:singleLine="true"
                                 android:textColor="#ffffffff" android:background="@android:color/black"
                                 android:enabled="true" android:onClick="onClick"/>

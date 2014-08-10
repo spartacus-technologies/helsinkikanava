@@ -112,7 +112,7 @@ public class MainActivity extends ActionBarActivity implements  OnTouchListener
 
                 break;
 
-            //DEBUG -button
+            //Asetukset -button
             case R.id.main_activity_tab_button_news:
 /*                TreeSet<String> parties = WrapperJSON.GetParties("Kaupunginvaltuuston kokous 11/18.6.2014");
                 wrapperJSON.GetParticipantsByParty("Kaupunginvaltuuston kokous 11/18.6.2014", parties.last());*/

@@ -32,13 +32,20 @@
 
         <RelativeLayout android:layout_width="fill_parent" android:layout_height="80dp">
 
-
-            <ImageView
+            <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:id="@+id/imageView_topBanner_video" android:layout_gravity="center_horizontal" android:src="@drawable/ylabanneri"
-                    android:scaleType="fitCenter" android:layout_weight="1" android:focusableInTouchMode="true"
-                    android:focusable="false"/>
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="HELSINKIKANAVA mobiili"
+                    android:id="@+id/textView" android:layout_weight="1" android:layout_gravity="center"
+                    android:gravity="center_vertical|center_horizontal"/>
+
+            <!--<ImageView-->
+                    <!--android:layout_width="fill_parent"-->
+                    <!--android:layout_height="fill_parent"-->
+                    <!--android:id="@+id/imageView_topBanner_video" android:layout_gravity="center_horizontal" android:src="@drawable/ylabanneri"-->
+                    <!--android:scaleType="fitCenter" android:layout_weight="1" android:focusableInTouchMode="true"-->
+                    <!--android:focusable="false"/>-->
 
             <ImageButton
                     android:layout_width="wrap_content"
