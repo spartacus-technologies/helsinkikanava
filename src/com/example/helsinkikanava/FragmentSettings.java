@@ -1,4 +1,4 @@
-package com.example.helsinkikanava;
+﻿package com.example.helsinkikanava;
 
 import android.app.ActionBar;
 import android.app.Fragment;

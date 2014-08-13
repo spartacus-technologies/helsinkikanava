@@ -60,6 +60,8 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 	final boolean previewLink = true;
 	
 	Map<String, ArrayList<Metadata>> content = null;
+	private boolean showLoading;
+	protected long loadindDelay = 200;
 	
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -74,8 +76,6 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
         ((Button)rootView.findViewById(R.id.fragment_meetings_button_left)).setOnTouchListener(this);
         ((Button)rootView.findViewById(R.id.fragment_meetings_button_right)).setOnTouchListener(this);
 
-        
-        WrapperJSON.RegisterListener(this);
         WrapperJSON.RefreshYears();
         
         return rootView;
@@ -84,6 +84,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     
     public FragmentDefault(Context parent) {
     	
+    	WrapperJSON.RegisterListener(this);
     	parent_ = parent;
     }
     
@@ -125,17 +126,26 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 	@SuppressWarnings("deprecation")	//Backwards support.
 	private void generateContent(){
     	
+
     	LinearLayout my_root = (LinearLayout) rootView.findViewById(R.id.fragment_meetings_content);
+
     	my_root.removeAllViews();
+    	
+    	//Error check: fragment is hidden -> return
+    	if(getView() == null){
+    		
+    		Log.w("generateContent", "getView() == null -> return");
+    		return;
+    	}
     	
     	//Hide overlay loading animation:
     	getView().findViewById(R.id.fragment_meetings_overlay).setVisibility(View.INVISIBLE);
-    	
-    	int content_id_index = 0;
 
-    	
+    	int content_id_index = 0;
+	
     	//Create data for active year:
     	ArrayList<Metadata> year_data = content.get(active_year);
+
     	
     	Log.i(TAG + ":generateContent", "generateContent:start. Available meetings: " + year_data.size());
     	
@@ -332,8 +342,9 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 			//Year navigation labels: (not active_year)
 			if(v.getId() > 1900 && v.getId() < 2100 && v.getId() != Integer.valueOf(active_year)){
 				
-		    	//HIde overlay oading animation:
-		    	getView().findViewById(R.id.fragment_meetings_overlay).setVisibility(View.VISIBLE);
+		    	//Show overlay loading animation (delayed):
+				showDelayedLoadingIcon();
+		    	///getView().findViewById(R.id.fragment_meetings_overlay).setVisibility(View.VISIBLE);
 		    	
 				
 				Log.i("FragmentDefault", "Requesting data for year " + v.getId());
@@ -519,16 +530,24 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 	
 	@Override
 	public void DataAvailable(final String year) {
-		
+
 		Log.i("FragmentMeetings:DataAvailable", "DataAvailable for year " + year + ". Current year active is " + active_year + ".");
 		if(year != active_year){
 			
 			Log.w("FragmentDefault:DataAvailable", "Warning: not active year data -> ignore.");
 			return;
 		}
-		
+		/*
+		else if(FragmentDefault.this.isVisible()){
+			
+			Log.w("FragmentDefault:DataAvailable", "Warning: Fragment not visible -> return.");
+			return;
+			
+		}
+		*/
 		content = null; //TODO
 		
+		showLoading = false;
 		//Create hashmap if non-existent:
 		if(content == null) content = new HashMap<String, ArrayList<Metadata>>();
 		
@@ -539,11 +558,18 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 
 		Log.i("FragmentMeetings:DataAvailable", "Meetings: " + content.get(year).size());
 		
+		//Check if activity is active:
+		if(getActivity() == null){
+			
+			Log.w("FragmentDefault:DataAvailable", "Warning: Fragment not visible -> return.");
+			return;
+		}
+		
 		//Run UI updates in external thread:
 		getActivity().runOnUiThread(new Runnable(){
-			
+						
 			 public void run() {
-				
+				 
 				 if(content.get(year) == null || content.get(year).size() == 0){
 						
 						Log.e("FragmentMeeting" , "Warning: metadata for year " + year + " was null.");
@@ -582,5 +608,37 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 				 
              }	
 		});
+	}
+	
+	void showDelayedLoadingIcon(){
+		
+		showLoading = true;
+		Runnable runnnable = new Runnable(){
+			
+			public void run(){
+
+					try {
+						Thread.sleep(loadindDelay );
+					} catch (Exception e) {
+						// TODO: handle exception
+					}
+
+					//Check if truly should show loading (data already arrived):
+					if(!showLoading) return;
+					
+				 getActivity().runOnUiThread(new Runnable(){
+						
+					 public void run() {
+
+						 getView().findViewById(R.id.fragment_meetings_overlay).setVisibility(View.VISIBLE);
+					 }
+				 });
+			}
+			
+		};
+		
+		Thread t1 = new Thread(runnnable);
+		t1.start();
+		
 	}
 }
