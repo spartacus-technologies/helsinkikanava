@@ -8,32 +8,56 @@
 
     <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="130dp">
 
-        <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="fill_parent"
-                android:layout_height="80dp" android:weightSum="1">
-            <TextView
+        <RelativeLayout android:layout_width="fill_parent" android:layout_height="80dp">
+
+            <!--<TextView-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="fill_parent"-->
+            <!--android:textAppearance="?android:attr/textAppearanceLarge"-->
+            <!--android:text="HELSINKIKANAVA mobiili"-->
+            <!--android:id="@+id/textView" android:layout_weight="1" android:layout_gravity="center"-->
+            <!--android:gravity="center_vertical|center_horizontal"/>-->
+
+            <!--&lt;!&ndash;<ImageView&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="fill_parent"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="fill_parent"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:id="@+id/imageView_topBanner_video" android:layout_gravity="center_horizontal" android:src="@drawable/ylabanneri"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:scaleType="fitCenter" android:layout_weight="1" android:focusableInTouchMode="true"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:focusable="false"/>&ndash;&gt;-->
+
+            <ImageView
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="HELSINKIKANAVA mobiili"
-                    android:id="@+id/textView" android:layout_weight="1" android:layout_gravity="center"
-                    android:gravity="center_vertical|center_horizontal"/>
+                    android:id="@+id/imageView_topBanner_video" android:layout_gravity="left|top" android:src="@drawable/logo_hkikanava"
+                    android:scaleType="fitCenter" android:layout_weight="1" android:focusableInTouchMode="true"
+                    android:focusable="false" android:adjustViewBounds="true" android:paddingBottom="15dp"
+                    android:paddingTop="15dp" android:paddingLeft="60dp"
+                    android:layout_alignParentTop="true" android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"/>
 
-            <!--<ImageView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="fill_parent"-->
-                    <!--android:id="@+id/imageView_topBanner" android:layout_gravity="left|top" android:src="@drawable/ylabanneri"-->
-                    <!--android:scaleType="fitCenter" android:layout_weight="1" android:focusableInTouchMode="true"-->
-                    <!--android:focusable="false"/>-->
             <!--<ImageButton-->
                     <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="fill_parent"-->
-                    <!--android:id="@+id/imageButton_refresh" android:src="@drawable/btn_refresh" android:background="#ffffffff"-->
-                    <!--android:layout_weight="0.35" android:focusable="false" android:scaleType="center"-->
-                    <!--android:clickable="true" android:onClick="onClick"/>-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:id="@+id/imageButton_video_activity_back"-->
+                    <!--android:src="@drawable/btn_back" android:scaleType="fitCenter"-->
+                    <!--android:background="#00ffffff"-->
+                    <!--android:clickable="true" android:onClick="onClick"-->
+                    <!--android:paddingTop="50dp"-->
+                    <!--android:layout_alignParentTop="true" android:layout_centerHorizontal="true"/>-->
 
-        </LinearLayout>
+            <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/imageButton_main_activity_settings"
+                    android:src="@drawable/btn_settings" android:scaleType="fitCenter"
+                    android:background="#00ffffff"
+                    android:clickable="true" android:onClick="onClick"
+                    android:paddingTop="20dp" android:paddingRight="20dp" android:paddingBottom="20dp"
+                    android:paddingLeft="-20dp"
+                    android:layout_alignParentTop="true" android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"/>
+
+        </RelativeLayout>
 
         <LinearLayout
                 android:id="@+id/main_activity_tabs"
@@ -42,16 +66,16 @@
                 android:gravity="bottom|center_horizontal"
                 android:orientation="horizontal" >
 
-            <Button
-                    android:id="@+id/main_activity_tabs_button_left"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:background="@android:color/black"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:src="@drawable/abc_ic_ab_back_holo_light"
-                    android:text="&lt;"
-                    android:textColor="@android:color/white" android:onClick="onClick"/>
+            <!--<Button-->
+                    <!--&lt;!&ndash;android:id="@+id/main_activity_tabs_button_left"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_height="match_parent"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:background="@android:color/black"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:paddingLeft="5dp"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:paddingRight="5dp"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:src="@drawable/abc_ic_ab_back_holo_light"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:text="&lt;"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:textColor="@android:color/white" android:onClick="onClick"/>&ndash;&gt;-->
 
             <HorizontalScrollView
                     android:id="@+id/horizontalScrollView_main_activity_tabs"
@@ -63,57 +87,60 @@
 
                 <LinearLayout
                         android:id="@+id/main_activity_tabs_names"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:gravity="center_horizontal"
+                        android:gravity="center_vertical|center_horizontal"
                         android:orientation="horizontal" >
 
                     <RelativeLayout
                             android:id="@+id/main_activity_tab_layout_councilmeetings"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            >
+                            android:gravity="center_vertical">
 
                         <Button
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Kaupunginvaltuusto"
                                 android:id="@+id/main_activity_tab_button_councilmeetings" android:singleLine="true"
                                 android:textColor="#ffffffff" android:background="@android:color/black"
                                 android:enabled="true" android:onClick="onClick" android:paddingLeft="5dp"
-                                android:paddingRight="5dp"/>
+                                android:paddingRight="5dp"
+                                android:gravity="center_vertical" android:layout_alignParentTop="true"
+                                android:layout_alignParentLeft="true" android:layout_alignParentStart="true"
+                                android:layout_marginLeft="106dp"/>
                     </RelativeLayout>
 
-                    <RelativeLayout
-                            android:id="@+id/main_activity_tab_layout_news"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingRight="5dp" android:paddingLeft="5dp">
+                    <!--<RelativeLayout-->
+                            <!--android:id="@+id/main_activity_tab_layout_news"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:paddingRight="5dp" android:paddingLeft="5dp">-->
 
-                        <Button
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Asetukset"
-                                android:id="@+id/main_activity_tab_button_settings" android:singleLine="true"
-                                android:textColor="#ffffffff" android:background="@android:color/black"
-                                android:enabled="true" android:onClick="onClick"/>
-                    </RelativeLayout>
+                        <!--<Button-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:text="Asetukset"-->
+                                <!--android:id="@+id/main_activity_tab_button_settings" android:singleLine="true"-->
+                                <!--android:textColor="#ffffffff" android:background="@android:color/black"-->
+                                <!--android:enabled="true" android:onClick="onClick"/>-->
+                    <!--</RelativeLayout>-->
 
                 </LinearLayout>
 
 
             </HorizontalScrollView>
 
-            <Button
-                    android:id="@+id/main_activity_tabs_button_right"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:background="@android:color/black"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:src="@drawable/abc_ic_ab_back_holo_light"
-                    android:text=">"
-                    android:textColor="@android:color/white" android:onClick="onClick"/>
+            <!--<Button-->
+                    <!--android:id="@+id/main_activity_tabs_button_right"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:background="@android:color/black"-->
+                    <!--android:paddingLeft="5dp"-->
+                    <!--android:paddingRight="5dp"-->
+                    <!--android:src="@drawable/abc_ic_ab_back_holo_light"-->
+                    <!--android:text=">"-->
+                    <!--android:textColor="@android:color/white" android:onClick="onClick"/>-->
 
         </LinearLayout>
     </LinearLayout>

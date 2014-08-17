@@ -1,4 +1,4 @@
-﻿package com.example.helsinkikanava;
+package com.example.helsinkikanava;
 
 import android.app.ActionBar;
 import android.app.Fragment;
@@ -90,11 +90,11 @@ public class FragmentSettings extends Fragment
 
                 TextView name = new TextView(getActivity());
 
-                name.setText("Tämän ohjelman versionumero on 0.1\n" +
+                name.setText("T?m?n ohjelman versionumero on 0.1\n" +
                         "\n" +
-                        "Tämä sovellus hyödyntää open.helsinkikanava.fi:n tarjoamaa avointa dataa. \n" +
+                        "T?m? sovellus hy?dynt?? open.helsinkikanava.fi:n tarjoamaa avointa dataa. \n" +
                         "\n" +
-                        "Ohjelman kehityksestä on vastannut Spartacus Technologies Oy. www.sprtc.us");
+                        "Ohjelman kehityksest? on vastannut Spartacus Technologies Oy. www.sprtc.us");
 
                 name.setPadding(40,0,0,10);
                 name.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);

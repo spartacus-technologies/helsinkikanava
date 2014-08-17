@@ -12,7 +12,7 @@ import android.view.View.OnTouchListener;
 
 import java.util.ArrayList;
 
-public class MainActivity extends ActionBarActivity implements  OnTouchListener
+public class MainActivity extends ActionBarActivity // implements  OnTouchListener
 {
     FragmentDefault frag_default_ = null;
     FragmentSettings frag_settings = null;
@@ -34,10 +34,10 @@ public class MainActivity extends ActionBarActivity implements  OnTouchListener
         this.requestWindowFeature(this.getWindow().FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
 
-        ((Button)this.findViewById(R.id.main_activity_tabs_button_left)).setOnTouchListener(this);
-        ((Button)this.findViewById(R.id.main_activity_tabs_button_right)).setOnTouchListener(this);
-
-        ((Button)findViewById(R.id.main_activity_tab_button_settings)).setTextColor(Color.GRAY);
+//        ((Button)this.findViewById(R.id.main_activity_tabs_button_left)).setOnTouchListener(this);
+//        ((Button)this.findViewById(R.id.main_activity_tabs_button_right)).setOnTouchListener(this);
+//
+//        ((Button)findViewById(R.id.main_activity_tab_button_settings)).setTextColor(Color.GRAY);
         ((Button)findViewById(R.id.main_activity_tab_button_councilmeetings)).setTextColor(Color.WHITE);
 
         tab_bar_scroller = new Scroller(this.findViewById(R.id.horizontalScrollView_main_activity_tabs));
@@ -107,32 +107,32 @@ public class MainActivity extends ActionBarActivity implements  OnTouchListener
                 transaction.addToBackStack(null);
                 transaction.commit();
 
-                ((Button)findViewById(R.id.main_activity_tab_button_settings)).setTextColor(Color.GRAY);
+//                ((Button)findViewById(R.id.main_activity_tab_button_settings)).setTextColor(Color.GRAY);
                 ((Button)findViewById(R.id.main_activity_tab_button_councilmeetings)).setTextColor(Color.WHITE);
 
                 break;
 
             //Settings -button
-            case R.id.main_activity_tab_button_settings:
-                FragmentTransaction transaction1 = getFragmentManager().beginTransaction();
+//            case R.id.main_activity_tab_button_settings:
+//                FragmentTransaction transaction1 = getFragmentManager().beginTransaction();
+//
+//                transaction1.replace(R.id.container, frag_settings);
+//                transaction1.addToBackStack(null);
+//                transaction1.commit();
+//
+//                ((Button)findViewById(R.id.main_activity_tab_button_settings)).setTextColor(Color.WHITE);
+//                ((Button)findViewById(R.id.main_activity_tab_button_councilmeetings)).setTextColor(Color.GRAY);
+//                break;
 
-                transaction1.replace(R.id.container, frag_settings);
-                transaction1.addToBackStack(null);
-                transaction1.commit();
-
-                ((Button)findViewById(R.id.main_activity_tab_button_settings)).setTextColor(Color.WHITE);
-                ((Button)findViewById(R.id.main_activity_tab_button_councilmeetings)).setTextColor(Color.GRAY);
-                break;
-
-            //Scroll left:
-            case R.id.main_activity_tabs_button_left:
-
-                break;
-
-            //Scroll right:
-            case R.id.main_activity_tabs_button_right:
-
-                break;
+//            //Scroll left:
+//            case R.id.main_activity_tabs_button_left:
+//
+//                break;
+//
+//            //Scroll right:
+//            case R.id.main_activity_tabs_button_right:
+//
+//                break;
 
             default:
                 break;
@@ -143,46 +143,46 @@ public class MainActivity extends ActionBarActivity implements  OnTouchListener
 
 
     // Scroll tab bar
-    @Override
-    public boolean onTouch(View v, MotionEvent event)
-    {
-        switch (v.getId())
-        {
-            case R.id.main_activity_tabs_button_left:
-
-                tab_bar_scroller.setDirection(-scroll_speed);
-                if(event.getAction() == android.view.MotionEvent.ACTION_DOWN)
-                {
-                    tab_bar_scroller.start();
-                }
-                else if(event.getAction() == android.view.MotionEvent.ACTION_UP)
-                {
-                    tab_bar_scroller.stop();
-                }
-
-                break;
-
-            case R.id.main_activity_tabs_button_right:
-
-                tab_bar_scroller.setDirection(scroll_speed);
-                if(event.getAction() == android.view.MotionEvent.ACTION_DOWN)
-                {
-                    tab_bar_scroller.start();
-                }
-                else if(event.getAction() == android.view.MotionEvent.ACTION_UP)
-                {
-                    tab_bar_scroller.stop();
-                }
-
-                break;
-
-            default:
-                break;
-        }
-
-//        v.performClick();
-        return false;
-    }
+//    @Override
+//    public boolean onTouch(View v, MotionEvent event)
+//    {
+//        switch (v.getId())
+//        {
+//            case R.id.main_activity_tabs_button_left:
+//
+//                tab_bar_scroller.setDirection(-scroll_speed);
+//                if(event.getAction() == android.view.MotionEvent.ACTION_DOWN)
+//                {
+//                    tab_bar_scroller.start();
+//                }
+//                else if(event.getAction() == android.view.MotionEvent.ACTION_UP)
+//                {
+//                    tab_bar_scroller.stop();
+//                }
+//
+//                break;
+//
+//            case R.id.main_activity_tabs_button_right:
+//
+//                tab_bar_scroller.setDirection(scroll_speed);
+//                if(event.getAction() == android.view.MotionEvent.ACTION_DOWN)
+//                {
+//                    tab_bar_scroller.start();
+//                }
+//                else if(event.getAction() == android.view.MotionEvent.ACTION_UP)
+//                {
+//                    tab_bar_scroller.stop();
+//                }
+//
+//                break;
+//
+//            default:
+//                break;
+//        }
+//
+////        v.performClick();
+//        return false;
+//    }
 
     //For scrolling tab bar
     class Scroller
