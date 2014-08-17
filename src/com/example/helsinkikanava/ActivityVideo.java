@@ -137,6 +137,11 @@ public class ActivityVideo extends Activity implements OnTouchListener
                 this.finish();
                 break;
 
+            case R.id.imageButton_video_activity_settings:
+                ActivityPopupSettings settings = new ActivityPopupSettings();
+                settings.showDialog(this);
+                break;
+
             default:
                 break;
 

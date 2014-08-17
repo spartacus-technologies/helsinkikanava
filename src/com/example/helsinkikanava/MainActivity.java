@@ -112,6 +112,11 @@ public class MainActivity extends ActionBarActivity // implements  OnTouchListen
 
                 break;
 
+            //Settings-button
+            case R.id.imageButton_main_activity_settings:
+                ActivityPopupSettings settings = new ActivityPopupSettings();
+                settings.showDialog(this);
+                break;
             //Settings -button
 //            case R.id.main_activity_tab_button_settings:
 //                FragmentTransaction transaction1 = getFragmentManager().beginTransaction();

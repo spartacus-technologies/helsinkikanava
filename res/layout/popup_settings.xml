@@ -6,15 +6,86 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.helsinkikanava.PopupCheckUpdates" >
+    tools:context="com.example.helsinkikanava.PopupCheckUpdates" android:background="#00ffffff">
 
-    <TextView
-        android:id="@+id/fragment_video_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="Nothing here... For now."
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" android:layout_alignParentTop="true"
+            android:background="#00ffffff"
+            android:baselineAligned="false" android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp">
+
+        <LinearLayout
+            android:id="@+id/layout_Help"
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" android:background="#ff070707">
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" android:background="#ff070707">
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView" android:src="@drawable/help" android:padding="5dp"/>
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:text="Ohjeet"
+                    android:textAppearance="?android:attr/textAppearanceMedium" android:textColor="#ffffffff"
+                    android:gravity="center_vertical" android:textSize="22dp" android:paddingLeft="15dp"
+                    android:layout_marginRight="5dp"/>
+        </LinearLayout>
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="Nähdäksesi videolähetykset tarvitset MX Playerin.\nMX Player on ladattavissa ilmaiseksi Play Storesta."
+                android:textAppearance="?android:attr/textAppearanceMedium" android:textColor="#ffffffff"
+                android:gravity="center_vertical" android:textSize="12dp" android:layout_marginLeft="50dp"
+                android:layout_marginBottom="10dp" android:layout_marginTop="10dp" android:layout_marginRight="5dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+                android:id="@+id/layout_Info"
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" android:background="#ff070707">
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" android:background="#ff070707">
+                <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/info" android:padding="5dp"/>
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:text="Tietoa sovelluksesta"
+                        android:textAppearance="?android:attr/textAppearanceMedium" android:textColor="#ffffffff"
+                        android:gravity="center_vertical" android:textSize="22dp" android:paddingLeft="15dp"
+                        android:layout_marginRight="5dp"/>
+            </LinearLayout>
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:text="Tämän ohjelman versionumero on 0.1\n\nTämä sovellus hyödyntää open.helsinkikanava.fi:n tarjoamaa avointa dataa. \n\nOhjelman kehityksestä on vastannut Spartacus Technologies Oy. www.sprtc.us"
+                    android:textAppearance="?android:attr/textAppearanceMedium" android:textColor="#ffffffff"
+                    android:gravity="center_vertical" android:textSize="12dp" android:layout_marginLeft="50dp"
+                    android:layout_marginBottom="10dp" android:layout_marginTop="10dp"
+                    android:layout_marginRight="5dp"/>
+        </LinearLayout>
+
+        </LinearLayout>
+
 
 </RelativeLayout>

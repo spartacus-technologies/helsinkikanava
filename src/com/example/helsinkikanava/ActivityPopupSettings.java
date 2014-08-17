@@ -1,6 +1,7 @@
 package com.example.helsinkikanava;
 
 import android.app.*;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,7 +35,8 @@ public class ActivityPopupSettings extends Activity {
 	    popUpLayout = LayoutInflater.from(caller).inflate(R.layout.popup_settings, layout);
 	    dialog.setContentView(popUpLayout);
 	    dialog.getWindow().setLayout(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-	    
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
 	    dialog.show();
 		
 	}
