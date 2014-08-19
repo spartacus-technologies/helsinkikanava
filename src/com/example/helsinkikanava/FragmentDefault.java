@@ -63,29 +63,43 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 	private boolean showLoading;
 	protected long loadindDelay = 200;
 	
+	static boolean isRegistered = false;
+	
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
     	
+    	super.onCreateView(inflater, container, savedInstanceState);
+    	Log.i(TAG, "FragmentDefault:onCreateView 1");
+    	
         rootView = inflater.inflate(R.layout.fragment_meetings, container, false);
-
+        Log.i(TAG, "FragmentDefault:onCreateView 2");
         //Listeners:
         ((Button)rootView.findViewById(R.id.fragment_meetings_button_left)).setOnClickListener(this);
         ((Button)rootView.findViewById(R.id.fragment_meetings_button_right)).setOnClickListener(this);
-        
+        Log.i(TAG, "FragmentDefault:onCreateView 3");
         ((Button)rootView.findViewById(R.id.fragment_meetings_button_left)).setOnTouchListener(this);
         ((Button)rootView.findViewById(R.id.fragment_meetings_button_right)).setOnTouchListener(this);
-
+        Log.i(TAG, "FragmentDefault:onCreateView 4");
         WrapperJSON.RefreshYears();
-        
+        Log.i(TAG, "FragmentDefault:onCreateView 5");
         return rootView;
     }
     
     
     public FragmentDefault(Context parent) {
     	
-    	WrapperJSON.RegisterListener(this);
+    	Log.i(TAG, "FragmentDefault:FragmentDefault 1");
+    	
+    	if(!isRegistered){
+    		
+    		WrapperJSON.RegisterListener(this);
+    		isRegistered = true;
+    	}
+    	
+    	
     	parent_ = parent;
+    	Log.i(TAG, "FragmentDefault:FragmentDefault 2");
     }
     
     private void createYearTitle(String year){
@@ -284,6 +298,8 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     }
     
     private void generateYearNavigation(){
+    	
+    	Log.i("generateYearNavigation", "generateYearNavigation1");
     	
     	for(String year : years){
     	
@@ -489,6 +505,8 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 	@Override
 	public void YearsAvailable() {
 
+		Log.i(TAG, "YearsAvailable:  YearsAvailable 1");
+		
 		years = WrapperJSON.GetYears();
 
 		if(years == null || years.size() == 0){
@@ -496,22 +514,32 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 			showErrorMessage("Error generating year navigation: no data available");
 			return;
 		}
-		
+
 		else{
-			
+			Log.i(TAG, "YearsAvailable:  YearsAvailable 2");
 			//First run(?)
 			if(active_year == null) active_year = years.get(0);
+			Log.i(TAG, "YearsAvailable:  YearsAvailable 2.1");
+			
+			try{
 			
 			//Run UI updates in external thread:
 			getActivity().runOnUiThread(new Runnable(){
 				
 				 public void run() {
-					
+					 Log.i(TAG, "YearsAvailable:  YearsAvailable 3");
 					//Generate navigation and request metadata:
                     generateYearNavigation();
+                    
                     WrapperJSON.RefreshData(String.valueOf(active_year));
+                    Log.i(TAG, "YearsAvailable:  YearsAvailable 4");
                  }
 			});	 
+			
+			}catch(Exception ex){
+				
+				Log.w(TAG, "YearsAvailable:  Exception:" + ex.getStackTrace().toString());
+			}
 		}	
 	}
 
