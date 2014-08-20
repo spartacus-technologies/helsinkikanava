@@ -36,12 +36,10 @@ public class ActivityPopupSettings extends Activity {
 	    dialog.setContentView(popUpLayout);
 	    dialog.getWindow().setLayout(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-
 	    dialog.show();
 		
 	}
 	
-
 	class Scroller{		//For scrolling year list
 		
 		final Handler mHandler = new Handler();
@@ -65,22 +63,18 @@ public class ActivityPopupSettings extends Activity {
 			direction_ = direction;
 		}
 		
-		public 
-		
-		Runnable runner = new Runnable() {
+		public Runnable runner = new Runnable() {
 			
 		    @Override 
 		    public void run() {
-		    	
+		    	 
 		    	Log.i("Scroller", "running...");
 		    	
 		    	mHandler.postDelayed(this, mInterval);
 		    	
 		    	SeekBar bar = ((SeekBar)popUpLayout.findViewById(R.id.popup_checkupdates_progress));
 		    	bar.incrementProgressBy(direction_);
-		    	
-		    	
-		    	
+
 				if(bar.getProgress() == bar.getMax()){
 					((TextView)popUpLayout.findViewById(R.id.popup_Textview_trole)).setVisibility(View.VISIBLE);
 					Log.w("Scroller", "quitting...");
@@ -89,9 +83,7 @@ public class ActivityPopupSettings extends Activity {
 					//finish();
 				}
 		    }
-		};
-		
+		};	
 	}
-	
 }
 

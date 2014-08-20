@@ -39,7 +39,6 @@ public class FragmentVideo extends Fragment implements OnClickListener, IJsonLis
 	final String EXTRA_POSITION	= "position";
 	final int PreviewID = 1;
 	
-	//i.putExtra( EXTRA_POSITION, 10000 );
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
@@ -49,8 +48,8 @@ public class FragmentVideo extends Fragment implements OnClickListener, IJsonLis
         rootView_ = rootView; 
         
         //Set titles:
-        ((TextView)rootView.findViewById(R.id.fragment_video_title)).setText(parseTitleAndDate(title_)[0]);
-        ((TextView)rootView.findViewById(R.id.fragment_video_date)).setText(parseTitleAndDate(title_)[1]);
+        ((TextView)rootView.findViewById(R.id.fragment_video_TextView_title)).setText(parseTitleAndDate(title_)[0]);
+        ((TextView)rootView.findViewById(R.id.fragment_video_TextView_date)).setText(parseTitleAndDate(title_)[1]);
         
         //Generate dynamic content:
         generatePreview();
@@ -101,7 +100,7 @@ public class FragmentVideo extends Fragment implements OnClickListener, IJsonLis
 		
 		//year_title.setId(debug*10);
 		
-		((LinearLayout)rootView_.findViewById(R.id.fragment_video_content)).addView(video_event_layout, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
+		((LinearLayout)rootView_.findViewById(R.id.fragment_video_layout_content)).addView(video_event_layout, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
 
     }
     
@@ -111,7 +110,7 @@ public class FragmentVideo extends Fragment implements OnClickListener, IJsonLis
 		//ImageButton with overlay:
 		//=========================
 		Log.i("generatePreview", "test1");
-		LinearLayout video_content_layout = (LinearLayout) rootView_.findViewById(R.id.fragment_video_content);
+		LinearLayout video_content_layout = (LinearLayout) rootView_.findViewById(R.id.fragment_video_layout_content);
 		
 		LayoutParams previewLayoutParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
 		previewLayoutParams.gravity = Gravity.CENTER;

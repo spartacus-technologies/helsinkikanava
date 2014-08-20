@@ -64,7 +64,7 @@
         android:text="Server version:" />
 
     <TextView
-        android:id="@+id/fragment_video_title"
+        android:id="@+id/fragment_video_TextView_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/popUp_checkingUpdates_static"
