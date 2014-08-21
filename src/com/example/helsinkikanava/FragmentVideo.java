@@ -95,12 +95,14 @@ public class FragmentVideo extends Fragment implements OnClickListener, IJsonLis
     	FrameLayout video_link_layout = new FrameLayout(getActivity()); 
     	
     	TextView video_link = new TextView(getActivity());
+    	LayoutParams video_link_layout_params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+    	
     	video_link.setId(Integer.valueOf(timestamp));
     	video_link.setOnClickListener(this);
-    	video_link.setTextSize(TypedValue.COMPLEX_UNIT_SP, 45);
+    	video_link.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 55);
     	video_link.setText(" ‹ ");
     	//video_link.setBackgroundColor(Color.GRAY);
-    	video_link_layout.addView(video_link, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+    	video_link_layout.addView(video_link, video_link_layout_params);
     	//video_link_layout.setGravity(Gravity.CENTER);
     	
     	LinearLayout video_description_layout = new LinearLayout(getActivity());
@@ -138,19 +140,17 @@ public class FragmentVideo extends Fragment implements OnClickListener, IJsonLis
 		video_event_main_layout.addView(video_link_layout, llp);
 		video_event_main_layout.addView(video_description_layout, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 		((LinearLayout)rootView_.findViewById(R.id.fragment_video_layout_content)).addView(video_event_main_layout, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
-
     }
     
     void generatePreview(){
     	
-
 		//ImageButton with overlay:
 		//=========================
 		
 		LinearLayout video_content_layout = (LinearLayout) rootView_.findViewById(R.id.fragment_video_preview_layout);
 		
 		LayoutParams previewLayoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-		previewLayoutParams.gravity = Gravity.CENTER;
+		//previewLayoutParams.gravity = Gravity.CENTER;
 		
 		
 		FrameLayout previewLayout = new FrameLayout(getActivity());
@@ -162,62 +162,34 @@ public class FragmentVideo extends Fragment implements OnClickListener, IJsonLis
         img_btn.setPadding(0, 0, 0, 0);	
 		img_btn.setScaleType(ScaleType.CENTER);
 		img_btn.setId(getNewPreviewID());
-		img_btn.setBackgroundColor(Color.WHITE);
+		img_btn.setBackgroundResource(R.drawable.videogradient);
 		img_btn.setOnClickListener(this);
+		
 		//Image size in DP:
 		int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 
                 (float) preview_height, getResources().getDisplayMetrics());
 		int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 
                 (float) preview_width, getResources().getDisplayMetrics());
-		LayoutParams imageLayoutParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
-		imageLayoutParams.gravity = Gravity.CENTER;
-		imageLayoutParams.width = width;
-		imageLayoutParams.height = height;
+		
+		LayoutParams overlayLayoutParams = new LayoutParams(previewLayoutParams);
+		
+		//Overlay:
+		ImageView overlay = new ImageView(getActivity());
+		overlay.setScaleX(0.5f);
+		overlay.setScaleY(0.5f);
+		overlay.setImageResource(R.drawable.play_new);
+		overlay.setId(PreviewID);
+		overlay.setOnClickListener(this);
+		
+		overlayLayoutParams.width = width;
+		overlayLayoutParams.height = height;
 	
 		previewLayout.addView(img_btn, previewLayoutParams);
-		
+		previewLayout.addView(overlay, overlayLayoutParams);
 		video_content_layout.addView(previewLayout, 0);
 				
 		WrapperJSON.RefreshImage(PreviewID, meeting_data.video.screenshot_url);
-		Log.i(TAG, "RefreshImage: " + PreviewID + "&" + meeting_data.video.screenshot_url);
-		/*
-		
-		LayoutParams l_parameters1 = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		LayoutParams l_parameters2 = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-		
-		//Image size in DP:
-		int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 
-                (float) preview_height, getResources().getDisplayMetrics());
-		int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 
-                (float) preview_width, getResources().getDisplayMetrics());
-		
-		l_parameters1.width = width;
-		l_parameters1.height = height;
-		
-		l_parameters1.gravity = Gravity.CENTER;
-		l_parameters2.gravity = Gravity.CENTER;
-		
-		
-		ImageButton img_btn = new ImageButton(getActivity());
-        img_btn.setImageResource(R.drawable.test_meeting);
-		
-		ImageView overlay = new ImageView(getActivity());
-		overlay.setImageResource(R.drawable.play_small);
-		
-		previewLayout.setLayoutParams(l_parameters1);
-		previewLayout.addView(img_btn, l_parameters1);
-		previewLayout.addView(overlay, l_parameters2);
-		
-		img_btn.setPadding(0, 0, 0, 0);	
-		img_btn.setScaleType(ScaleType.FIT_XY);
-		img_btn.setId(1);
-		
-		img_btn.setOnClickListener(this);
 
-		video_content_layout.addView(previewLayout, l_parameters2);
-		//previewLayout.addView(overlay, l_parameters2);
-		Log.i("generatePreview", "test5");
-		*/
     }
     
     void generateVideoContent(){
