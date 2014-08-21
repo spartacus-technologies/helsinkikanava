@@ -82,20 +82,24 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/fragment_video_main_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical" >
-
+<TextView
+                        android:id="@+id/textView3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="  "
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
                     <LinearLayout
+                        android:id="@+id/fragment_video_preview_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="#0000FF"
+                        android:gravity="center"
                         android:orientation="vertical" >
 
-                        <FrameLayout
-                            android:id="@+id/fragment_video_preview"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" >
-                        </FrameLayout>
                     </LinearLayout>
 
                     <TextView

@@ -38,7 +38,7 @@
                 android:orientation="vertical" >
 
                 <TextView
-                    android:id="@+id/fragment_video_preview_layout"
+                    android:id="@+id/fragment_video_main_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Ladataan..."

@@ -35,8 +35,8 @@ public class FragmentVideo extends Fragment implements OnClickListener, IJsonLis
 	private String title_;
 	Metadata meeting_data = null;
 	
-	final int preview_height = 90;
-	final int preview_width = 160;
+	final int preview_height = 99;
+	final int preview_width = 176;
 	final String EXTRA_POSITION	= "position";
 	
 	static int PreviewID = 1;
@@ -146,23 +146,24 @@ public class FragmentVideo extends Fragment implements OnClickListener, IJsonLis
 
 		//ImageButton with overlay:
 		//=========================
-		Log.i("generatePreview", "test1");
-		LinearLayout video_content_layout = (LinearLayout) rootView_.findViewById(R.id.fragment_video_layout_content);
 		
-		LayoutParams previewLayoutParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
+		LinearLayout video_content_layout = (LinearLayout) rootView_.findViewById(R.id.fragment_video_preview_layout);
+		
+		LayoutParams previewLayoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 		previewLayoutParams.gravity = Gravity.CENTER;
 		
 		
 		FrameLayout previewLayout = new FrameLayout(getActivity());
 		previewLayout.setLayoutParams(previewLayoutParams);
-		previewLayout.setBackgroundResource(R.drawable.videogradient);
+		//previewLayout.setBackgroundResource(R.drawable.videogradient);
 		
 		ImageButton img_btn = new ImageButton(getActivity());
         img_btn.setImageResource(R.drawable.test_meeting);
         img_btn.setPadding(0, 0, 0, 0);	
-		img_btn.setScaleType(ScaleType.FIT_XY);
+		img_btn.setScaleType(ScaleType.CENTER);
 		img_btn.setId(getNewPreviewID());
-		
+		img_btn.setBackgroundColor(Color.WHITE);
+		img_btn.setOnClickListener(this);
 		//Image size in DP:
 		int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 
                 (float) preview_height, getResources().getDisplayMetrics());
@@ -173,7 +174,7 @@ public class FragmentVideo extends Fragment implements OnClickListener, IJsonLis
 		imageLayoutParams.width = width;
 		imageLayoutParams.height = height;
 	
-		previewLayout.addView(img_btn, imageLayoutParams);
+		previewLayout.addView(img_btn, previewLayoutParams);
 		
 		video_content_layout.addView(previewLayout, 0);
 				
