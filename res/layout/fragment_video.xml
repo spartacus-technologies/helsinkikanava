@@ -78,7 +78,22 @@
     android:paddingTop="0dp"
     android:scaleType="center"
     android:src="@drawable/film_stripe" />
-
+<ImageView
+                        android:id="@+id/imageView3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="0dp"
+                        android:paddingTop="0dp"
+                        android:scaleType="center"
+                        android:src="@drawable/film_stripe" />
+<ImageView
+                        android:id="@+id/imageView4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="0dp"
+                        android:paddingTop="0dp"
+                        android:scaleType="center"
+                        android:src="@drawable/film_stripe" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -92,15 +107,20 @@
                         android:layout_height="wrap_content"
                         android:text="  "
                         android:textAppearance="?android:attr/textAppearanceSmall" />
-                    <LinearLayout
-                        android:id="@+id/fragment_video_preview_layout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="#0000FF"
-                        android:gravity="center"
-                        android:orientation="vertical" >
 
-                    </LinearLayout>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal" >
+
+    <LinearLayout
+        android:id="@+id/fragment_video_preview_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+    </LinearLayout>
+
+</LinearLayout>
 
                     <TextView
                         android:id="@+id/textView2"
