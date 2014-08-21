@@ -221,6 +221,9 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     		l_parameters1.width = width;
     		l_parameters1.height = height;
     		
+    		l_parameters2.width = width/2;
+    		l_parameters2.height = height/2;
+    		
     		l_parameters1.gravity = Gravity.CENTER;
     		l_parameters2.gravity = Gravity.CENTER;
     		
@@ -228,8 +231,10 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     		ImageButton img_btn = new ImageButton(getActivity());
             img_btn.setImageResource(R.drawable.test_meeting);
     		
+            //Overlay (play)
     		ImageView overlay = new ImageView(getActivity());
-    		if(previewLink) overlay.setImageResource(R.drawable.play_small);
+    		if(previewLink) overlay.setImageResource(R.drawable.play_new);
+    		
     		
     		previewLayout.setLayoutParams(l_parameters1);
     		previewLayout.addView(img_btn, l_parameters1);
