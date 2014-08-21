@@ -71,14 +71,38 @@ public class FragmentVideo extends Fragment implements OnClickListener, IJsonLis
     
     void generateVideoEvent(String timestamp, String description){
     	
-    	LinearLayout video_event_layout = new LinearLayout(getActivity());
-		video_event_layout.setOrientation(LinearLayout.VERTICAL);
+    	LinearLayout video_event_main_layout = new LinearLayout(getActivity());
+    	
+    	video_event_main_layout.setOrientation(LinearLayout.HORIZONTAL);
+    	video_event_main_layout.setBackgroundResource(R.drawable.videogradient);
+    	
+    	FrameLayout video_link_layout = new FrameLayout(getActivity()); 
+    	
+    	TextView video_link = new TextView(getActivity());
+    	video_link.setId(Integer.valueOf(timestamp));
+    	video_link.setOnClickListener(this);
+    	video_link.setTextSize(TypedValue.COMPLEX_UNIT_SP, 45);
+    	video_link.setText(" ‹ ");
+    	//video_link.setBackgroundColor(Color.GRAY);
+    	video_link_layout.addView(video_link, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+    	//video_link_layout.setGravity(Gravity.CENTER);
+    	
+    	LinearLayout video_description_layout = new LinearLayout(getActivity());
+		video_description_layout.setOrientation(LinearLayout.VERTICAL);
+		
 		
 		TextView event_title = new TextView(getActivity());
 		TextView event_description = new TextView(getActivity());
+		
+		LayoutParams llp = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+	    llp.setMargins(20, 0, 20, 0); // llp.setMargins(left, top, right, bottom);
+
+		event_title.setLayoutParams(llp);
+	    
 		event_title.setText(convertSecondstoTime(timestamp));
 		event_title.setId(Integer.valueOf(timestamp));
-		event_title.setOnClickListener(this);
+		//event_title.setOnClickListener(this);
+		
 		Log.i("FragmentVideo:generateVideoEvent", "setId = " + Integer.valueOf(timestamp));
 		
 		event_description.setText(description);
@@ -93,14 +117,16 @@ public class FragmentVideo extends Fragment implements OnClickListener, IJsonLis
 		spacer.setBackgroundColor(Color.TRANSPARENT);
 		spacer.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, 100));
 
-		video_event_layout.addView(event_title, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-		video_event_layout.addView(event_description, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+		video_description_layout.addView(event_title, llp);
+		video_description_layout.addView(event_description, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 		//video_event_layout.addView(underline, new LayoutParams(LayoutParams.MATCH_PARENT, 5));
-		video_event_layout.addView(spacer, new LayoutParams(LayoutParams.MATCH_PARENT, 50));
+		video_description_layout.addView(spacer, new LayoutParams(LayoutParams.MATCH_PARENT, 50));
 		
 		//year_title.setId(debug*10);
 		
-		((LinearLayout)rootView_.findViewById(R.id.fragment_video_layout_content)).addView(video_event_layout, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
+		video_event_main_layout.addView(video_link_layout, llp);
+		video_event_main_layout.addView(video_description_layout, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+		((LinearLayout)rootView_.findViewById(R.id.fragment_video_layout_content)).addView(video_event_main_layout, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
 
     }
     
@@ -118,6 +144,7 @@ public class FragmentVideo extends Fragment implements OnClickListener, IJsonLis
 		
 		FrameLayout previewLayout = new FrameLayout(getActivity());
 		previewLayout.setLayoutParams(previewLayoutParams);
+		previewLayout.setBackgroundResource(R.drawable.videogradient);
 		
 		ImageButton img_btn = new ImageButton(getActivity());
         img_btn.setImageResource(R.drawable.test_meeting);

@@ -103,8 +103,9 @@
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
                 android:src="@drawable/abc_ic_ab_back_holo_light"
-                android:text="&lt;"
-                android:textColor="@android:color/white" />
+                android:text="‹"
+                android:textColor="@android:color/white"
+                android:textSize="35dp" />
 			
             <HorizontalScrollView
                 android:id="@+id/horizontalScrollView_years"
@@ -134,8 +135,9 @@
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
                 android:src="@drawable/abc_ic_ab_back_holo_light"
-                android:text=">"
-                android:textColor="@android:color/white" />
+                android:text="›"
+                android:textColor="@android:color/white"
+                android:textSize="35dp" />
 
         </LinearLayout>
 
