@@ -29,6 +29,7 @@ import android.app.ActionBar.LayoutParams;
 
 public class FragmentVideo extends Fragment implements OnClickListener, IJsonListener{
 	
+	private static final String TAG = "FragmentVideo";
 	View rootView_ = null;					//Owns all fragment Views
 	Context parent_ = null;
 	private String title_;
@@ -37,7 +38,15 @@ public class FragmentVideo extends Fragment implements OnClickListener, IJsonLis
 	final int preview_height = 90;
 	final int preview_width = 160;
 	final String EXTRA_POSITION	= "position";
-	final int PreviewID = 1;
+	
+	static int PreviewID = 1;
+	
+	static int getNewPreviewID(){
+		
+		++PreviewID;
+		return PreviewID;
+	}
+	
 	
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,19 +61,26 @@ public class FragmentVideo extends Fragment implements OnClickListener, IJsonLis
         ((TextView)rootView.findViewById(R.id.fragment_video_TextView_date)).setText(parseTitleAndDate(title_)[1]);
         
         //Generate dynamic content:
-        generatePreview();
+    	meeting_data = WrapperJSON.RefreshMeetingData(title_);
+    	WrapperJSON.RegisterListener(this);
         generateVideoContent();
-        WrapperJSON.RegisterListener(this);
+        generatePreview();
         return rootView;
     }
     
+    public void onDestroyView(){
+    	
+    	Log.i(TAG, "onDestroyView()");
+    	
+    	WrapperJSON.UnregisterListener(this);
+    	super.onDestroyView();
+    }
     /**
     Note: call this one when implementation is ready.
    */
     public FragmentVideo(Context parent, String title) {
     	
     	parent_ = parent;
-    	//meeting_info_ = data;
     	title_ = title;
     	Log.i("FragmentVideo:FragmentVideo", "title_=" + title_);
     }
@@ -107,12 +123,7 @@ public class FragmentVideo extends Fragment implements OnClickListener, IJsonLis
 		
 		event_description.setText(description);
 		event_title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-		
-		//getResources().getDimensionPixelSize(R.attr.textAppearanceLarge);
-		//View underline = new View(getActivity());
-		//underline.setBackgroundColor(Color.BLACK);
-		//underline.setPadding(0, 0, 0, 5);
-		
+
 		View spacer =  new View(getActivity());
 		spacer.setBackgroundColor(Color.TRANSPARENT);
 		spacer.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, 100));
@@ -123,7 +134,7 @@ public class FragmentVideo extends Fragment implements OnClickListener, IJsonLis
 		video_description_layout.addView(spacer, new LayoutParams(LayoutParams.MATCH_PARENT, 50));
 		
 		//year_title.setId(debug*10);
-		
+    	
 		video_event_main_layout.addView(video_link_layout, llp);
 		video_event_main_layout.addView(video_description_layout, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 		((LinearLayout)rootView_.findViewById(R.id.fragment_video_layout_content)).addView(video_event_main_layout, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
@@ -150,7 +161,7 @@ public class FragmentVideo extends Fragment implements OnClickListener, IJsonLis
         img_btn.setImageResource(R.drawable.test_meeting);
         img_btn.setPadding(0, 0, 0, 0);	
 		img_btn.setScaleType(ScaleType.FIT_XY);
-		img_btn.setId(1);
+		img_btn.setId(getNewPreviewID());
 		
 		//Image size in DP:
 		int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 
@@ -161,17 +172,13 @@ public class FragmentVideo extends Fragment implements OnClickListener, IJsonLis
 		imageLayoutParams.gravity = Gravity.CENTER;
 		imageLayoutParams.width = width;
 		imageLayoutParams.height = height;
-		
-		
-		
-		
-		
+	
 		previewLayout.addView(img_btn, imageLayoutParams);
 		
-		video_content_layout.addView(previewLayout);
-		
-		//WrapperJSON.RefreshImage(PreviewID, meeting_data.video.screenshot_url);
-		
+		video_content_layout.addView(previewLayout, 0);
+				
+		WrapperJSON.RefreshImage(PreviewID, meeting_data.video.screenshot_url);
+		Log.i(TAG, "RefreshImage: " + PreviewID + "&" + meeting_data.video.screenshot_url);
 		/*
 		
 		LayoutParams l_parameters1 = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
@@ -214,13 +221,10 @@ public class FragmentVideo extends Fragment implements OnClickListener, IJsonLis
     
     void generateVideoContent(){
     	
-    	meeting_data = WrapperJSON.RefreshMeetingData(title_);
-    	
     	for (Issues iss : meeting_data.issues) {
 			
     		generateVideoEvent(iss.video_position, iss.title);
 		}
-
     }
     
     String convertSecondstoTime(String input){
@@ -299,6 +303,8 @@ public class FragmentVideo extends Fragment implements OnClickListener, IJsonLis
 	public void ImageAvailable(final int id) {
 		
 		Log.i("FragmentVideo:ImageAvailable", "id=" + id);
+		
+		if(id != PreviewID) return;
 		
 		//Run UI updates in external thread:
 		getActivity().runOnUiThread(new Runnable(){

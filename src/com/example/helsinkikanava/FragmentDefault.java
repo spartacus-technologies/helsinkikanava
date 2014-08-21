@@ -284,6 +284,8 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     		++content_id_index;
     		
     		//Request imagedata if everything is OK:
+    		
+    		Log.i(TAG, "RefreshImage: " + img_btn.getId() + "&" + meeting_data.video.screenshot_url);
     		WrapperJSON.RefreshImage(img_btn.getId(), meeting_data.video.screenshot_url);	
     	}
     	
@@ -636,7 +638,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 					 
 				 } catch (NullPointerException e) {
 
-					Log.e("ImageAvailable", "error: view with id " + id + " was not found.");
+					Log.w("FragmentDefault:ImageAvailable", "error: view with id " + id + " was not found.");
 				 }
 				 
              }	
