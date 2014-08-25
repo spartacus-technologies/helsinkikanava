@@ -93,7 +93,7 @@ public class MainActivity extends ActionBarActivity // implements  OnTouchListen
     public void onClick(View v)
     {
 
-        Log.i("MainActivity", "Clicked.id: " + v.getId());
+       //Log.i("MainActivity", "Clicked.id: " + v.getId());
 
         // Static buttons:
         switch (v.getId())

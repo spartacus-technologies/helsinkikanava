@@ -80,7 +80,7 @@ public class ActivityVideo extends Activity implements OnTouchListener
     public void onClick(View v)
     {
 
-        Log.i("VideoActivity", "Clicked.id: " + v.getId());
+       //Log.i("VideoActivity", "Clicked.id: " + v.getId());
 
         // Static buttons:
         switch (v.getId())

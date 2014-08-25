@@ -68,15 +68,15 @@ public class AutoUpdater {
 		
 		int server_version = Integer.valueOf(jsonData.get("version").toString());
 		//Log.i("test", "test4");
-		Log.i("current_version", "" + build_date);
-		Log.i("server_version", "" + server_version);
+	//Log.i("current_version", "" + build_date);
+	//Log.i("server_version", "" + server_version);
 		
 		if(current_version == server_version){
-			Log.i("updatestatus", "up to date");
+		//Log.i("updatestatus", "up to date");
 			return false;
 		}
 		else if (server_version > current_version){
-			Log.i("updatestatus", "update needed");
+		//Log.i("updatestatus", "update needed");
 			return true;
 		}
 		*/

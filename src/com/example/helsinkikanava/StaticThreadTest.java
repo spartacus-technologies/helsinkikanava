@@ -18,7 +18,7 @@ public class StaticThreadTest {
 		@Override
 		public void run(){
 			
-			Log.i("moi", "moi");
+		//Log.i("moi", "moi");
 		}
 		
 		

@@ -71,7 +71,7 @@ public class FragmentVideo extends Fragment implements OnClickListener, IJsonLis
     
     public void onDestroyView(){
     	
-    	Log.i(TAG, "onDestroyView()");
+    //Log.i(TAG, "onDestroyView()");
     	
     	WrapperJSON.UnregisterListener(this);
     	super.onDestroyView();
@@ -83,7 +83,7 @@ public class FragmentVideo extends Fragment implements OnClickListener, IJsonLis
     	
     	parent_ = parent;
     	title_ = title;
-    	Log.i("FragmentVideo:FragmentVideo", "title_=" + title_);
+    //Log.i("FragmentVideo:FragmentVideo", "title_=" + title_);
     }
     
     void generateVideoEvent(String timestamp, String description){
@@ -122,7 +122,7 @@ public class FragmentVideo extends Fragment implements OnClickListener, IJsonLis
 		event_title.setId(Integer.valueOf(timestamp));
 		//event_title.setOnClickListener(this);
 		
-		Log.i("FragmentVideo:generateVideoEvent", "setId = " + Integer.valueOf(timestamp));
+	//Log.i("FragmentVideo:generateVideoEvent", "setId = " + Integer.valueOf(timestamp));
 		
 		event_description.setText(description);
 		event_title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
@@ -237,8 +237,8 @@ public class FragmentVideo extends Fragment implements OnClickListener, IJsonLis
     	returnvalue[0] = text.substring(0, text.indexOf("/", 0));
     	returnvalue[1] = text.substring( text.indexOf("/", 0) + 1);
     	
-    	Log.i("teststring1", returnvalue[0]);
-    	Log.i("teststring2", returnvalue[1]);
+    //Log.i("teststring1", returnvalue[0]);
+    //Log.i("teststring2", returnvalue[1]);
     	
 		return returnvalue;
     	
@@ -256,7 +256,7 @@ public class FragmentVideo extends Fragment implements OnClickListener, IJsonLis
 		} catch (ActivityNotFoundException e) {
 			
 			Log.w("FragmentDefault.onClick()", "ActivityNotFoundException");
-			Toast.makeText(getActivity(), "Warning: video player not found. Consider installing MX Player.", Toast.LENGTH_LONG).show();
+			Toast.makeText(getActivity(), "Videosoitinta ei löytynyt. Asenna MX Player voidaksesi katsoa videon.", Toast.LENGTH_LONG).show();
 		}
 		
 	}
@@ -276,7 +276,7 @@ public class FragmentVideo extends Fragment implements OnClickListener, IJsonLis
 	@Override
 	public void ImageAvailable(final int id) {
 		
-		Log.i("FragmentVideo:ImageAvailable", "id=" + id);
+	//Log.i("FragmentVideo:ImageAvailable", "id=" + id);
 		
 		if(id != PreviewID) return;
 		

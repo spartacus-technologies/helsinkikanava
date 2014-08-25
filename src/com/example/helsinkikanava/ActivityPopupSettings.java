@@ -68,7 +68,7 @@ public class ActivityPopupSettings extends Activity {
 		    @Override 
 		    public void run() {
 		    	 
-		    	Log.i("Scroller", "running...");
+		    //Log.i("Scroller", "running...");
 		    	
 		    	mHandler.postDelayed(this, mInterval);
 		    	

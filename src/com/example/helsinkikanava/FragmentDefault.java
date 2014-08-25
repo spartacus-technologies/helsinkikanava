@@ -70,26 +70,26 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
             Bundle savedInstanceState) {
     	
     	super.onCreateView(inflater, container, savedInstanceState);
-    	Log.i(TAG, "FragmentDefault:onCreateView 1");
+    //Log.i(TAG, "FragmentDefault:onCreateView 1");
     	
         rootView = inflater.inflate(R.layout.fragment_meetings, container, false);
-        Log.i(TAG, "FragmentDefault:onCreateView 2");
+       //Log.i(TAG, "FragmentDefault:onCreateView 2");
         //Listeners:
         ((Button)rootView.findViewById(R.id.fragment_meetings_button_left)).setOnClickListener(this);
         ((Button)rootView.findViewById(R.id.fragment_meetings_button_right)).setOnClickListener(this);
-        Log.i(TAG, "FragmentDefault:onCreateView 3");
+       //Log.i(TAG, "FragmentDefault:onCreateView 3");
         ((Button)rootView.findViewById(R.id.fragment_meetings_button_left)).setOnTouchListener(this);
         ((Button)rootView.findViewById(R.id.fragment_meetings_button_right)).setOnTouchListener(this);
-        Log.i(TAG, "FragmentDefault:onCreateView 4");
+       //Log.i(TAG, "FragmentDefault:onCreateView 4");
         WrapperJSON.RefreshYears();
-        Log.i(TAG, "FragmentDefault:onCreateView 5");
+       //Log.i(TAG, "FragmentDefault:onCreateView 5");
         return rootView;
     }
     
     
     public FragmentDefault(Context parent) {
     	
-    	Log.i(TAG, "FragmentDefault:FragmentDefault 1");
+    //Log.i(TAG, "FragmentDefault:FragmentDefault 1");
     	
     	if(!isRegistered){
     		
@@ -99,7 +99,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     	
     	
     	parent_ = parent;
-    	Log.i(TAG, "FragmentDefault:FragmentDefault 2");
+    //Log.i(TAG, "FragmentDefault:FragmentDefault 2");
     }
     
     private void createYearTitle(String year){
@@ -161,7 +161,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     	ArrayList<Metadata> year_data = content.get(active_year);
 
     	
-    	Log.i(TAG + ":generateContent", "generateContent:start. Available meetings: " + year_data.size());
+    //Log.i(TAG + ":generateContent", "generateContent:start. Available meetings: " + year_data.size());
     	
     	for (Metadata meeting_data : year_data) {
     		
@@ -285,7 +285,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     		
     		//Request imagedata if everything is OK:
     		
-    		Log.i(TAG, "RefreshImage: " + img_btn.getId() + "&" + meeting_data.video.screenshot_url);
+    	//Log.i(TAG, "RefreshImage: " + img_btn.getId() + "&" + meeting_data.video.screenshot_url);
     		WrapperJSON.RefreshImage(img_btn.getId(), meeting_data.video.screenshot_url);	
     	}
     	
@@ -306,7 +306,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     
     private void generateYearNavigation(){
     	
-    	Log.i("generateYearNavigation", "generateYearNavigation1");
+    //Log.i("generateYearNavigation", "generateYearNavigation1");
     	
     	for(String year : years){
     	
@@ -337,7 +337,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 	@Override
 	public void onClick(View v) {
 
-		Log.i("FragmentDefault:onClick", "Cliked.id: " + v.getId());
+	//Log.i("FragmentDefault:onClick", "Cliked.id: " + v.getId());
 		
 		//Static buttons:
 		switch (v.getId()) {
@@ -370,7 +370,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 		    	///getView().findViewById(R.id.fragment_meetings_overlay).setVisibility(View.VISIBLE);
 		    	
 				
-				Log.i("FragmentDefault", "Requesting data for year " + v.getId());
+			//Log.i("FragmentDefault", "Requesting data for year " + v.getId());
 				
 				//Change color:
 				((TextView)rootView.findViewById(Integer.valueOf(active_year))).setTextColor(Color.GRAY);
@@ -393,11 +393,11 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 	//              intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 					
 					//get meeting title:
-					Log.i("clicked year:", "" + v.getId()/content_id_factor);
-					Log.i("clicked view:", "" + (v.getId() % content_id_factor));
+				//Log.i("clicked year:", "" + v.getId()/content_id_factor);
+				//Log.i("clicked view:", "" + (v.getId() % content_id_factor));
 					Metadata meet = content.get(String.valueOf(v.getId()/content_id_factor)).get(v.getId() % content_id_factor);
 					
-					Log.i("title", meet.title);
+				//Log.i("title", meet.title);
 					intent.putExtra("new_variable_name", meet.title);
 					
 					startActivity(intent);	
@@ -406,7 +406,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 			//Imagebuttons for videos:
 			else if(v.getId() > 1900*video_id_factor && v.getId() < 2100*video_id_factor){
 				
-				Log.i("FragmentDefault", "Clicked ID: " + v.getId());
+			//Log.i("FragmentDefault", "Clicked ID: " + v.getId());
 
 				
 				Metadata temp_data = content.get(active_year).get(v.getId() % video_id_factor);
@@ -510,7 +510,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 	@Override
 	public void YearsAvailable() {
 
-		Log.i(TAG, "YearsAvailable:  YearsAvailable 1");
+	//Log.i(TAG, "YearsAvailable:  YearsAvailable 1");
 		
 		years = WrapperJSON.GetYears();
 
@@ -521,10 +521,10 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 		}
 
 		else{
-			Log.i(TAG, "YearsAvailable:  YearsAvailable 2");
+		//Log.i(TAG, "YearsAvailable:  YearsAvailable 2");
 			//First run(?)
 			if(active_year == null) active_year = years.get(0);
-			Log.i(TAG, "YearsAvailable:  YearsAvailable 2.1");
+		//Log.i(TAG, "YearsAvailable:  YearsAvailable 2.1");
 			
 			try{
 			
@@ -532,12 +532,12 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 			getActivity().runOnUiThread(new Runnable(){
 				
 				 public void run() {
-					 Log.i(TAG, "YearsAvailable:  YearsAvailable 3");
+					//Log.i(TAG, "YearsAvailable:  YearsAvailable 3");
 					//Generate navigation and request metadata:
                     generateYearNavigation();
                     
                     WrapperJSON.RefreshData(String.valueOf(active_year));
-                    Log.i(TAG, "YearsAvailable:  YearsAvailable 4");
+                   //Log.i(TAG, "YearsAvailable:  YearsAvailable 4");
                  }
 			});	 
 			
@@ -564,7 +564,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 	@Override
 	public void DataAvailable(final String year) {
 
-		Log.i("FragmentMeetings:DataAvailable", "DataAvailable for year " + year + ". Current year active is " + active_year + ".");
+	//Log.i("FragmentMeetings:DataAvailable", "DataAvailable for year " + year + ". Current year active is " + active_year + ".");
 		if(year != active_year){
 			
 			Log.w("FragmentDefault:DataAvailable", "Warning: not active year data -> ignore.");
@@ -589,7 +589,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 		// add year to content map:
 		content.put(year, WrapperJSON.GetYearData(year));
 
-		Log.i("FragmentMeetings:DataAvailable", "Meetings: " + content.get(year).size());
+	//Log.i("FragmentMeetings:DataAvailable", "Meetings: " + content.get(year).size());
 		
 		//Check if activity is active:
 		if(getActivity() == null){
@@ -636,7 +636,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 					 
 				 } catch (NullPointerException e) {
 
-					Log.w("FragmentDefault:ImageAvailable", "error: view with id " + id + " was not found.");
+					//Log.w("FragmentDefault:ImageAvailable", "error: view with id " + id + " was not found.");
 				 }
 				 
              }	

@@ -426,8 +426,8 @@ public class WrapperJSON {
 	        {
                 // Could provide a more explicit error message for IOException or IllegalStateException
                 getRequest.abort();
-                Log.i("ImageDownloader", "Error while retrieving bitmap from " + 
-                		urlOrNot + "Exception: " + e.toString());
+               //Log.i("ImageDownloader", "Error while retrieving bitmap from " + 
+                //		urlOrNot + "Exception: " + e.toString());
             }
 	        finally 
 	        {
