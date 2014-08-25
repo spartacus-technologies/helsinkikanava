@@ -419,7 +419,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 				} catch (ActivityNotFoundException e) {
 					
 					Log.w("FragmentDefault.onClick()", "ActivityNotFoundException");
-					Toast.makeText(getActivity(), "Warning: video player not found. Consider installing MX Player.", Toast.LENGTH_LONG).show();
+					Toast.makeText(getActivity(), "Videosoitinta ei löytynyt. Asenna MX Player voidaksesi katsoa videon.", Toast.LENGTH_LONG).show();
 				}
 			}
 		}
@@ -491,9 +491,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 			direction_ = direction;
 		}
 		
-		public 
-		
-		Runnable runner = new Runnable() {
+		public Runnable runner = new Runnable() {
 			
 		    @Override 
 		    public void run() {

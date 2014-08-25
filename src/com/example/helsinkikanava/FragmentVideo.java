@@ -52,6 +52,7 @@ public class FragmentVideo extends Fragment implements OnClickListener, IJsonLis
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
     	
+    	super.onCreateView(inflater, container, savedInstanceState);
     	
         View rootView = inflater.inflate(R.layout.fragment_video, container, false);
         rootView_ = rootView; 
