@@ -1,4 +1,4 @@
-package com.example.helsinkikanava;
+package com.ui.helsinkikanava;
 
 /**
  * Created by vesa on 12.7.2014.

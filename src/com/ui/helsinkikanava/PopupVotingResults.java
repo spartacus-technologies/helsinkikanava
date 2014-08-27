@@ -1,4 +1,6 @@
-package com.example.helsinkikanava;
+package com.ui.helsinkikanava;
+
+import com.example.helsinkikanava.R;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;

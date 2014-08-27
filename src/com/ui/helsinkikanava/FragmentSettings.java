@@ -1,4 +1,4 @@
-package com.example.helsinkikanava;
+package com.ui.helsinkikanava;
 
 import android.app.ActionBar;
 import android.app.Fragment;
@@ -14,6 +14,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import java.util.TreeSet;
+
+import com.example.helsinkikanava.R;
 
 /**
  * Created by vesa on 10.8.2014.

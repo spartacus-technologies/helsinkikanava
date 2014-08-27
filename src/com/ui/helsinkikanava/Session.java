@@ -1,4 +1,4 @@
-package com.example.helsinkikanava;
+package com.ui.helsinkikanava;
 
 public class Session {
 

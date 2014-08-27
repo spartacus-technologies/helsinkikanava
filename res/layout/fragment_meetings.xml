@@ -8,7 +8,7 @@
     android:paddingLeft="0dp"
     android:paddingRight="0dp"
     android:paddingTop="0dp"
-    tools:context="com.example.helsinkikanava.FragmentMeetings" >
+    tools:context="com.ui.helsinkikanava.FragmentMeetings" >
 
     <FrameLayout
         android:id="@+id/fragment_meetings_overlay"

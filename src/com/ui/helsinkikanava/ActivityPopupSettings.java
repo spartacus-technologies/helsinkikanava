@@ -1,4 +1,6 @@
-package com.example.helsinkikanava;
+package com.ui.helsinkikanava;
+
+import com.example.helsinkikanava.R;
 
 import android.app.*;
 import android.graphics.drawable.ColorDrawable;
@@ -19,7 +21,7 @@ public class ActivityPopupSettings extends Activity {
 	static View popUpLayout = null;
 	Scroller scroller = new Scroller();
 	
-	ActivityPopupSettings(){
+	public ActivityPopupSettings(){
 		
 	}
 	

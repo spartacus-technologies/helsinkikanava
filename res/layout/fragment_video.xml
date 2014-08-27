@@ -8,7 +8,7 @@
     android:paddingLeft="0dp"
     android:paddingRight="0dp"
     android:paddingTop="0dp"
-    tools:context="com.example.helsinkikanava.FragmentVideo" >
+    tools:context="com.ui.helsinkikanava.FragmentVideo" >
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -1,8 +1,10 @@
-package com.example.helsinkikanava;
+package com.ui.helsinkikanava;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import com.example.helsinkikanava.R;
 
 import HelsinkiKanavaDataAccess.Metadata;
 import android.annotation.SuppressLint;
@@ -52,7 +54,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 	final int content_id_factor = 1000;
 	final int video_id_factor = 10000;
 	
-	final String TAG = FragmentDefault.class.toString();
+	final String TAG = "FragmentDefault";
 	
 	final int preview_height = 90;
 	final int preview_width = 160;

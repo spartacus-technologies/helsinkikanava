@@ -1,6 +1,8 @@
-package com.example.helsinkikanava;
+package com.ui.helsinkikanava;
 
 import java.util.TreeSet;
+
+import com.example.helsinkikanava.R;
 
 import android.app.ActionBar;
 import android.app.Fragment;
@@ -31,7 +33,12 @@ public class FragmentResolutions extends Fragment {
         
         return rootView;
     }
+    
+    public FragmentResolutions()
+    {
 
+    }
+    
     public FragmentResolutions(Context parent, String title)
     {
     	parent_ = parent;

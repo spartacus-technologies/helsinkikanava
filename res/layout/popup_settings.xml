@@ -6,7 +6,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.helsinkikanava.PopupCheckUpdates" android:background="#00ffffff">
+    tools:context="com.ui.helsinkikanava.PopupCheckUpdates" android:background="#00ffffff">
 
     <LinearLayout
             android:orientation="vertical"

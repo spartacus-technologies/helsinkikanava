@@ -1,4 +1,4 @@
-package com.example.helsinkikanava;
+package com.ui.helsinkikanava;
 
 import android.app.ActionBar;
 import android.app.Fragment;
@@ -13,6 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.TreeSet;
+
+import com.example.helsinkikanava.R;
 
 public class FragmentParticipants extends Fragment
 {
@@ -31,7 +33,10 @@ public class FragmentParticipants extends Fragment
         
         return rootView;
     }
+    public FragmentParticipants()
+    {
 
+    }
     public FragmentParticipants(Context parent, String title)
     {
     	parent_ = parent;

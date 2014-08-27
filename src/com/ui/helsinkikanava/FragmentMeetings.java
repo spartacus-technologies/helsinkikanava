@@ -1,4 +1,6 @@
-package com.example.helsinkikanava;
+package com.ui.helsinkikanava;
+
+import com.example.helsinkikanava.R;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -25,7 +27,11 @@ public class FragmentMeetings extends Fragment implements OnClickListener {
         
         return rootView;
     }
-
+    
+    public FragmentMeetings() {
+    	 	
+    }
+    
     public FragmentMeetings(Context parent) {
     	
     	parent_ = parent;

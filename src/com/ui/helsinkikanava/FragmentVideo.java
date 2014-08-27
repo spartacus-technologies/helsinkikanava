@@ -1,6 +1,8 @@
-package com.example.helsinkikanava;
+package com.ui.helsinkikanava;
 
 
+
+import com.example.helsinkikanava.R;
 
 import HelsinkiKanavaDataAccess.Metadata;
 import HelsinkiKanavaDataClasses.Issues;
@@ -76,6 +78,11 @@ public class FragmentVideo extends Fragment implements OnClickListener, IJsonLis
     	WrapperJSON.UnregisterListener(this);
     	super.onDestroyView();
     }
+    
+    public FragmentVideo() {
+    	
+    }
+    
     /**
     Note: call this one when implementation is ready.
    */

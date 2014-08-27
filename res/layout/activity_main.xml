@@ -3,7 +3,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.example.helsinkikanava.MainActivity"
+        tools:context="com.ui.helsinkikanava.MainActivity"
         tools:ignore="MergeRootFrame" android:background="#ffffffff">
 
     <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="130dp">
@@ -107,7 +107,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.99"
                     android:background="@android:color/black"
-                    android:fadingEdge="horizontal" android:textAlignment="center">
+                    android:fadingEdge="horizontal" 
+                    android:textAlignment="center">
 
 
             </HorizontalScrollView>
@@ -130,7 +131,7 @@
                  android:id="@+id/container"
                  android:layout_width="match_parent"
                  android:layout_height="fill_parent"
-                 tools:context="com.example.helsinkikanava.MainActivity"
+                 tools:context="com.ui.helsinkikanava.MainActivity"
                  tools:ignore="MergeRootFrame" >
 
     </FrameLayout>

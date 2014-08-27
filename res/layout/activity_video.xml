@@ -5,7 +5,7 @@
                android:orientation="vertical"
                android:layout_width="match_parent"
                android:layout_height="match_parent"
-               tools:context="com.example.helsinkikanava.ActivityVideo"
+               tools:context="com.ui.helsinkikanava.ActivityVideo"
                tools:ignore="MergeRootFrame" android:background="#ffffffff">
 
     <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="130dp">
@@ -187,7 +187,7 @@
             android:id="@+id/video_container"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
-            tools:context="com.example.helsinkikanava.ActivityVideo"
+            tools:context="com.ui.helsinkikanava.ActivityVideo"
             tools:ignore="MergeRootFrame" >
 
     </FrameLayout>

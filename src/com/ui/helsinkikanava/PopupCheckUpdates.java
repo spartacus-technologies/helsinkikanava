@@ -1,4 +1,6 @@
-package com.example.helsinkikanava;
+package com.ui.helsinkikanava;
+
+import com.example.helsinkikanava.R;
 
 import android.app.*;
 import android.os.Handler;
@@ -18,7 +20,7 @@ public class PopupCheckUpdates extends Activity {
 	static View popUpLayout = null;
 	Scroller scroller = new Scroller();
 	
-	PopupCheckUpdates(){
+	public PopupCheckUpdates(){
 		
 	}
 	

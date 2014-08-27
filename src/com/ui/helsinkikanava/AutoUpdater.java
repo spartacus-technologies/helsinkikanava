@@ -1,4 +1,4 @@
-package com.example.helsinkikanava;
+package com.ui.helsinkikanava;
 
 import java.text.SimpleDateFormat;
 import java.util.Map;

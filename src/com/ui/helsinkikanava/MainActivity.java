@@ -1,4 +1,4 @@
-package com.example.helsinkikanava;
+package com.ui.helsinkikanava;
 
 import android.app.FragmentTransaction;
 import android.graphics.Color;
@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.view.View.OnTouchListener;
 
 import java.util.ArrayList;
+
+import com.example.helsinkikanava.R;
 
 public class MainActivity extends ActionBarActivity // implements  OnTouchListener
 {

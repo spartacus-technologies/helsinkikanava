@@ -1,4 +1,6 @@
-package com.example.helsinkikanava;
+package com.ui.helsinkikanava;
+
+import com.example.helsinkikanava.R;
 
 import android.app.Activity;
 import android.app.Fragment;
