@@ -2,17 +2,17 @@ package com.ui.helsinkikanava;
 
 
 
-import com.example.helsinkikanava.R;
+import com.ui.helsinkikanava.R;
 
 import HelsinkiKanavaDataAccess.Metadata;
 import HelsinkiKanavaDataClasses.Issues;
-import android.app.Fragment;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -23,11 +23,11 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.Toast;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.ImageView.ScaleType;
-import android.app.ActionBar.LayoutParams;
 
 public class FragmentVideo extends Fragment implements OnClickListener, IJsonListener{
 	
@@ -183,8 +183,8 @@ public class FragmentVideo extends Fragment implements OnClickListener, IJsonLis
 		
 		//Overlay:
 		ImageView overlay = new ImageView(getActivity());
-		overlay.setScaleX(0.5f);
-		overlay.setScaleY(0.5f);
+		//overlay.setScaleX(0.5f);
+		//overlay.setScaleY(0.5f);
 		overlay.setImageResource(R.drawable.play_new);
 		overlay.setId(PreviewID);
 		overlay.setOnClickListener(this);

@@ -28,12 +28,16 @@
             <ImageView
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:id="@+id/imageView_topBanner_video" android:layout_gravity="left|top" android:src="@drawable/logo_hkikanava"
-                    android:scaleType="fitCenter" android:layout_weight="1" android:focusableInTouchMode="true"
+                    android:id="@+id/imageView_topBanner_video" 
+                    android:layout_gravity="left|top" 
+                    android:src="@drawable/logo_hkikanava"
+                    android:scaleType="fitCenter" 
+                    android:layout_weight="1" 
+                    android:focusableInTouchMode="true"
                     android:focusable="false" android:adjustViewBounds="true" android:paddingBottom="15dp"
                     android:paddingTop="15dp" android:paddingLeft="60dp"
                     android:layout_alignParentTop="true" android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"/>
+                    />
 
             <!--<ImageButton-->
                     <!--android:layout_width="wrap_content"-->
@@ -54,8 +58,7 @@
                     android:clickable="true" android:onClick="onClick"
                     android:paddingTop="20dp" android:paddingRight="20dp" android:paddingBottom="20dp"
                     android:paddingLeft="-20dp"
-                    android:layout_alignParentTop="true" android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"/>
+                    android:layout_alignParentTop="true" android:layout_alignParentLeft="true"/>
 
         </RelativeLayout>
 
@@ -89,7 +92,6 @@
                     android:id="@+id/main_activity_tab_button_councilmeetings"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_alignParentStart="true"
                     android:background="@android:color/black"
                     android:enabled="true"
                     android:gravity="center_vertical"
@@ -107,8 +109,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.99"
                     android:background="@android:color/black"
-                    android:fadingEdge="horizontal" 
-                    android:textAlignment="center">
+                    android:fadingEdge="horizontal">
 
 
             </HorizontalScrollView>
@@ -130,7 +131,7 @@
     <FrameLayout 
                  android:id="@+id/container"
                  android:layout_width="match_parent"
-                 android:layout_height="fill_parent"
+                 android:layout_height="fill_parent" 
                  tools:context="com.ui.helsinkikanava.MainActivity"
                  tools:ignore="MergeRootFrame" >
 

@@ -1,6 +1,6 @@
 package com.ui.helsinkikanava;
 
-import com.example.helsinkikanava.R;
+import com.ui.helsinkikanava.R;
 
 import android.app.*;
 import android.graphics.drawable.ColorDrawable;
@@ -26,14 +26,14 @@ public class ActivityPopupSettings extends Activity {
 	}
 	
 	public void showDialog(Activity caller){
-		
-		dialog = new Dialog(caller);
+		 
+		dialog = new Dialog(caller); 
 		
 	    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 	    
 	    ViewGroup layout = (ViewGroup)caller.findViewById(R.layout.popup_settings);
 	    //layout.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-	    
+	     
 	    popUpLayout = LayoutInflater.from(caller).inflate(R.layout.popup_settings, layout);
 	    dialog.setContentView(popUpLayout);
 	    dialog.getWindow().setLayout(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);

@@ -1,6 +1,6 @@
 package com.ui.helsinkikanava;
 
-import com.example.helsinkikanava.R;
+import com.ui.helsinkikanava.R;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -45,8 +45,8 @@ public class FragmentMeetings extends Fragment implements OnClickListener {
 		 
 		case R.id.button1: 
 
-			((TextView)getView().findViewById(R.id.textView_current_version_value)).setText(AutoUpdater.getCurrentVersion(parent_));
-			((TextView)getView().findViewById(R.id.textView_server_version_value)).setText(AutoUpdater.getNewVersion());
+			//((TextView)getView().findViewById(R.id.textView_current_version_value)).setText(AutoUpdater.getCurrentVersion(parent_));
+			//((TextView)getView().findViewById(R.id.textView_server_version_value)).setText(AutoUpdater.getNewVersion());
 
 			break;
 

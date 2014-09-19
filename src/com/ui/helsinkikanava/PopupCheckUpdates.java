@@ -1,6 +1,6 @@
 package com.ui.helsinkikanava;
 
-import com.example.helsinkikanava.R;
+import com.ui.helsinkikanava.R;
 
 import android.app.*;
 import android.os.Handler;

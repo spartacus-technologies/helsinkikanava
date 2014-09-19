@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.helsinkikanava"
-    android:versionCode="1"
-    android:versionName="1.0" >
+    package="com.ui.helsinkikanava"
+    android:versionCode="2"
+    android:versionName="1.1" >
 
     <uses-permission android:name="android.permission.INTERNET" >
     </uses-permission>
 
     <uses-sdk
-        android:minSdkVersion="11"
-        android:targetSdkVersion="21" />
+        android:minSdkVersion="10"
+        android:targetSdkVersion="10" />
 
     <application
         android:allowBackup="true"

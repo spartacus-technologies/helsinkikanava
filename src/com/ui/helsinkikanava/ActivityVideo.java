@@ -1,13 +1,13 @@
 package com.ui.helsinkikanava;
 
-import com.example.helsinkikanava.R;
+import com.ui.helsinkikanava.R;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,7 +17,7 @@ import android.view.View.OnTouchListener;
 /**
  * Created by vesa on 15.7.2014.
  */
-public class ActivityVideo extends Activity implements OnTouchListener
+public class ActivityVideo extends FragmentActivity implements OnTouchListener
 {
     private Scroller tab_bar_scroller;
     int scroll_speed = 7;
@@ -75,7 +75,7 @@ public class ActivityVideo extends Activity implements OnTouchListener
         //Show video fragment by default
         if (savedInstanceState == null)
         {
-            getFragmentManager().beginTransaction().add(R.id.video_container, frag_video_).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.video_container, frag_video_).commit();
         }
     }
 
@@ -90,7 +90,7 @@ public class ActivityVideo extends Activity implements OnTouchListener
 
             //Council meetings tab
             case R.id.video_activity_tab_button_video:
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
 //                transaction.replace(R.id.container, new FragmentMeetings(this));
                 transaction.replace(R.id.video_container, frag_video_);
@@ -105,7 +105,7 @@ public class ActivityVideo extends Activity implements OnTouchListener
 
             //Council meetings tab
             case R.id.video_activity_tab_button_participants:
-                FragmentTransaction transaction1 = getFragmentManager().beginTransaction();
+                FragmentTransaction transaction1 = getSupportFragmentManager().beginTransaction();
 
 //                transaction.replace(R.id.container, new FragmentMeetings(this));
                 transaction1.replace(R.id.video_container, frag_participant_);
@@ -121,7 +121,7 @@ public class ActivityVideo extends Activity implements OnTouchListener
             //Council meetings tab
             case R.id.video_activity_tab_button_resolutions:
 
-                FragmentTransaction transaction2 = getFragmentManager().beginTransaction();
+                FragmentTransaction transaction2 = getSupportFragmentManager().beginTransaction();
 
 //                transaction.replace(R.id.container, new FragmentMeetings(this));
                 transaction2.replace(R.id.video_container, frag_resolutions_);

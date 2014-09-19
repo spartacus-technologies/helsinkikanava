@@ -1,22 +1,23 @@
 package com.ui.helsinkikanava;
 
-import android.app.FragmentTransaction;
 import android.graphics.Color;
 import android.os.Handler;
-import android.support.v7.app.ActionBarActivity;
+import android.widget.Button;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.*;
-import android.widget.Button;
-import android.view.View.OnTouchListener;
 
 import java.util.ArrayList;
 
-import com.example.helsinkikanava.R;
+import com.ui.helsinkikanava.R;
 
-public class MainActivity extends ActionBarActivity // implements  OnTouchListener
+public class MainActivity extends FragmentActivity // implements  OnTouchListener
 {
-    FragmentDefault frag_default_ = null;
+    Fragment frag_default_ = null;
     FragmentSettings frag_settings = null;
     private WrapperJSON wrapperJSON = new WrapperJSON();
     private ArrayList<Session> council_meetings = new ArrayList<Session>();
@@ -41,18 +42,21 @@ public class MainActivity extends ActionBarActivity // implements  OnTouchListen
 //
 //        ((Button)findViewById(R.id.main_activity_tab_button_settings)).setTextColor(Color.GRAY);
         ((Button)findViewById(R.id.main_activity_tab_button_councilmeetings)).setTextColor(Color.WHITE);
-
+        
         tab_bar_scroller = new Scroller(this.findViewById(R.id.horizontalScrollView_main_activity_tabs));
+        frag_default_ = new FragmentDefault(this);
+        frag_settings = new FragmentSettings(this);
+        this.getSupportFragmentManager().beginTransaction().add(R.id.container, frag_default_).commit();
 
+        
         if (frag_default_ == null)
         {
-            frag_default_ = new FragmentDefault(this);
-            frag_settings = new FragmentSettings(this);
+            
         }
         //Show default fragment (for debugging)
         if (savedInstanceState == null)
         {
-        	 getFragmentManager().beginTransaction().add(R.id.container, frag_default_).commit();
+        	 
         }
     }
 
@@ -103,7 +107,7 @@ public class MainActivity extends ActionBarActivity // implements  OnTouchListen
             //Council meetings tab
             case R.id.main_activity_tab_button_councilmeetings:
 
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
                 transaction.replace(R.id.container, frag_default_);
                 transaction.addToBackStack(null);

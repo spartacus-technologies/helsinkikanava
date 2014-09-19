@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.example.helsinkikanava.R;
+import com.ui.helsinkikanava.R;
 
 import HelsinkiKanavaDataAccess.Metadata;
 import android.annotation.SuppressLint;
-import android.app.Fragment;
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -18,6 +18,7 @@ import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
@@ -49,7 +50,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 	Scroller scroller = new Scroller();  	//For scrolling year view
 	int scroll_speed = 7;
 	String active_year = null;
-	private Context parent_;
+	private Context parent_ = null;
 	ArrayList<String> years = null;
 	final int content_id_factor = 1000;
 	final int video_id_factor = 10000;
@@ -88,10 +89,15 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
         return rootView;
     }
     
-    
+    public FragmentDefault(){
+    	
+    	
+    }
     public FragmentDefault(Context parent) {
     	
-    //Log.i(TAG, "FragmentDefault:FragmentDefault 1");
+    	Log.i(TAG, "FragmentDefault:FragmentDefault 1");
+    	
+    	parent_ = parent;
     	
     	if(!isRegistered){
     		
@@ -101,24 +107,35 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     	
     	
     	parent_ = parent;
-    //Log.i(TAG, "FragmentDefault:FragmentDefault 2");
+    	Log.i(TAG, "FragmentDefault:FragmentDefault 2");
+    }
+    
+
+    Activity getActivity2(){
+    	
+    	return (Activity) parent_;
+    }
+    
+    View getView2(){
+    	
+    	return rootView;
     }
     
     private void createYearTitle(String year){
     	
     	LinearLayout my_root = (LinearLayout) rootView.findViewById(R.id.fragment_meetings_content);
-    	LinearLayout year_title = new LinearLayout(getActivity());
+    	LinearLayout year_title = new LinearLayout(getActivity2());
 		year_title.setOrientation(LinearLayout.VERTICAL);
 		
-		TextView tv_year_label = new TextView(getActivity());
+		TextView tv_year_label = new TextView(getActivity2());
 		tv_year_label.setText(year);
 		tv_year_label.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
 		
-		View underline = new View(getActivity());
+		View underline = new View(getActivity2());
 		underline.setBackgroundColor(Color.BLACK);
 		underline.setPadding(0, 0, 0, 5);
 		
-		View spacer =  new View(getActivity());
+		View spacer =  new View(getActivity2());
 		spacer.setBackgroundColor(Color.TRANSPARENT);
 		spacer.setPadding(0, 0, 0, 5);
 			
@@ -148,14 +165,14 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     	my_root.removeAllViews();
     	
     	//Error check: fragment is hidden -> return
-    	if(getView() == null){
+    	if(getView2() == null){
     		
-    		Log.w("generateContent", "getView() == null -> return");
+    		Log.w("generateContent", "getView2() == null -> return");
     		return;
     	}
     	
     	//Hide overlay loading animation:
-    	getView().findViewById(R.id.fragment_meetings_overlay).setVisibility(View.INVISIBLE);
+    	getView2().findViewById(R.id.fragment_meetings_overlay).setVisibility(View.INVISIBLE);
 
     	int content_id_index = 0;
 	
@@ -169,7 +186,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     		
     		String[] text_content = parseTitleAndDate(meeting_data.title);
     		
-    		LinearLayout meeting_layout = new LinearLayout(getActivity());
+    		LinearLayout meeting_layout = new LinearLayout(getActivity2());
     		
     		//Check screeen resolution:
 
@@ -178,7 +195,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     		
     		if (currentapiVersion >= 13){
     			
-    			Display display = getActivity().getWindowManager().getDefaultDisplay();
+    			Display display = getActivity2().getWindowManager().getDefaultDisplay();
     			Point size = new Point();
     			display.getSize(size);
     			scrWidth = size.x;
@@ -186,7 +203,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     		//Backwards compability:
     		} else{
     			
-            	scrWidth = getActivity().getWindowManager().getDefaultDisplay().getWidth();
+            	scrWidth = getActivity2().getWindowManager().getDefaultDisplay().getWidth();
     		}
     		
         	if(scrWidth < 1080){
@@ -200,7 +217,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
         		meeting_layout.setOrientation(LinearLayout.HORIZONTAL);
         	}
 
-    		LinearLayout text_layout = new LinearLayout(getActivity());
+    		LinearLayout text_layout = new LinearLayout(getActivity2());
     		text_layout.setOrientation(LinearLayout.VERTICAL);
     		
     		//source. http://sampleprogramz.com/android/imagebutton.php
@@ -208,7 +225,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     		//ImageButton with overlay:
     		//=========================
     		
-    		FrameLayout previewLayout = new FrameLayout(getActivity());
+    		FrameLayout previewLayout = new FrameLayout(getActivity2());
     		LayoutParams l_parameters1 = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
     		LayoutParams l_parameters2 = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
     		
@@ -230,11 +247,11 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     		l_parameters2.gravity = Gravity.CENTER;
     		
     		
-    		ImageButton img_btn = new ImageButton(getActivity());
+    		ImageButton img_btn = new ImageButton(getActivity2());
             img_btn.setImageResource(R.drawable.test_meeting);
     		
             //Overlay (play)
-    		ImageView overlay = new ImageView(getActivity());
+    		ImageView overlay = new ImageView(getActivity2());
     		if(previewLink) overlay.setImageResource(R.drawable.play_new);
     		
     		
@@ -251,7 +268,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     		//Info textview:
     		//==============
     		
-    		TextView tv_info = new TextView(getActivity());
+    		TextView tv_info = new TextView(getActivity2());
 
     		tv_info.setText(text_content[0]);
     		tv_info.setPaintFlags(tv_info.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
@@ -261,7 +278,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     		tv_info.setOnClickListener(this);
     		
     		
-    		TextView tv_date = new TextView(getActivity());
+    		TextView tv_date = new TextView(getActivity2());
     		
     		tv_date.setText(text_content[1]);
     		tv_date.setPadding(10, 0, 0, 0);
@@ -275,7 +292,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     		//meeting_layout.addView(overlay);
     		meeting_layout.addView(text_layout, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
     		
-    		ImageView separator = new ImageView(getActivity());
+    		ImageView separator = new ImageView(getActivity2());
     		separator.setImageResource(R.drawable.separator_horizontal);
     		separator.setPadding(0, 7, 0, 7);
     		
@@ -312,7 +329,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     	
     	for(String year : years){
     	
-	    	Button year_button = new Button(getActivity());
+	    	Button year_button = new Button(getActivity2());
 
 	    	year_button.setText(year);
 	        year_button.setId(Integer.valueOf(year));
@@ -346,8 +363,8 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 		
 		case R.id.button1: 
 
-			((TextView)getView().findViewById(R.id.textView_current_version_value)).setText(AutoUpdater.getCurrentVersion(getActivity()));
-			((TextView)getView().findViewById(R.id.textView_server_version_value)).setText(AutoUpdater.getNewVersion());
+			//((TextView)getView2().findViewById(R.id.textView_current_version_value)).setText(AutoUpdater.getCurrentVersion(getActivity2()));
+			//((TextView)getView2().findViewById(R.id.textView_server_version_value)).setText(AutoUpdater.getNewVersion());
 
 			break;
 
@@ -369,7 +386,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 				
 		    	//Show overlay loading animation (delayed):
 				showDelayedLoadingIcon();
-		    	///getView().findViewById(R.id.fragment_meetings_overlay).setVisibility(View.VISIBLE);
+		    	///getView2().findViewById(R.id.fragment_meetings_overlay).setVisibility(View.VISIBLE);
 		    	
 				
 			//Log.i("FragmentDefault", "Requesting data for year " + v.getId());
@@ -421,7 +438,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 				} catch (ActivityNotFoundException e) {
 					
 					Log.w("FragmentDefault.onClick()", "ActivityNotFoundException");
-					Toast.makeText(getActivity(), "Videosoitinta ei löytynyt. Asenna MX Player voidaksesi katsoa videon.", Toast.LENGTH_LONG).show();
+					Toast.makeText(getActivity2(), "Videosoitinta ei löytynyt. Asenna MX Player voidaksesi katsoa videon.", Toast.LENGTH_LONG).show();
 				}
 			}
 		}
@@ -531,7 +548,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 			try{
 			
 			//Run UI updates in external thread:
-			getActivity().runOnUiThread(new Runnable(){
+			getActivity2().runOnUiThread(new Runnable(){
 				
 				 public void run() {
 					//Log.i(TAG, "YearsAvailable:  YearsAvailable 3");
@@ -556,7 +573,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 		LinearLayout my_root = (LinearLayout) rootView.findViewById(R.id.fragment_meetings_content);
     	my_root.removeAllViews();
 		
-    	TextView tv_error_message = new TextView(getActivity());
+    	TextView tv_error_message = new TextView(getActivity2());
     	tv_error_message.setText(message);
     	tv_error_message.setTextColor(Color.RED);
     	my_root.addView(tv_error_message, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
@@ -594,14 +611,14 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 	//Log.i("FragmentMeetings:DataAvailable", "Meetings: " + content.get(year).size());
 		
 		//Check if activity is active:
-		if(getActivity() == null){
+		if(getActivity2() == null){
 			
 			Log.w("FragmentDefault:DataAvailable", "Warning: Fragment not visible -> return.");
 			return;
 		}
 		
 		//Run UI updates in external thread:
-		getActivity().runOnUiThread(new Runnable(){
+		getActivity2().runOnUiThread(new Runnable(){
 						
 			 public void run() {
 				 
@@ -626,7 +643,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 		//Log.i("fragmentdefault", "image available:" + id);
 		//if(true) return;
 		//Run UI updates in external thread:
-		getActivity().runOnUiThread(new Runnable(){
+		getActivity2().runOnUiThread(new Runnable(){
 			
 			 public void run() {
 				
@@ -634,7 +651,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 				 
 				 try {
 					 
-					 ((ImageButton)getActivity().findViewById(id)).setImageBitmap(WrapperJSON.GetImage(id));
+					 ((ImageButton)getActivity2().findViewById(id)).setImageBitmap(WrapperJSON.GetImage(id));
 					 
 				 } catch (NullPointerException e) {
 
@@ -661,11 +678,11 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 					//Check if truly should show loading (data already arrived):
 					if(!showLoading) return;
 					
-				 getActivity().runOnUiThread(new Runnable(){
+					getActivity2().runOnUiThread(new Runnable(){
 						
 					 public void run() {
 
-						 getView().findViewById(R.id.fragment_meetings_overlay).setVisibility(View.VISIBLE);
+						 getView2().findViewById(R.id.fragment_meetings_overlay).setVisibility(View.VISIBLE);
 					 }
 				 });
 			}
