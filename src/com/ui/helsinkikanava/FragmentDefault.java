@@ -226,6 +226,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
     		//=========================
     		
     		FrameLayout previewLayout = new FrameLayout(getActivity2());
+    		
     		LayoutParams l_parameters1 = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
     		LayoutParams l_parameters2 = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
     		

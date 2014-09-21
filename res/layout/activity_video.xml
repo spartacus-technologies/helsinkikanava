@@ -121,13 +121,19 @@
                             >
 
                         <Button
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Video"
-                                android:id="@+id/video_activity_tab_button_video" android:singleLine="true"
-                                android:textColor="#ffffffff" android:background="@android:color/black"
-                                android:enabled="true" android:onClick="onClick" android:paddingLeft="5dp"
-                                android:paddingRight="5dp"/>
+                            android:id="@+id/video_activity_tab_button_video"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/black"
+                            android:enabled="true"
+                            android:onClick="onClick"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp"
+                            android:singleLine="true"
+                            android:text="Video"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="#ffffffff" />
+
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -137,12 +143,17 @@
                             android:paddingRight="5dp" android:paddingLeft="5dp">
 
                         <Button
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Osallistujat"
-                                android:id="@+id/video_activity_tab_button_participants" android:singleLine="true"
-                                android:textColor="#ffffffff" android:background="@android:color/black"
-                                android:enabled="true" android:onClick="onClick"/>
+                            android:id="@+id/video_activity_tab_button_participants"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/black"
+                            android:enabled="true"
+                            android:onClick="onClick"
+                            android:singleLine="true"
+                            android:text="Osallistujat"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="#ffffffff" />
+
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -152,12 +163,17 @@
                             android:paddingRight="5dp" android:paddingLeft="5dp">
 
                         <Button
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Päätökset"
-                                android:id="@+id/video_activity_tab_button_resolutions" android:singleLine="true"
-                                android:textColor="#ffffffff" android:background="@android:color/black"
-                                android:enabled="true" android:onClick="onClick"/>
+                            android:id="@+id/video_activity_tab_button_resolutions"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/black"
+                            android:enabled="true"
+                            android:onClick="onClick"
+                            android:singleLine="true"
+                            android:text="Päätökset"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="#ffffffff" />
+
                     </RelativeLayout>
 
                 </LinearLayout>
