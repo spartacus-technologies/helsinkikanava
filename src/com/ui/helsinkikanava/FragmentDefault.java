@@ -337,7 +337,8 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 	        
 	    	year_button.setTextColor(Color.WHITE);
 	    	year_button.setBackgroundColor(Color.BLACK);
-	        year_button.setOnClickListener(this);
+	    	year_button.setOnClickListener(this);
+	        year_button.setTextSize(20);
 	        
 	        //Unselected years with gray:
 	        if(year_button.getId() != Integer.valueOf(active_year)){

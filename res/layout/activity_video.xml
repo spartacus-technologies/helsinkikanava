@@ -108,11 +108,11 @@
                     android:fadingEdge="horizontal">
 
                 <LinearLayout
-                        android:id="@+id/video_activity_tabs_names"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center_horizontal"
-                        android:orientation="horizontal" >
+                    android:id="@+id/video_activity_tabs_names"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center|center_horizontal"
+                    android:orientation="horizontal" >
 
                     <RelativeLayout
                             android:id="@+id/video_activity_tab_layout_councilmeetings"
@@ -132,7 +132,8 @@
                             android:singleLine="true"
                             android:text="Video"
                             android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:textColor="#ffffffff" />
+                            android:textColor="#ffffffff"
+                            android:textSize="20dp" />
 
                     </RelativeLayout>
 
@@ -152,7 +153,8 @@
                             android:singleLine="true"
                             android:text="Osallistujat"
                             android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:textColor="#ffffffff" />
+                            android:textColor="#ffffffff"
+                            android:textSize="20sp" />
 
                     </RelativeLayout>
 
@@ -172,7 +174,8 @@
                             android:singleLine="true"
                             android:text="Päätökset"
                             android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:textColor="#ffffffff" />
+                            android:textColor="#ffffffff"
+                            android:textSize="20sp" />
 
                     </RelativeLayout>
 

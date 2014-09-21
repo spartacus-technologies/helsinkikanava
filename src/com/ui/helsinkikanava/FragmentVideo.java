@@ -175,7 +175,8 @@ public class FragmentVideo extends Fragment implements OnClickListener, IJsonLis
 		l_parameters1.width = width;
 		l_parameters1.height = height;
 		
-		l_parameters2.width = width/2;
+		//l_parameters2.width = width/2;
+		l_parameters2.width = width;
 		l_parameters2.height = height/2;
 		
 		l_parameters1.gravity = Gravity.CENTER;
@@ -192,7 +193,10 @@ public class FragmentVideo extends Fragment implements OnClickListener, IJsonLis
 		
 		previewLayout.setLayoutParams(l_parameters1);
 		previewLayout.addView(img_btn, l_parameters1);
-		previewLayout.addView(overlay, l_parameters2);
+		LinearLayout lout = new LinearLayout(getActivity());
+		lout.setLayoutParams(l_parameters1);
+		lout.addView(overlay, l_parameters2);
+		previewLayout.addView(lout);
 		
 		img_btn.setPadding(0, 0, 0, 0);	
 		img_btn.setScaleType(ScaleType.FIT_XY);
