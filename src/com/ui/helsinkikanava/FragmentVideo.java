@@ -154,17 +154,58 @@ public class FragmentVideo extends Fragment implements OnClickListener, IJsonLis
     	
 		//ImageButton with overlay:
 		//=========================
-		
+		/*
 		LinearLayout video_content_layout = (LinearLayout) rootView_.findViewById(R.id.fragment_video_preview_layout);
 		
 		LayoutParams previewLayoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 		//previewLayoutParams.gravity = Gravity.CENTER;
-		
+		*/
 		
 		FrameLayout previewLayout = new FrameLayout(getActivity());
-		previewLayout.setLayoutParams(previewLayoutParams);
+		
+		LayoutParams l_parameters1 = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		LayoutParams l_parameters2 = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+		
+		//Image size in DP:
+		int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 
+                (float) preview_height, getResources().getDisplayMetrics());
+		int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 
+                (float) preview_width, getResources().getDisplayMetrics());
+		
+		l_parameters1.width = width;
+		l_parameters1.height = height;
+		
+		l_parameters2.width = width/2;
+		l_parameters2.height = height/2;
+		
+		l_parameters1.gravity = Gravity.CENTER;
+		l_parameters2.gravity = Gravity.CENTER;
+		
+
+		ImageButton img_btn = new ImageButton(getActivity());
+        img_btn.setImageResource(R.drawable.test_meeting);
+		
+
+        //Overlay (play)
+		ImageView overlay = new ImageView(getActivity());
+		overlay.setImageResource(R.drawable.play_new);
+		
+		previewLayout.setLayoutParams(l_parameters1);
+		previewLayout.addView(img_btn, l_parameters1);
+		previewLayout.addView(overlay, l_parameters2);
+		
+		img_btn.setPadding(0, 0, 0, 0);	
+		img_btn.setScaleType(ScaleType.FIT_XY);
+		img_btn.setId(PreviewID);
+		img_btn.setOnClickListener(this);
+		((LinearLayout) (rootView_.findViewById(R.id.fragment_video_preview_layout))).addView(previewLayout, 0);
+		WrapperJSON.RefreshImage(PreviewID, meeting_data.video.screenshot_url);
+		
+		
+		//previewLayout.setLayoutParams(previewLayoutParams);
 		//previewLayout.setBackgroundResource(R.drawable.videogradient);
 		
+        /*
 		ImageButton img_btn = new ImageButton(getActivity());
         img_btn.setImageResource(R.drawable.test_meeting);
         img_btn.setPadding(0, 0, 0, 0);	
@@ -197,7 +238,7 @@ public class FragmentVideo extends Fragment implements OnClickListener, IJsonLis
 		video_content_layout.addView(previewLayout, 0);
 				
 		WrapperJSON.RefreshImage(PreviewID, meeting_data.video.screenshot_url);
-
+         */
     }
     
     void generateVideoContent(){

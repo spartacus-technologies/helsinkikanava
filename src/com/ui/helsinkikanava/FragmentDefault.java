@@ -584,7 +584,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 	@Override
 	public void DataAvailable(final String year) {
 
-	//Log.i("FragmentMeetings:DataAvailable", "DataAvailable for year " + year + ". Current year active is " + active_year + ".");
+	Log.i("FragmentMeetings:DataAvailable", "DataAvailable for year " + year + ". Current year active is " + active_year + ".");
 		if(year != active_year){
 			
 			Log.w("FragmentDefault:DataAvailable", "Warning: not active year data -> ignore.");
@@ -609,7 +609,7 @@ public class FragmentDefault extends Fragment implements OnClickListener, OnTouc
 		// add year to content map:
 		content.put(year, WrapperJSON.GetYearData(year));
 
-	//Log.i("FragmentMeetings:DataAvailable", "Meetings: " + content.get(year).size());
+		//Log.i("FragmentMeetings:DataAvailable", "Meetings: " + content.get(year).size());
 		
 		//Check if activity is active:
 		if(getActivity2() == null){
